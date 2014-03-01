@@ -1,4 +1,4 @@
-package ch.zahw.students.sudokuassistant;
+package ch.zahw.students.sudokuhelper;
 
 import android.os.Bundle;
 import android.app.Activity;
