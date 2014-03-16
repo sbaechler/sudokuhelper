@@ -1,15 +1,38 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:opencv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
 
-    <org.opencv.android.JavaCameraView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:visibility="gone"
-        android:id="@+id/HelloOpenCvView"
-        opencv:show_fps="true"
-        opencv:camera_id="any" />
+    
 
-</LinearLayout>
+    <Button
+        android:id="@+id/buttonCapture"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/capture" 
+        android:onClick="doCapture" />
+    <Button
+        android:id="@+id/buttonSolve"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/buttonCapture"
+        android:layout_alignBottom="@id/buttonCapture"
+        android:layout_centerHorizontal="true"
+        android:text="@string/solve" />
+    <Button
+        android:id="@+id/buttonStep"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/buttonCapture"
+        android:layout_alignBottom="@id/buttonCapture"
+        android:layout_alignParentRight="true"
+        android:text="@string/step" />
+    
+</RelativeLayout>
