@@ -11,28 +11,31 @@
     
 
     <Button
-        android:id="@+id/buttonCapture"
-        android:layout_width="96dp"
+        android:id="@+id/buttonCapture" />
+       <!--  android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:text="@string/capture"
-        android:onClick="doCapture" />
+        android:onClick="doCapture" />  -->
+       
     <Button
-        android:id="@+id/buttonSolve"
-        android:layout_width="96dp"
+        android:id="@+id/buttonSolve" />
+        <!-- android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/buttonCapture"
         android:layout_alignBottom="@id/buttonCapture"
         android:layout_centerHorizontal="true"
-        android:text="@string/solve" />
+        android:text="@string/solve" />  -->
+
     <Button
-        android:id="@+id/buttonStep"
-        android:layout_width="96dp"
+        android:id="@+id/buttonStep" />
+    <!--     android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/buttonCapture"
         android:layout_alignBottom="@id/buttonCapture"
         android:layout_alignParentRight="true"
-        android:text="@string/step" />
+        android:text="@string/step" />  -->
+       
     
 </RelativeLayout>

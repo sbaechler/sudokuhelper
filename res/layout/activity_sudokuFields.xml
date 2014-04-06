@@ -24,10 +24,900 @@
         android:textColor="#ffffff"
         android:textSize="15sp" />
 
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="1" />
+
+            <EditText
+                android:id="@+id/EditText02"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/EditText03"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="3" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/EditText04"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="4" />
+
+            <EditText
+                android:id="@+id/EditText05"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/EditText06"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="6" />
+
+            <EditText
+                android:id="@+id/EditText07"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="7" />
+
+            <EditText
+                android:id="@+id/EditText08"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="8" />
+
+            <EditText
+                android:id="@+id/EditText09"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="9" />
+        </TableRow>
+
+         <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="1" />
+
+            <EditText
+                android:id="@+id/EditText02"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/EditText03"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="3" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/EditText04"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="4" />
+
+            <EditText
+                android:id="@+id/EditText05"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/EditText06"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="6" />
+
+            <EditText
+                android:id="@+id/EditText07"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="7" />
+
+            <EditText
+                android:id="@+id/EditText08"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="8" />
+
+            <EditText
+                android:id="@+id/EditText09"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="9" />
+        </TableRow>
+         <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="1" />
+
+            <EditText
+                android:id="@+id/EditText02"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/EditText03"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="3" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/EditText04"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="4" />
+
+            <EditText
+                android:id="@+id/EditText05"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/EditText06"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="6" />
+
+            <EditText
+                android:id="@+id/EditText07"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="7" />
+
+            <EditText
+                android:id="@+id/EditText08"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="8" />
+
+            <EditText
+                android:id="@+id/EditText09"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="9" />
+        </TableRow>
+         <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="1" />
+
+            <EditText
+                android:id="@+id/EditText02"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/EditText03"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="3" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/EditText04"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="4" />
+
+            <EditText
+                android:id="@+id/EditText05"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/EditText06"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="6" />
+
+            <EditText
+                android:id="@+id/EditText07"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="7" />
+
+            <EditText
+                android:id="@+id/EditText08"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="8" />
+
+            <EditText
+                android:id="@+id/EditText09"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="9" />
+        </TableRow>
+         <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="1" />
+
+            <EditText
+                android:id="@+id/EditText02"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/EditText03"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="3" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/EditText04"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="4" />
+
+            <EditText
+                android:id="@+id/EditText05"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/EditText06"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="6" />
+
+            <EditText
+                android:id="@+id/EditText07"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="7" />
+
+            <EditText
+                android:id="@+id/EditText08"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="8" />
+
+            <EditText
+                android:id="@+id/EditText09"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="9" />
+        </TableRow>
+         <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="1" />
+
+            <EditText
+                android:id="@+id/EditText02"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/EditText03"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="3" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/EditText04"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="4" />
+
+            <EditText
+                android:id="@+id/EditText05"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/EditText06"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="6" />
+
+            <EditText
+                android:id="@+id/EditText07"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="7" />
+
+            <EditText
+                android:id="@+id/EditText08"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="8" />
+
+            <EditText
+                android:id="@+id/EditText09"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="9" />
+        </TableRow>
+         <TableRow
+            android:id="@+id/tableRow7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="1" />
+
+            <EditText
+                android:id="@+id/EditText02"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/EditText03"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="3" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/EditText04"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="4" />
+
+            <EditText
+                android:id="@+id/EditText05"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/EditText06"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="6" />
+
+            <EditText
+                android:id="@+id/EditText07"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="7" />
+
+            <EditText
+                android:id="@+id/EditText08"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="8" />
+
+            <EditText
+                android:id="@+id/EditText09"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="9" />
+        </TableRow>
+         <TableRow
+            android:id="@+id/tableRow8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="1" />
+
+            <EditText
+                android:id="@+id/EditText02"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/EditText03"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="3" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/EditText04"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="4" />
+
+            <EditText
+                android:id="@+id/EditText05"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/EditText06"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="6" />
+
+            <EditText
+                android:id="@+id/EditText07"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="7" />
+
+            <EditText
+                android:id="@+id/EditText08"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="8" />
+
+            <EditText
+                android:id="@+id/EditText09"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="9" />
+        </TableRow>
+         <TableRow
+            android:id="@+id/tableRow9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="1" />
+
+            <EditText
+                android:id="@+id/EditText02"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="2" />
+
+            <EditText
+                android:id="@+id/EditText03"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="3" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/EditText04"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="4" />
+
+            <EditText
+                android:id="@+id/EditText05"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="5" />
+
+            <EditText
+                android:id="@+id/EditText06"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="6" />
+
+            <EditText
+                android:id="@+id/EditText07"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="7" />
+
+            <EditText
+                android:id="@+id/EditText08"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="8" />
+
+            <EditText
+                android:id="@+id/EditText09"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="9" />
+        </TableRow>
+        
+    </TableLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="340dp" >
+        android:paddingTop="140dp" >
 
         <Button
             android:id="@+id/buttonCapture"
@@ -40,7 +930,7 @@
             android:textSize="15dp" />
 
         <Button
-            android:id="@+id/btSolve"
+            android:id="@+id/buttonSolve"
             android:layout_width="10dp"
             android:layout_height="30dp"
             android:layout_weight="1"
@@ -50,7 +940,7 @@
             android:textSize="15dp" />
 
         <Button
-            android:id="@+id/btStep"
+            android:id="@+id/buttonStep"
             android:layout_width="10dp"
             android:layout_height="30dp"
             android:layout_weight="1"
