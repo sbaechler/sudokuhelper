@@ -31,5 +31,12 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, CaptureActivity.class);
         startActivity(intent);
     }
+    
+    /** Called when the user clicks the Test button */
+    public void doTest(View view) {
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+    }
+    
 
 }

@@ -25,7 +25,8 @@
         android:layout_alignBaseline="@id/buttonCapture"
         android:layout_alignBottom="@id/buttonCapture"
         android:layout_centerHorizontal="true"
-        android:text="@string/solve" />
+        android:text="@string/test" 
+        android:onClick="doTest" />
     <Button
         android:id="@+id/buttonStep"
         android:layout_width="96dp"

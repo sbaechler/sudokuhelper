@@ -1,14 +1,18 @@
 package ch.zahw.students.sudokuhelper;
 
+import android.util.Log;
+
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
-import android.util.Log;
+
 
 /**
  * This class processes the image and notifies the activity if a Sudoku
  * has been found.
+ * Make sure OpenCV has initialized before instantiating this class.
+ * (instantiate it in the onManagerConnected callback)
  * @author simon
  *
  */
@@ -18,10 +22,11 @@ public class SudokuTracker {
     private static final int VIEW_MODE_THRESH = 3; 
     private Mat mIntermediateMat;
     private Mat mRgba;
+    
 
     public SudokuTracker(int width, int height) {
-        Log.d(TAG, "Sudoku Tracker initialized: " + width + "x" + height);
-        mIntermediateMat = new Mat(height, width, CvType.CV_8UC4);
+        Log.v(TAG, "Sudoku Tracker initialized: " + width + "x" + height);
+        mIntermediateMat = new Mat(height, width, CvType.CV_8UC1);
         mRgba = new Mat(height, width, CvType.CV_8UC4);
     }
     
@@ -34,7 +39,7 @@ public class SudokuTracker {
             mIntermediateMat, 
             maxValue, 
             Imgproc.ADAPTIVE_THRESH_MEAN_C, 
-            Imgproc.THRESH_BINARY, 
+            Imgproc.THRESH_BINARY_INV, 
             blockSize, 
             meanOffset 
         ); 

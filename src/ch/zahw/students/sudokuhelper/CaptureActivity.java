@@ -20,8 +20,6 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     private static final String TAG = "SudokuHelper::CaptureActivity";
     
     private CameraBridgeViewBase mOpenCvCameraView;
-//    private Mat mGray;
-//    private Mat mRgba;
     private SudokuTracker sudokuTracker;
     
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -30,7 +28,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
                 {
-                    Log.i(TAG, "OpenCV loaded successfully");
+                    Log.v(TAG, "OpenCV loaded successfully");
                     mOpenCvCameraView.enableView();
                 } break;
                 default:
@@ -43,7 +41,6 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
@@ -76,15 +73,10 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     }
     
     public void onCameraViewStarted(int width, int height) {
-        Log.d(TAG, "Camera view started");
         sudokuTracker = new SudokuTracker(width, height);
-//        mRgba = new Mat(height, width, CvType.CV_8UC4);
-//        mGray = new Mat(height, width, CvType.CV_8UC1);
     }
 
     public void onCameraViewStopped() {
-//        mRgba.release();
-//        mGray.release();
         sudokuTracker = null;
         Log.d(TAG, "Camera view stopped");
     }
