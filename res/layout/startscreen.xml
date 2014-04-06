@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/default2"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="302dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="70dp"
+        android:paddingTop="50dp"
+        android:text="Welcome to"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/starttitle"
+        android:layout_width="305dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.00"
+        android:paddingLeft="45dp"
+        android:paddingTop="60dp"
+        android:text="Sudoku Helper"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
+        android:textSize="65sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
