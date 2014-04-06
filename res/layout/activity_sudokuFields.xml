@@ -26,12 +26,14 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp" >
 
         <TableRow
             android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:background="#dddddd" >
 
             <EditText
                 android:id="@+id/EditText01"
@@ -917,7 +919,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="140dp" >
+        android:paddingTop="110dp" >
 
         <Button
             android:id="@+id/buttonCapture"
