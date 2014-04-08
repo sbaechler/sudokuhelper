@@ -95,7 +95,7 @@ public class SudokuTracker {
     
     private void markLines(){
         Mat lines = new Mat();
-        int threshold = 60;
+        int threshold = 70;
         int minLineSize = 300;
         int lineGap = 10;
         
