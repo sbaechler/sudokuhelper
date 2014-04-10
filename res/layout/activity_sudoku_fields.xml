@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/default2"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="20dp" >
 
@@ -9,7 +9,7 @@
         android:id="@+id/title"
         android:layout_width="302dp"
         android:layout_height="wrap_content"
-        android:text="Sudoku Helper"
+        android:text="@string/Sudoku Helper"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textStyle="bold" />
@@ -19,7 +19,7 @@
         android:layout_width="302dp"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:text="Status: Keine Fehler"
+        android:text="@string/Status: Keine Fehler"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textSize="15sp" />
@@ -36,97 +36,97 @@
             android:background="#dddddd" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/EditText11"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="1" />
+                android:text="@string/1" />
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/EditText12"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="2" />
+                android:text="@string/2" />
 
             <EditText
-                android:id="@+id/EditText03"
+                android:id="@+id/EditText13"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="3" >
+                android:text="@string/3" >
 
                 <requestFocus />
             </EditText>
 
             <EditText
-                android:id="@+id/EditText04"
+                android:id="@+id/EditText14"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="4" />
+                android:text="@string/4" />
 
             <EditText
-                android:id="@+id/EditText05"
+                android:id="@+id/EditText15"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="5" />
+                android:text="@string/5" />
 
             <EditText
-                android:id="@+id/EditText06"
+                android:id="@+id/EditText16"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="6" />
+                android:text="@string/6" />
 
             <EditText
-                android:id="@+id/EditText07"
+                android:id="@+id/EditText17"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="7" />
+                android:text="@string/7" />
 
             <EditText
-                android:id="@+id/EditText08"
+                android:id="@+id/EditText18"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="8" />
+                android:text="@string/8" />
 
             <EditText
-                android:id="@+id/EditText09"
+                android:id="@+id/EditText19"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="9" />
+                android:text="@string/9" />
         </TableRow>
 
          <TableRow
@@ -135,97 +135,97 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/EditText21"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="1" />
+                android:text="@string/1" />
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/EditText22"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="2" />
+                android:text="@string/2" />
 
             <EditText
-                android:id="@+id/EditText03"
+                android:id="@+id/EditText23"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="3" >
+                android:text="@string/3" >
 
                 <requestFocus />
             </EditText>
 
             <EditText
-                android:id="@+id/EditText04"
+                android:id="@+id/EditText24"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="4" />
+                android:text="@string/4" />
 
             <EditText
-                android:id="@+id/EditText05"
+                android:id="@+id/EditText25"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="5" />
+                android:text="@string/5" />
 
             <EditText
-                android:id="@+id/EditText06"
+                android:id="@+id/EditText26"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="6" />
+                android:text="@string/6" />
 
             <EditText
-                android:id="@+id/EditText07"
+                android:id="@+id/EditText27"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="7" />
+                android:text="@string/7" />
 
             <EditText
-                android:id="@+id/EditText08"
+                android:id="@+id/EditText28"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="8" />
+                android:text="@string/8" />
 
             <EditText
-                android:id="@+id/EditText09"
+                android:id="@+id/EditText29"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="9" />
+                android:text="@string/9" />
         </TableRow>
          <TableRow
             android:id="@+id/tableRow3"
@@ -233,97 +233,97 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/EditText31"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="1" />
+                android:text="@string/1" />
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/EditText32"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="2" />
+                android:text="@string/2" />
 
             <EditText
-                android:id="@+id/EditText03"
+                android:id="@+id/EditText33"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="3" >
+                android:text="@string/3" >
 
                 <requestFocus />
             </EditText>
 
             <EditText
-                android:id="@+id/EditText04"
+                android:id="@+id/EditText34"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="4" />
+                android:text="@string/4" />
 
             <EditText
-                android:id="@+id/EditText05"
+                android:id="@+id/EditText35"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="5" />
+                android:text="@string/5" />
 
             <EditText
-                android:id="@+id/EditText06"
+                android:id="@+id/EditText36"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="6" />
+                android:text="@string/6" />
 
             <EditText
-                android:id="@+id/EditText07"
+                android:id="@+id/EditText37"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="7" />
+                android:text="@string/7" />
 
             <EditText
-                android:id="@+id/EditText08"
+                android:id="@+id/EditText38"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="8" />
+                android:text="@string/8" />
 
             <EditText
-                android:id="@+id/EditText09"
+                android:id="@+id/EditText39"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="9" />
+                android:text="@string/9" />
         </TableRow>
          <TableRow
             android:id="@+id/tableRow4"
@@ -331,97 +331,97 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/EditText41"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="1" />
+                android:text="@string/1" />
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/EditText42"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="2" />
+                android:text="@string/2" />
 
             <EditText
-                android:id="@+id/EditText03"
+                android:id="@+id/EditText43"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="3" >
+                android:text="@string/3" >
 
                 <requestFocus />
             </EditText>
 
             <EditText
-                android:id="@+id/EditText04"
+                android:id="@+id/EditText44"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="4" />
+                android:text="@string/4" />
 
             <EditText
-                android:id="@+id/EditText05"
+                android:id="@+id/EditText45"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="5" />
+                android:text="@string/5" />
 
             <EditText
-                android:id="@+id/EditText06"
+                android:id="@+id/EditText46"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="6" />
+                android:text="@string/6" />
 
             <EditText
-                android:id="@+id/EditText07"
+                android:id="@+id/EditText47"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="7" />
+                android:text="@string/7" />
 
             <EditText
-                android:id="@+id/EditText08"
+                android:id="@+id/EditText48"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="8" />
+                android:text="@string/8" />
 
             <EditText
-                android:id="@+id/EditText09"
+                android:id="@+id/EditText49"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="9" />
+                android:text="@string/9" />
         </TableRow>
          <TableRow
             android:id="@+id/tableRow5"
@@ -429,97 +429,97 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/EditText51"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="1" />
+                android:text="@string/1" />
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/EditText52"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="2" />
+                android:text="@string/2" />
 
             <EditText
-                android:id="@+id/EditText03"
+                android:id="@+id/EditText53"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="3" >
+                android:text="@string/3" >
 
                 <requestFocus />
             </EditText>
 
             <EditText
-                android:id="@+id/EditText04"
+                android:id="@+id/EditText54"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="4" />
+                android:text="@string/4" />
 
             <EditText
-                android:id="@+id/EditText05"
+                android:id="@+id/EditText55"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="5" />
+                android:text="@string/5" />
 
             <EditText
-                android:id="@+id/EditText06"
+                android:id="@+id/EditText56"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="6" />
+                android:text="@string/6" />
 
             <EditText
-                android:id="@+id/EditText07"
+                android:id="@+id/EditText57"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="7" />
+                android:text="@string/7" />
 
             <EditText
-                android:id="@+id/EditText08"
+                android:id="@+id/EditText58"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="8" />
+                android:text="@string/8" />
 
             <EditText
-                android:id="@+id/EditText09"
+                android:id="@+id/EditText59"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="9" />
+                android:text="@string/9" />
         </TableRow>
          <TableRow
             android:id="@+id/tableRow6"
@@ -527,97 +527,97 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/EditText61"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="1" />
+                android:text="@string/1" />
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/EditText62"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="2" />
+                android:text="@string/2" />
 
             <EditText
-                android:id="@+id/EditText03"
+                android:id="@+id/EditText63"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="3" >
+                android:text="@string/3" >
 
                 <requestFocus />
             </EditText>
 
             <EditText
-                android:id="@+id/EditText04"
+                android:id="@+id/EditText64"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="4" />
+                android:text="@string/4" />
 
             <EditText
-                android:id="@+id/EditText05"
+                android:id="@+id/EditText65"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="5" />
+                android:text="@string/5" />
 
             <EditText
-                android:id="@+id/EditText06"
+                android:id="@+id/EditText66"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="6" />
+                android:text="@string/6" />
 
             <EditText
-                android:id="@+id/EditText07"
+                android:id="@+id/EditText67"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="7" />
+                android:text="@string/7" />
 
             <EditText
-                android:id="@+id/EditText08"
+                android:id="@+id/EditText68"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="8" />
+                android:text="@string/8" />
 
             <EditText
-                android:id="@+id/EditText09"
+                android:id="@+id/EditText69"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="9" />
+                android:text="@string/9" />
         </TableRow>
          <TableRow
             android:id="@+id/tableRow7"
@@ -625,97 +625,97 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/EditText71"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="1" />
+                android:text="@string/1" />
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/EditText72"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="2" />
+                android:text="@string/2" />
 
             <EditText
-                android:id="@+id/EditText03"
+                android:id="@+id/EditText73"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="3" >
+                android:text="@string/3" >
 
                 <requestFocus />
             </EditText>
 
             <EditText
-                android:id="@+id/EditText04"
+                android:id="@+id/EditText74"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="4" />
+                android:text="@string/4" />
 
             <EditText
-                android:id="@+id/EditText05"
+                android:id="@+id/EditText75"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="5" />
+                android:text="@string/5" />
 
             <EditText
-                android:id="@+id/EditText06"
+                android:id="@+id/EditText76"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="6" />
+                android:text="@string/6" />
 
             <EditText
-                android:id="@+id/EditText07"
+                android:id="@+id/EditText77"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="7" />
+                android:text="@string/7" />
 
             <EditText
-                android:id="@+id/EditText08"
+                android:id="@+id/EditText78"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="8" />
+                android:text="@string/8" />
 
             <EditText
-                android:id="@+id/EditText09"
+                android:id="@+id/EditText79"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="9" />
+                android:text="@string/9" />
         </TableRow>
          <TableRow
             android:id="@+id/tableRow8"
@@ -723,97 +723,97 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/EditText81"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="1" />
+                android:text="@string/1" />
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/EditText82"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="2" />
+                android:text="@string/2" />
 
             <EditText
-                android:id="@+id/EditText03"
+                android:id="@+id/EditText83"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="3" >
+                android:text="@string/3" >
 
                 <requestFocus />
             </EditText>
 
             <EditText
-                android:id="@+id/EditText04"
+                android:id="@+id/EditText84"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="4" />
+                android:text="@string/4" />
 
             <EditText
-                android:id="@+id/EditText05"
+                android:id="@+id/EditText85"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="5" />
+                android:text="@string/5" />
 
             <EditText
-                android:id="@+id/EditText06"
+                android:id="@+id/EditText86"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="6" />
+                android:text="@string/6" />
 
             <EditText
-                android:id="@+id/EditText07"
+                android:id="@+id/EditText87"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="7" />
+                android:text="@string/7" />
 
             <EditText
-                android:id="@+id/EditText08"
+                android:id="@+id/EditText88"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="8" />
+                android:text="@string/8" />
 
             <EditText
-                android:id="@+id/EditText09"
+                android:id="@+id/EditText89"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="9" />
+                android:text="@string/9" />
         </TableRow>
          <TableRow
             android:id="@+id/tableRow9"
@@ -821,97 +821,97 @@
             android:layout_height="wrap_content" >
 
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/EditText91"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="1" />
+                android:text="@string/1" />
 
             <EditText
-                android:id="@+id/EditText02"
+                android:id="@+id/EditText92"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="2" />
+                android:text="@string/2" />
 
             <EditText
-                android:id="@+id/EditText03"
+                android:id="@+id/EditText93"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="3" >
+                android:text="@string/3" >
 
                 <requestFocus />
             </EditText>
 
             <EditText
-                android:id="@+id/EditText04"
+                android:id="@+id/EditText94"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="4" />
+                android:text="@string/4" />
 
             <EditText
-                android:id="@+id/EditText05"
+                android:id="@+id/EditText95"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="5" />
+                android:text="@string/5" />
 
             <EditText
-                android:id="@+id/EditText06"
+                android:id="@+id/EditText96"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="6" />
+                android:text="@string/6" />
 
             <EditText
-                android:id="@+id/EditText07"
+                android:id="@+id/EditText97"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="7" />
+                android:text="@string/7" />
 
             <EditText
-                android:id="@+id/EditText08"
+                android:id="@+id/EditText98"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="8" />
+                android:text="@string/8" />
 
             <EditText
-                android:id="@+id/EditText09"
+                android:id="@+id/EditText99"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
                 android:inputType="numberSigned"
-                android:text="9" />
+                android:text="@string/9" />
         </TableRow>
         
     </TableLayout>
@@ -926,31 +926,31 @@
             android:layout_width="10dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="@drawable/simpleButton"
-            android:text="Capture"
+            android:background="@drawable/simple_button"
+            android:text="@string/Capture"
             android:textColor="#ffffff"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/buttonSolve"
             android:layout_width="10dp"
-            android:layout_height="30dp"
+            android:layout_height="30sp"
             android:layout_weight="1"
-            android:background="@drawable/simpleButton"
-            android:text="Solve"
+            android:background="@drawable/simple_button"
+            android:text="@string/Solve"
             android:textColor="#ffffffff"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/buttonStep"
             android:layout_width="10dp"
-            android:layout_height="30dp"
+            android:layout_height="30sp"
             android:layout_weight="1"
-            android:background="@drawable/simpleButton"
+            android:background="@drawable/simple_button"
             android:drawablePadding="2dip"
-            android:text="Step"
+            android:text="@string/Step"
             android:textColor="#ffffff"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 

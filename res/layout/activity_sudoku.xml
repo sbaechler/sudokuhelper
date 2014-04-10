@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/default2"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="20dp" >
 
@@ -9,7 +9,7 @@
         android:id="@+id/title"
         android:layout_width="302dp"
         android:layout_height="wrap_content"
-        android:text="Sudoku Helper"
+        android:text="@string/Sudoku Helper"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textStyle="bold" />
@@ -19,7 +19,7 @@
         android:layout_width="302dp"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:text="Status: Keine Fehler"
+        android:text="@string/Status: Keine Fehler"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textSize="15sp" />
@@ -34,31 +34,31 @@
             android:layout_width="10dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="@drawable/simpleButton"
-            android:text="Capture"
+            android:background="@drawable/simple_button"
+            android:text="@string/Capture"
             android:textColor="#ffffff"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/buttonSolve"
             android:layout_width="10dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="@drawable/simpleButton"
-            android:text="Solve"
+            android:background="@drawable/simple_button"
+            android:text="@string/Solve"
             android:textColor="#ffffffff"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/buttonStep"
             android:layout_width="10dp"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="@drawable/simpleButton"
+            android:background="@drawable/simple_button"
             android:drawablePadding="2dip"
-            android:text="Step"
+            android:text="@string/Step"
             android:textColor="#ffffff"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 
