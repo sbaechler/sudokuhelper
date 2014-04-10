@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/background"
     android:orientation="vertical"
@@ -7,9 +7,9 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="302dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Sudoku Helper"
+        android:text="@string/Sudoku_Helper"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textStyle="bold" />
@@ -19,7 +19,7 @@
         android:layout_width="302dp"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:text="@string/Status: Keine Fehler"
+        android:text="@string/Status_Keine_Fehler"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textSize="15sp" />
@@ -33,37 +33,45 @@
             android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#dddddd" >
+            android:background="@drawable/border"
+            android:paddingTop="1dp" >
 
             <EditText
                 android:id="@+id/EditText11"
-                android:layout_width="5dp"
+                android:layout_width="1dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/1" />
+                android:text="@string/eins" />
 
             <EditText
                 android:id="@+id/EditText12"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/2" />
+                android:text="@string/zwei" />
 
             <EditText
                 android:id="@+id/EditText13"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/3" >
+                android:text="@string/drei" >
 
                 <requestFocus />
             </EditText>
@@ -72,97 +80,118 @@
                 android:id="@+id/EditText14"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/4" />
+                android:text="@string/vier" />
 
             <EditText
                 android:id="@+id/EditText15"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/5" />
+                android:text="@string/fünf" />
 
             <EditText
                 android:id="@+id/EditText16"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/6" />
+                android:text="@string/sechs" />
 
             <EditText
                 android:id="@+id/EditText17"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/7" />
+                android:text="@string/sieben" />
 
             <EditText
                 android:id="@+id/EditText18"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/8" />
+                android:text="@string/acht" />
 
             <EditText
                 android:id="@+id/EditText19"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="1dp"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/9" />
+                android:text="@string/neun" />
         </TableRow>
 
          <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+             android:id="@+id/tableRow2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/border"
+             android:paddingTop="1dp" >
 
             <EditText
                 android:id="@+id/EditText21"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/1" />
+                android:text="@string/eins" />
 
             <EditText
                 android:id="@+id/EditText22"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/2" />
+                android:text="@string/zwei" />
 
             <EditText
                 android:id="@+id/EditText23"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/3" >
+                android:text="@string/drei" >
 
                 <requestFocus />
             </EditText>
@@ -171,96 +200,119 @@
                 android:id="@+id/EditText24"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/4" />
+                android:text="@string/vier" />
 
             <EditText
                 android:id="@+id/EditText25"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/5" />
+                android:text="@string/fünf" />
 
             <EditText
                 android:id="@+id/EditText26"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/6" />
+                android:text="@string/sechs" />
 
             <EditText
                 android:id="@+id/EditText27"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/7" />
+                android:text="@string/sieben" />
 
             <EditText
                 android:id="@+id/EditText28"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/8" />
+                android:text="@string/acht" />
 
             <EditText
                 android:id="@+id/EditText29"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="1dp"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/9" />
+                android:text="@string/neun" />
         </TableRow>
+
          <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+             android:id="@+id/tableRow3"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/border"
+            android:paddingTop="1dp" >
 
             <EditText
                 android:id="@+id/EditText31"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/1" />
+                android:text="@string/eins" />
 
             <EditText
                 android:id="@+id/EditText32"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/2" />
+                android:text="@string/zwei" />
 
             <EditText
                 android:id="@+id/EditText33"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/3" >
+                android:text="@string/drei" >
 
                 <requestFocus />
             </EditText>
@@ -269,96 +321,118 @@
                 android:id="@+id/EditText34"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/4" />
+                android:text="@string/vier" />
 
             <EditText
                 android:id="@+id/EditText35"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/5" />
+                android:text="@string/fünf" />
 
             <EditText
                 android:id="@+id/EditText36"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/6" />
+                android:text="@string/sechs" />
 
             <EditText
                 android:id="@+id/EditText37"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/7" />
+                android:text="@string/sieben" />
 
             <EditText
                 android:id="@+id/EditText38"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/8" />
+                android:text="@string/acht" />
 
             <EditText
                 android:id="@+id/EditText39"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/9" />
+                android:text="@string/neun" />
         </TableRow>
+
          <TableRow
-            android:id="@+id/tableRow4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+             android:id="@+id/tableRow4"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/border"
+            android:paddingTop="1dp" >
 
             <EditText
                 android:id="@+id/EditText41"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/1" />
+                android:text="@string/eins" />
 
             <EditText
                 android:id="@+id/EditText42"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/2" />
+                android:text="@string/zwei" />
 
             <EditText
                 android:id="@+id/EditText43"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/3" >
+                android:text="@string/drei" >
 
                 <requestFocus />
             </EditText>
@@ -367,96 +441,118 @@
                 android:id="@+id/EditText44"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/4" />
+                android:text="@string/vier" />
 
             <EditText
                 android:id="@+id/EditText45"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/5" />
+                android:text="@string/fünf" />
 
             <EditText
                 android:id="@+id/EditText46"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/6" />
+                android:text="@string/sechs" />
 
             <EditText
                 android:id="@+id/EditText47"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/7" />
+                android:text="@string/sieben" />
 
             <EditText
                 android:id="@+id/EditText48"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/8" />
+                android:text="@string/acht" />
 
             <EditText
                 android:id="@+id/EditText49"
                 android:layout_width="5dp"
+                android:layout_marginRight="1dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/9" />
+                android:text="@string/neun" />
         </TableRow>
+
          <TableRow
-            android:id="@+id/tableRow5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+             android:id="@+id/tableRow5"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/border"
+            android:paddingTop="1dp" >
 
             <EditText
                 android:id="@+id/EditText51"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/1" />
+                android:text="@string/eins" />
 
             <EditText
                 android:id="@+id/EditText52"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/2" />
+                android:text="@string/zwei" />
 
             <EditText
                 android:id="@+id/EditText53"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/3" >
+                android:text="@string/drei" >
 
                 <requestFocus />
             </EditText>
@@ -465,96 +561,119 @@
                 android:id="@+id/EditText54"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/4" />
+                android:text="@string/vier" />
 
             <EditText
                 android:id="@+id/EditText55"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/5" />
+                android:text="@string/fünf" />
 
             <EditText
                 android:id="@+id/EditText56"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/6" />
+                android:text="@string/sechs" />
 
             <EditText
                 android:id="@+id/EditText57"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/7" />
+                android:text="@string/sieben" />
 
             <EditText
                 android:id="@+id/EditText58"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/8" />
+                android:text="@string/acht" />
 
             <EditText
                 android:id="@+id/EditText59"
                 android:layout_width="5dp"
+                android:layout_marginRight="1dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/9" />
+                android:text="@string/neun" />
         </TableRow>
+
          <TableRow
-            android:id="@+id/tableRow6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+             android:id="@+id/tableRow6"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/border"
+            android:paddingTop="1dp" >
 
             <EditText
                 android:id="@+id/EditText61"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/1" />
+                android:text="@string/eins" />
 
             <EditText
                 android:id="@+id/EditText62"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/2" />
+                android:text="@string/zwei" />
 
             <EditText
                 android:id="@+id/EditText63"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/3" >
+                android:text="@string/drei" >
 
                 <requestFocus />
             </EditText>
@@ -563,96 +682,118 @@
                 android:id="@+id/EditText64"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/4" />
+                android:text="@string/vier" />
 
             <EditText
                 android:id="@+id/EditText65"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/5" />
+                android:text="@string/fünf" />
 
             <EditText
                 android:id="@+id/EditText66"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/6" />
+                android:text="@string/sechs" />
 
             <EditText
                 android:id="@+id/EditText67"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/7" />
+                android:text="@string/sieben" />
 
             <EditText
                 android:id="@+id/EditText68"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/8" />
+                android:text="@string/acht" />
 
             <EditText
                 android:id="@+id/EditText69"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="1dp"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/9" />
+                android:text="@string/neun" />
         </TableRow>
+
          <TableRow
-            android:id="@+id/tableRow7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+             android:id="@+id/tableRow7"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/border"
+            android:paddingTop="1dp" >
 
             <EditText
                 android:id="@+id/EditText71"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/1" />
+                android:text="@string/eins" />
 
             <EditText
                 android:id="@+id/EditText72"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/2" />
+                android:text="@string/zwei" />
 
             <EditText
                 android:id="@+id/EditText73"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/3" >
+                android:text="@string/drei" >
 
                 <requestFocus />
             </EditText>
@@ -661,96 +802,119 @@
                 android:id="@+id/EditText74"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/4" />
+                android:text="@string/vier" />
 
             <EditText
                 android:id="@+id/EditText75"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/5" />
+                android:text="@string/fünf" />
 
             <EditText
                 android:id="@+id/EditText76"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/6" />
+                android:paddingLeft="1dp"
+                android:text="@string/sechs" />
 
             <EditText
                 android:id="@+id/EditText77"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/7" />
+                android:text="@string/sieben" />
 
             <EditText
                 android:id="@+id/EditText78"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/8" />
+                android:text="@string/acht" />
 
             <EditText
                 android:id="@+id/EditText79"
                 android:layout_width="5dp"
+                android:layout_marginRight="1dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/9" />
+                android:text="@string/neun" />
         </TableRow>
+
          <TableRow
-            android:id="@+id/tableRow8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+             android:id="@+id/tableRow8"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/border"
+            android:paddingTop="1dp" >
 
             <EditText
                 android:id="@+id/EditText81"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/1" />
+                android:text="@string/eins" />
 
             <EditText
                 android:id="@+id/EditText82"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/2" />
+                android:text="@string/zwei" />
 
             <EditText
                 android:id="@+id/EditText83"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/3" >
+                android:text="@string/drei" >
 
                 <requestFocus />
             </EditText>
@@ -759,96 +923,119 @@
                 android:id="@+id/EditText84"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/4" />
+                android:text="@string/vier" />
 
             <EditText
                 android:id="@+id/EditText85"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/5" />
+                android:text="@string/fünf" />
 
             <EditText
                 android:id="@+id/EditText86"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center_horizontal"
                 android:inputType="numberSigned"
-                android:text="@string/6" />
+                android:text="@string/sechs" />
 
             <EditText
                 android:id="@+id/EditText87"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/7" />
+                android:text="@string/sieben" />
 
             <EditText
                 android:id="@+id/EditText88"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/8" />
+                android:text="@string/acht" />
 
             <EditText
                 android:id="@+id/EditText89"
                 android:layout_width="5dp"
+                android:layout_marginRight="1dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/9" />
+                android:text="@string/neun" />
         </TableRow>
+
          <TableRow
-            android:id="@+id/tableRow9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+             android:id="@+id/tableRow9"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/border"
+             android:paddingBottom="1dp"
+             android:paddingTop="1dp" >
 
             <EditText
                 android:id="@+id/EditText91"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/1" />
+                android:text="@string/eins" />
 
             <EditText
                 android:id="@+id/EditText92"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/2" />
+                android:text="@string/zwei" />
 
             <EditText
                 android:id="@+id/EditText93"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/3" >
+                android:text="@string/drei" >
 
                 <requestFocus />
             </EditText>
@@ -857,61 +1044,73 @@
                 android:id="@+id/EditText94"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/4" />
+                android:text="@string/vier" />
 
             <EditText
                 android:id="@+id/EditText95"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/5" />
+                android:text="@string/fünf" />
 
             <EditText
                 android:id="@+id/EditText96"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/6" />
+                android:text="@string/sechs" />
 
             <EditText
                 android:id="@+id/EditText97"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/7" />
+                android:text="@string/sieben" />
 
             <EditText
                 android:id="@+id/EditText98"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/8" />
+                android:text="@string/acht" />
 
             <EditText
                 android:id="@+id/EditText99"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="1dp"
                 android:background="#ffffff"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="numberSigned"
-                android:text="@string/9" />
+                android:text="@string/neun" />
         </TableRow>
         
     </TableLayout>
@@ -919,7 +1118,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="110dp" >
+        android:paddingTop="90dp" >
 
         <Button
             android:id="@+id/buttonCapture"
@@ -927,7 +1126,7 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@drawable/simple_button"
-            android:text="@string/Capture"
+            android:text="@string/capture"
             android:textColor="#ffffff"
             android:textSize="15sp" />
 
@@ -937,7 +1136,7 @@
             android:layout_height="30sp"
             android:layout_weight="1"
             android:background="@drawable/simple_button"
-            android:text="@string/Solve"
+            android:text="@string/solve"
             android:textColor="#ffffffff"
             android:textSize="15sp" />
 
@@ -948,7 +1147,7 @@
             android:layout_weight="1"
             android:background="@drawable/simple_button"
             android:drawablePadding="2dip"
-            android:text="@string/Step"
+            android:text="@string/step"
             android:textColor="#ffffff"
             android:textSize="15sp" />
 

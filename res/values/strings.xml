@@ -4,5 +4,22 @@
     <string name="app_name">Sudoku Assistant</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="capture">capture</string>
+    <string name="Welcome_to">Welcome to</string>
+    <string name="Status_Keine_Fehler">Status: Keine Fehler</string>
+    <string name="Sudoku_Helper">Sudoku Helper</string>
+ 	<string name="solve">solve</string>
+    <string name="step">step</string>
+    <string name="test">test</string>
+    
+    <string name="eins">1</string>
+    <string name="zwei">2</string>
+    <string name="drei">3</string>
+    <string name="vier">4</string>
+    <string name="fünf">5</string>
+    <string name="sechs">6</string>
+    <string name="sieben">7</string>
+    <string name="acht">8</string>
+    <string name="neun">9</string>
 
 </resources>

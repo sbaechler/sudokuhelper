@@ -9,7 +9,7 @@
         android:id="@+id/title"
         android:layout_width="302dp"
         android:layout_height="wrap_content"
-        android:text="@string/Sudoku Helper"
+        android:text="@string/Sudoku_Helper"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textStyle="bold" />
@@ -19,7 +19,7 @@
         android:layout_width="302dp"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:text="@string/Status: Keine Fehler"
+        android:text="@string/Status_Keine_Fehler"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textSize="15sp" />
@@ -35,7 +35,7 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@drawable/simple_button"
-            android:text="@string/Capture"
+            android:text="@string/capture"
             android:textColor="#ffffff"
             android:textSize="15sp" />
 
@@ -45,7 +45,7 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@drawable/simple_button"
-            android:text="@string/Solve"
+            android:text="@string/solve"
             android:textColor="#ffffffff"
             android:textSize="15sp" />
 
@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:background="@drawable/simple_button"
             android:drawablePadding="2dip"
-            android:text="@string/Step"
+            android:text="@string/step"
             android:textColor="#ffffff"
             android:textSize="15sp" />
 
