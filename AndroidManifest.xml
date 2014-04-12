@@ -39,6 +39,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.zahw.students.sudokuhelper.MainActivity" />
         </activity>
+        <activity
+            android:name="ch.zahw.students.sudokuhelper.TestActivity"
+            android:label="@string/test"
+            android:parentActivityName="ch.zahw.students.sudokuhelper.MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.zahw.students.sudokuhelper.MainActivity" />
+        </activity>
     </application>
 
 

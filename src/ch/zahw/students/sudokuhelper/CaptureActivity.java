@@ -20,8 +20,12 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     private static final String TAG = "SudokuHelper::CaptureActivity";
     
     private CameraBridgeViewBase mOpenCvCameraView;
+<<<<<<< HEAD
     private Mat mGray;
     private Mat mRgba;
+=======
+    private SudokuTracker sudokuTracker;
+>>>>>>> 1fb755756b8bd50c625a645ff1dafd3d51e048b3
     
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -29,7 +33,11 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
                 {
+<<<<<<< HEAD
                     Log.i(TAG, "OpenCV loaded successfully");
+=======
+                    Log.v(TAG, "OpenCV loaded successfully");
+>>>>>>> 1fb755756b8bd50c625a645ff1dafd3d51e048b3
                     mOpenCvCameraView.enableView();
                 } break;
                 default:
@@ -42,7 +50,10 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
+<<<<<<< HEAD
         Log.i(TAG, "called onCreate");
+=======
+>>>>>>> 1fb755756b8bd50c625a645ff1dafd3d51e048b3
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
@@ -69,12 +80,17 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     }
 
     public void onDestroy() {
+<<<<<<< HEAD
         super.onDestroy();
+=======
+        super.onDestroy();    
+>>>>>>> 1fb755756b8bd50c625a645ff1dafd3d51e048b3
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
     }
     
     public void onCameraViewStarted(int width, int height) {
+<<<<<<< HEAD
         Log.i(TAG, "Camera view started");
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mGray = new Mat(height, width, CvType.CV_8UC1);
@@ -89,6 +105,18 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Imgproc.cvtColor(inputFrame.gray(), mRgba, Imgproc.COLOR_GRAY2RGBA, 4);
         return mRgba;
+=======
+        sudokuTracker = new SudokuTracker(width, height);
+    }
+
+    public void onCameraViewStopped() {
+        sudokuTracker = null;
+        Log.d(TAG, "Camera view stopped");
+    }
+
+    public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+        return sudokuTracker.detect(inputFrame.gray());
+>>>>>>> 1fb755756b8bd50c625a645ff1dafd3d51e048b3
     }
     
 
