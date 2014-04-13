@@ -19,7 +19,7 @@
         android:layout_width="302dp"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:text="@string/Status_Keine_Fehler"
+        android:text="@string/state"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textSize="15sp" />

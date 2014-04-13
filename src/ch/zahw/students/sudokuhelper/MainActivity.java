@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TableRow.LayoutParams;
 
 public class MainActivity extends Activity {
 
@@ -67,48 +68,55 @@ public class MainActivity extends Activity {
 		createRow(tLayout);
 	}
 
-	private void createRow(TableLayout tLayout) {
+	private void createRow(TableLayout tableLayout) {
+		TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(
+				TableLayout.LayoutParams.WRAP_CONTENT,
+				TableLayout.LayoutParams.WRAP_CONTENT);
+		TableRow.LayoutParams rowParams = new TableRow.LayoutParams(
+				TableRow.LayoutParams.WRAP_CONTENT,
+				TableRow.LayoutParams.WRAP_CONTENT);
+		tableLayout.setLayoutParams(tableParams);
 
 		int buttom;
 
 		for (int i = 0; i < 9; i++) {
+
 			TableRow row = new TableRow(this);
+			row.setLayoutParams(tableParams);
 
-			if (i % 3 == 0) {
-				buttom = 2;
-			} else {
-				buttom = 1;
-			}
+			buttom = i == 2 || i == 5 ? 3 : 1;
 
-			createCell(tLayout, row, i, buttom);
-			tLayout.addView(row);
+			row.setBackgroundColor(Color.BLACK);
+			row.setLayoutParams(rowParams);
+			createCell(tableLayout, rowParams, row, i, buttom);
+			tableLayout.addView(row);
 		}
 	}
 
-	private void createCell(TableLayout tl, TableRow tr, int i, int bottom) {
+	private void createCell(TableLayout tableLayout, LayoutParams rowParams,
+			TableRow tableRow, int i, int bottom) {
 		int right;
 
 		for (int j = 0; j < 9; j++) {
 
-			if (j % 3 == 0) {
-				right = 3;
-			} else {
-				right = 1;
-			}
+			right = j==2||j==5?3:1;
 
 			EditText sudokuCell = new EditText(this);
+			sudokuCell.setEms(6);
 			sudokuCell.setGravity(Gravity.CENTER);
 			sudokuCell.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
 			sudokuCell.setBackgroundColor(Color.WHITE);
 			sudokuCell.setId(cellIds[i][j]);
-			// TODO Backround table, params, lines
-			// TableLayout.LayoutParams params = new
-			// TableLayout.LayoutParams(10, 30);
-			// params.setMargins(0, 0, right, bottom);
-			// params.weight = 1;
-			// sudokuCell.setLayoutParams(params);
-
-			tr.addView(sudokuCell);
+			
+			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(
+					47,
+					47);
+			
+			cellalyout.weight = 1;
+			cellalyout.setMargins(1,1, right, bottom);
+			
+			sudokuCell.setLayoutParams(cellalyout);
+			tableRow.addView(sudokuCell);
 		}
 	}
 
