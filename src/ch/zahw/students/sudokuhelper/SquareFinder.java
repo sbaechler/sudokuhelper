@@ -15,7 +15,7 @@ import android.util.Log;
  */
 public class SquareFinder {
     private static final String TAG = "SudokuHelper::SquareFinder";
-    private static final int LINE_THRESHOLD = 1;
+    private static final int LINE_THRESHOLD = 0;
 
     private double[][] horizontalLines;
     private double[][] verticalLines;
@@ -78,14 +78,14 @@ public class SquareFinder {
                 double vy1 = vec[1],
                        vy2 = vec[3];
                 // if they are, count them
-                if(hy1<=vy1 && vy1<=hy2){
+                if((hy1<=vy1 && vy1<=hy2) || (hy1>=vy1 && vy1>=hy2)){
                     // the endpoint vy1 is on the line
                     if(vy1 < vy2) {
                         upperHit++;
                     } else {
                         lowerHit++;
                     }
-                } else if (hy1<=vy2 && vy2<=hy2) {
+                } else if ((hy1<=vy2 && vy2<=hy2) || (hy1>=vy2 && vy2>=hy2)) {
                  // the endpoint vy2 is on the line
                     if(vy1 > vy2) {
                         upperHit++;
@@ -127,14 +127,14 @@ public class SquareFinder {
                 double hx1 = vec[0],
                        hx2 = vec[2];
                 // if they are, count them
-                if(vx1<=hx1 && hx1<=vx2){
+                if((vx1<=hx1 && hx1<=vx2) || (vx1>=hx1 && hx1>=vx2)){
                     // the endpoint hx1 is on the line
                     if(hx1 < hx2) {
                         leftHit++;
                     } else {
                         rightHit++;
                     }
-                } else if (vx1<=hx2 && hx2<=vx2) {
+                } else if ((vx1<=hx2 && hx2<=vx2) || (vx1>=hx2 && hx2>=vx2)) {
                  // the endpoint hx2 is on the line
                     if(hx1 < hx2) {
                         rightHit++;
@@ -211,6 +211,7 @@ public class SquareFinder {
         double x1 = Math.round(v1[0] + u*(v1[2]-v1[0]));
         double y1 = Math.round(v1[1] + v*(v1[3]-v1[1]));
         // Log.v(TAG, "Point (" + x1 + ", " + y1 + ")");
+        A = null; b = null; x = null;
         return new Point(x1, y1);
     }
     

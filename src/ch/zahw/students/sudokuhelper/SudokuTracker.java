@@ -1,7 +1,5 @@
 package ch.zahw.students.sudokuhelper;
 
-import java.util.Arrays;
-
 import android.util.Log;
 
 import org.opencv.core.Core;
@@ -25,12 +23,10 @@ import org.opencv.imgproc.Imgproc;
 public class SudokuTracker {
     private static final String TAG = "SudokuHelper::SudokuTracker";
     
-    private static final int VIEW_MODE_THRESH = 3; 
     private Mat mIntermediateMat;
     private Mat mRgba;
     private int width;
     private int height;
-    private int count = 0;
     
 
     public SudokuTracker(int width, int height) {
@@ -50,9 +46,10 @@ public class SudokuTracker {
         threshold(imageGray);
         Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
         try {
-            markLines();
+            markLines();  // Throws NoSudokuFoundException
+            // throw new SudokuFoundException and change activities
         } catch (NoSudokuFoundException e) {
-            
+            Log.v(TAG, e.getMessage());
         }
         return mRgba;
     }
@@ -74,31 +71,26 @@ public class SudokuTracker {
         Imgproc.dilate(mIntermediateMat, mIntermediateMat, Imgproc.getStructuringElement(Imgproc.MORPH_CROSS, new Size(3, 3)));
     }
     
-//    private int floodFill(){
-//        Mat mask = new Mat(height+2, width+2, CvType.CV_8UC1);
-//        Point seedPoint = new Point(width/2,height/2);
-//        return Imgproc.floodFill(mIntermediateMat, mask, seedPoint, new Scalar(64, 64, 64));
+    // helper method that toggles between red, green and blue.
+//    private Scalar getColor(){
+//        int color = count % 3;
+//        Scalar scalar = null;
+//        count ++;
+//        switch(color) {
+//            case 0: scalar = new Scalar(255,0,0);
+//                    break;
+//            case 1: scalar = new Scalar(0,255,0);
+//                    break;
+//            case 2: scalar = new Scalar(0, 0, 255);
+//                    break;
+//        }
+//        return scalar;
 //    }
-    
-    private Scalar getColor(){
-        int color = count % 3;
-        Scalar scalar = null;
-        count ++;
-        switch(color) {
-            case 0: scalar = new Scalar(255,0,0);
-                    break;
-            case 1: scalar = new Scalar(0,255,0);
-                    break;
-            case 2: scalar = new Scalar(0, 0, 255);
-                    break;
-        }
-        return scalar;
-    }
     
     private void markLines() throws NoSudokuFoundException{
         Mat lines = new Mat();
-        int threshold = 70;
-        int minLineSize = 300;
+        int threshold = 60;
+        int minLineSize = 250;
         int lineGap = 10;
         
         Imgproc.HoughLinesP(mIntermediateMat, lines, 1, Math.PI/90, threshold, minLineSize, lineGap);

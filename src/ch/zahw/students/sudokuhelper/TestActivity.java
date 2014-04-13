@@ -69,7 +69,7 @@ public class TestActivity extends Activity {
     public void findSudoku() {
 
         try {
-            mGray = Utils.loadResource(this, R.raw.s58, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+            mGray = Utils.loadResource(this, R.raw.s57, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             Log.e(TAG, "error loading resource");
