@@ -50,6 +50,7 @@ public class SudokuTracker {
             // throw new SudokuFoundException and change activities
         } catch (NoSudokuFoundException e) {
             Log.v(TAG, e.getMessage());
+            System.gc();
         }
         return mRgba;
     }
