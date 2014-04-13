@@ -24,6 +24,7 @@ tmp/**/*
 *.tmp
 *.bak
 *.swp
+*.so
 *~.nib
 local.properties
 obj/
@@ -43,3 +44,9 @@ project.properties
 
 # PDT-specific
 .buildpath
+
+# Project
+.project
+
+# obj
+obj

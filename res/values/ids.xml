@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="table_row_1" type="id"/>
+    <item name="table_row_2" type="id"/>
+    <item name="table_row_3" type="id"/>
+    <item name="table_row_4" type="id"/>
+    <item name="table_row_5" type="id"/>
+    <item name="table_row_6" type="id"/>
+    <item name="table_row_7" type="id"/>
+    <item name="table_row_8" type="id"/>
+    <item name="table_row_9" type="id"/>
+    
+    <item name="table_cell_00" type="id"/>
+    <item name="table_cell_01" type="id"/>
+    <item name="table_cell_02" type="id"/>
+    <item name="table_cell_03" type="id"/>
+    <item name="table_cell_04" type="id"/>
+    <item name="table_cell_05" type="id"/>
+    <item name="table_cell_06" type="id"/>
+    <item name="table_cell_07" type="id"/>
+    <item name="table_cell_08" type="id"/>
+    
+    <item name="table_cell_10" type="id"/>
+    <item name="table_cell_11" type="id"/>
+    <item name="table_cell_12" type="id"/>
+    <item name="table_cell_13" type="id"/>
+    <item name="table_cell_14" type="id"/>
+    <item name="table_cell_15" type="id"/>
+    <item name="table_cell_16" type="id"/>
+    <item name="table_cell_17" type="id"/>
+    <item name="table_cell_18" type="id"/>
+    
+    <item name="table_cell_20" type="id"/>
+    <item name="table_cell_21" type="id"/>
+    <item name="table_cell_22" type="id"/>
+    <item name="table_cell_23" type="id"/>
+    <item name="table_cell_24" type="id"/>
+    <item name="table_cell_25" type="id"/>
+    <item name="table_cell_26" type="id"/>
+    <item name="table_cell_27" type="id"/>
+    <item name="table_cell_28" type="id"/>
+    
+    <item name="table_cell_30" type="id"/>
+    <item name="table_cell_31" type="id"/>
+    <item name="table_cell_32" type="id"/>
+    <item name="table_cell_33" type="id"/>
+    <item name="table_cell_34" type="id"/>
+    <item name="table_cell_35" type="id"/>
+    <item name="table_cell_36" type="id"/>
+    <item name="table_cell_37" type="id"/>
+    <item name="table_cell_38" type="id"/>
+    
+    <item name="table_cell_40" type="id"/>
+    <item name="table_cell_41" type="id"/>
+    <item name="table_cell_42" type="id"/>
+    <item name="table_cell_43" type="id"/>
+    <item name="table_cell_44" type="id"/>
+    <item name="table_cell_45" type="id"/>
+    <item name="table_cell_46" type="id"/>
+    <item name="table_cell_47" type="id"/>
+    <item name="table_cell_48" type="id"/>
+    
+    <item name="table_cell_50" type="id"/>
+    <item name="table_cell_51" type="id"/>
+    <item name="table_cell_52" type="id"/>
+    <item name="table_cell_53" type="id"/>
+    <item name="table_cell_54" type="id"/>
+    <item name="table_cell_55" type="id"/>
+    <item name="table_cell_56" type="id"/>
+    <item name="table_cell_57" type="id"/>
+    <item name="table_cell_58" type="id"/>
+    
+    <item name="table_cell_60" type="id"/>
+    <item name="table_cell_61" type="id"/>
+    <item name="table_cell_62" type="id"/>
+    <item name="table_cell_63" type="id"/>
+    <item name="table_cell_64" type="id"/>
+    <item name="table_cell_65" type="id"/>
+    <item name="table_cell_66" type="id"/>
+    <item name="table_cell_67" type="id"/>
+    <item name="table_cell_68" type="id"/>
+    
+    <item name="table_cell_70" type="id"/>
+    <item name="table_cell_71" type="id"/>
+    <item name="table_cell_72" type="id"/>
+    <item name="table_cell_73" type="id"/>
+    <item name="table_cell_74" type="id"/>
+    <item name="table_cell_75" type="id"/>
+    <item name="table_cell_76" type="id"/>
+    <item name="table_cell_77" type="id"/>
+    <item name="table_cell_78" type="id"/>
+    
+    <item name="table_cell_80" type="id"/>
+    <item name="table_cell_81" type="id"/>
+    <item name="table_cell_82" type="id"/>
+    <item name="table_cell_83" type="id"/>
+    <item name="table_cell_84" type="id"/>
+    <item name="table_cell_85" type="id"/>
+    <item name="table_cell_86" type="id"/>
+    <item name="table_cell_87" type="id"/>
+    <item name="table_cell_88" type="id"/>
+    
+</resources>
