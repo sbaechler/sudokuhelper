@@ -1,40 +1,76 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:padding="10dp" >
 
-    
-    <Button
-        android:id="@+id/buttonCapture" />
-       <!--  android:layout_width="96dp"
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/capture"
-        android:onClick="doCapture" />  -->
-       
-    <Button
-        android:id="@+id/buttonSolve" />
-        <!-- android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/buttonCapture"
-        android:layout_alignBottom="@id/buttonCapture"
-        android:layout_centerHorizontal="true"
-        android:text="@string/test" 
-        android:onClick="doTest" /> -->
+        android:text="@string/Sudoku_Helper"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/buttonStep" />
-    <!--     android:layout_width="96dp"
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="302dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/buttonCapture"
-        android:layout_alignBottom="@id/buttonCapture"
-        android:layout_alignParentRight="true"
-        android:text="@string/step" />  -->
-           
-</RelativeLayout>
+        android:paddingTop="5dp"
+        android:text="@string/state"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+    <TableLayout
+        android:id="@+id/sudoku_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:textColor="#000000"
+        android:paddingTop="10dp" >
+
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="0dp" >
+
+        <Button
+            android:id="@+id/buttonCapture"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/simple_button"
+            android:text="@string/capture"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:onClick="doCapture" />
+
+        <Button
+            android:id="@+id/buttonSolve"
+            android:layout_width="10dp"
+            android:layout_height="30sp"
+            android:layout_weight="1"
+            android:background="@drawable/simple_button"
+            android:text="@string/solve"
+            android:textColor="#ffffffff"
+            android:textSize="15sp" 
+            android:onClick="doTest" />
+
+        <Button
+            android:id="@+id/buttonStep"
+            android:layout_width="10dp"
+            android:layout_height="30sp"
+            android:layout_weight="1"
+            android:background="@drawable/simple_button"
+            android:drawablePadding="2dip"
+            android:text="@string/step"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

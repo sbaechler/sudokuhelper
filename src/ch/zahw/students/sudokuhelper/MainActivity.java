@@ -17,12 +17,7 @@ import android.widget.TableRow.LayoutParams;
 public class MainActivity extends Activity {
     private static final String TAG = "SudokuHelper::MainActivity";
     private int[][] cellIds = new int[9][9];
-    
-   
-    public MainActivity() {
-        init();
-    }
-    
+        
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -50,7 +45,8 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sudoku_fields);
+		init();
+		setContentView(R.layout.activity_main);
 		createTable();
 		fillSudokuTable(dummySudoku());
 	}
