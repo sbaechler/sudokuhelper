@@ -15,7 +15,8 @@ import android.util.Log;
  */
 public class SquareFinder {
     private static final String TAG = "SudokuHelper::SquareFinder";
-    private static final int LINE_THRESHOLD = 0;
+    private static final int LINE_THRESHOLD = 1;
+    private static final double INTERSECT_TOLERANCE = 2.0;
 
     private double[][] horizontalLines;
     private double[][] verticalLines;
@@ -65,35 +66,34 @@ public class SquareFinder {
         // iterate through all the horizontal lines
         int bestUpperHit = 0;
         int bestLowerHit = 0;
+        double t = INTERSECT_TOLERANCE;
         for (int h=0; h<nextH; h++) {
             int upperHit = 0;
             int lowerHit = 0;
-            // for every horizontal line, check if vertical edge points 
+            // for every horizontal line, check if vertical edge points A and B 
             // are on that line.
             double[] hline = horizontalLines[h];
             double hy1 = hline[1],
                    hy2 = hline[3];
             for (int v=0; v<nextV; v++){
                 double[] vec = verticalLines[v];
-                double vy1 = vec[1],
-                       vy2 = vec[3];
+                double ay = vec[1],
+                       by = vec[3];
                 // if they are, count them
-                if((hy1<=vy1 && vy1<=hy2) || (hy1>=vy1 && vy1>=hy2)){
-                    // the endpoint vy1 is on the line
-                    if(vy1 < vy2) {
+                if(ay < by) { // A is above B
+                    if ((hy1<=ay+t && ay<=hy2+t) || (hy1+t>=ay && ay+t>=hy2)){
+                        // A is between the left and right edge point
                         upperHit++;
-                    } else {
+                    } else if ((hy1<=by+t && by<=hy2+t) || (hy1+t>=by && by+t>=hy2)) {
                         lowerHit++;
                     }
-                } else if ((hy1<=vy2 && vy2<=hy2) || (hy1>=vy2 && vy2>=hy2)) {
-                 // the endpoint vy2 is on the line
-                    if(vy1 > vy2) {
+                } else { // B is above A
+                    if ((hy1<=by+t && by<=hy2+t) || (hy1+t>=by && by+t>=hy2)) {
                         upperHit++;
-                    } else {
+                    }  else if ((hy1<=ay+t && ay<=hy2+t) || (hy1+t>=ay && ay+t>=hy2)) {
                         lowerHit++;
-                    }
+                    }                  
                 }
-
             }
             // take the lines with the highest counts
             if(upperHit > bestUpperHit) {
@@ -114,35 +114,36 @@ public class SquareFinder {
         // iterate through all the vertical lines
         int bestLeftHit = 0;
         int bestRightHit = 0;
+        double t = INTERSECT_TOLERANCE;
         for (int v=0; v<nextV; v++) {
             int leftHit = 0;
             int rightHit = 0;
-            // for every vertical line, check if horizontal edge points 
+            // for every vertical line, check if horizontal edge points A B
             // are on that line.
             double[] vline = verticalLines[v];
             double vx1 = vline[0],
                    vx2 = vline[2];
             for (int h=0; h<nextH; h++){
                 double[] vec = horizontalLines[h];
-                double hx1 = vec[0],
-                       hx2 = vec[2];
-                // if they are, count them
-                if((vx1<=hx1 && hx1<=vx2) || (vx1>=hx1 && hx1>=vx2)){
-                    // the endpoint hx1 is on the line
-                    if(hx1 < hx2) {
+                double ax = vec[0],
+                       ay = vec[1],
+                       bx = vec[2],
+                       by = vec[3];
+                if(ax < bx) { // A is left of B
+                    if ((vx1<=ax && ax<=vx2) || (vx1>=ax && ax>=vx2)){
+                        // A is between the upper and lower edge point
+                        // TODO: Sanity check if the point is vertically within the box.
                         leftHit++;
-                    } else {
+                    } else if ((vx1<=bx&& bx<=vx2) || (vx1>=bx && bx>=vx2)){
                         rightHit++;
                     }
-                } else if ((vx1<=hx2 && hx2<=vx2) || (vx1>=hx2 && hx2>=vx2)) {
-                 // the endpoint hx2 is on the line
-                    if(hx1 < hx2) {
-                        rightHit++;
-                    } else {
+                } else {
+                    if ((vx1<=bx && bx<=vx2) || (vx1>=bx && bx>=vx2)){
                         leftHit++;
+                    } else if ((vx1<=ax && ax<=vx2) || (vx1>=ax && ax>=vx2)){
+                        rightHit++;
                     }
                 }
-
             }
             // take the lines with the highest counts
             if(leftHit > bestLeftHit) {
@@ -170,17 +171,36 @@ public class SquareFinder {
             Core.line(mRgba, a, b, new Scalar(255, 0, 0), 3);
         }
         // Find the upper left corner point
-        Point point = findCornerPoint(edges[0], edges[3]);
-        Core.line(mRgba, point, point, new Scalar(20,255,255), 3);
+        Point tl = findCornerPoint(edges[0], edges[3]);
         // Find the upper right corner point
-        point = findCornerPoint(edges[0], edges[1]);
-        Core.line(mRgba, point, point, new Scalar(20,255,255), 3);
+        Point tr = findCornerPoint(edges[0], edges[1]);
         // Find the lower left corner point
-        point = findCornerPoint(edges[3], edges[2]);
-        Core.line(mRgba, point, point, new Scalar(20,255,255), 3);
+        Point bl = findCornerPoint(edges[3], edges[2]);
         // Find the lower right corner point
-        point = findCornerPoint(edges[2], edges[1]);
-        Core.line(mRgba, point, point, new Scalar(20,255,255), 3);
+        Point br = findCornerPoint(edges[2], edges[1]);
+        
+        // Sanity check: The corner points have to be correctly relative
+        // to each other
+        if(tl.x > tr.x || bl.x > br.x || tl.y > br.y || tr.y > br.y) {
+            throw new NoSudokuFoundException("Points are not correctly aligned");
+        }
+        
+        // Sanity check: The Sudoku has to be about square
+        // calculate and compare the square distance of the diagonals
+        // raise an exception if the difference is more than 10%.
+        double a = Math.pow(tr.y-bl.y, 2) + Math.pow(tr.x-bl.x, 2);
+        double b = Math.pow(tl.y-br.y, 2) + Math.pow(tl.x-br.x, 2);
+        double diff = Math.abs(a-b);
+
+        // draw the points cyan.
+        Core.line(mRgba, tl, tl, new Scalar(20,255,255), 3);
+        Core.line(mRgba, tr, tr, new Scalar(20,255,255), 3);
+        Core.line(mRgba, bl, bl, new Scalar(20,255,255), 3);
+        Core.line(mRgba, br, br, new Scalar(20,255,255), 3);
+        
+        if(diff * 10 > a || diff * 10 > b) {
+            throw new NoSudokuFoundException("Structure is not a square.");
+        }
     }
     
     /**
@@ -206,11 +226,11 @@ public class SquareFinder {
         Core.gemm(A.inv(), b,  1, new Mat(), 0, x, 0 );
         double u = x.get(0,0)[0];
         double v = x.get(1,0)[0];
-        // Log.v(TAG, "scalars u: " + u + " v: " + v);
+        Log.v(TAG, "scalars u: " + u + " v: " + v);
         // insert the scalar uv into the original equation
         double x1 = Math.round(v1[0] + u*(v1[2]-v1[0]));
         double y1 = Math.round(v1[1] + v*(v1[3]-v1[1]));
-        // Log.v(TAG, "Point (" + x1 + ", " + y1 + ")");
+        Log.v(TAG, "Point (" + x1 + ", " + y1 + ")");
         A = null; b = null; x = null;
         return new Point(x1, y1);
     }
