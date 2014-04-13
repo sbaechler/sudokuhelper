@@ -9,7 +9,6 @@
     tools:context=".MainActivity" >
 
     
-
     <Button
         android:id="@+id/buttonCapture" />
        <!--  android:layout_width="96dp"
@@ -36,6 +35,5 @@
         android:layout_alignBottom="@id/buttonCapture"
         android:layout_alignParentRight="true"
         android:text="@string/step" />  -->
-       
-    
+           
 </RelativeLayout>
