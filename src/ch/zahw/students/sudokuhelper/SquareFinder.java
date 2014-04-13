@@ -6,7 +6,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 
-import android.util.Log;
+// import android.util.Log;
 
 /**
  * Helper class that finds the Sudoku from a collection of lines.
@@ -27,7 +27,7 @@ public class SquareFinder {
         int cols = lines.cols();
         horizontalLines = new double[cols][4];
         verticalLines = new double[cols][4];
-        Log.v(TAG, "Lines size: " + lines.cols());
+        // Log.v(TAG, "Lines size: " + lines.cols());
         // split up the lines matrix into horizontal and vertical lines
         for (int x = 0; x < lines.cols(); x++) 
         {
@@ -39,10 +39,20 @@ public class SquareFinder {
                   verticalLines[nextV++] = vec.clone();
               }
         }
-        Log.v(TAG, "Lines horizontal: " + nextH + ", vertical: " + nextV);
+        // Log.v(TAG, "Lines horizontal: " + nextH + ", vertical: " + nextV);
     }
     
-    private void findUpperAndLowerEdge(){
+    // helper constructor used for testing without OpenCV
+    public SquareFinder(double[][] horizontalLines, double[][] verticalLines) {
+        this.horizontalLines = horizontalLines;
+        this.verticalLines = verticalLines;
+    }
+    
+    public double[][] getEdges(){
+        return edges;
+    }
+    
+    public void findUpperAndLowerEdge(){
         // iterate through all the horizontal lines
         int bestUpperHit = 0;
         int bestLowerHit = 0;
@@ -85,10 +95,11 @@ public class SquareFinder {
                 bestLowerHit = lowerHit;
             }
         }
-        Log.v(TAG, "Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
+        // Log.v(TAG, "Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
+        System.out.println("Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
     }
     
-    private void findLeftAndRightEdge(){
+    public void findLeftAndRightEdge(){
         // iterate through all the vertical lines
         int bestLeftHit = 0;
         int bestRightHit = 0;
@@ -131,7 +142,7 @@ public class SquareFinder {
                 bestRightHit = rightHit;
             }
         }
-        Log.v(TAG, "Best left hit: " + bestLeftHit + ", best right: " + bestRightHit);
+        // Log.v(TAG, "Best left hit: " + bestLeftHit + ", best right: " + bestRightHit);
     }
     
     public void drawEdges(Mat mRgba){
@@ -181,11 +192,11 @@ public class SquareFinder {
         Core.gemm(A.inv(), b,  1, new Mat(), 0, x, 0 );
         double u = x.get(0,0)[0];
         double v = x.get(1,0)[0];
-        Log.v(TAG, "scalars u: " + u + " v: " + v);
+        // Log.v(TAG, "scalars u: " + u + " v: " + v);
         // insert the scalar uv into the original equation
         double x1 = Math.round(v1[0] + u*(v1[2]-v1[0]));
         double y1 = Math.round(v1[1] + v*(v1[3]-v1[1]));
-        Log.v(TAG, "Point (" + x1 + ", " + y1 + ")");
+        // Log.v(TAG, "Point (" + x1 + ", " + y1 + ")");
         return new Point(x1, y1);
     }
     
