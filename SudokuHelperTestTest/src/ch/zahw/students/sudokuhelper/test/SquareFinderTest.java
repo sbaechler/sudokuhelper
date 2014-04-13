@@ -1,6 +1,7 @@
 package ch.zahw.students.sudokuhelper.test;
 
 import android.test.InstrumentationTestCase;
+import ch.zahw.students.sudokuhelper.NoSudokuFoundException;
 import ch.zahw.students.sudokuhelper.SquareFinder;
 
 // org.opencv.test is not in the release version yet as of 2.4.8.
@@ -42,12 +43,21 @@ public class SquareFinderTest extends InstrumentationTestCase {
         edges[2] = new double[]{10.0, 500.0, 100.0, 500.0};
         edges[3] = new double[]{10.0, 10.0, 10.0, 500.0};
         
-        SquareFinder squarefinder = new SquareFinder(hLines, vLines);
+        SquareFinder squarefinder = null;
+        try {
+            squarefinder = new SquareFinder(hLines, vLines);
+        } catch (NoSudokuFoundException e1) {
+            fail(e1.getMessage());
+        }
         
         // find the upper and lower edges. Should be the upper and lower
         // horizontal line that does not break the grid
-        squarefinder.findUpperAndLowerEdge();
-        squarefinder.findLeftAndRightEdge();
+        try {
+            squarefinder.findUpperAndLowerEdge();
+            squarefinder.findLeftAndRightEdge();
+        } catch (NoSudokuFoundException e1) {
+            fail(e1.getMessage());
+        }
         double[][] calculatedEdges = squarefinder.getEdges();
         assertEquals(calculatedEdges.length, edges.length);
         for(int i = 0; i<4; i++) {
@@ -55,6 +65,24 @@ public class SquareFinderTest extends InstrumentationTestCase {
                 assertEquals("Compare edge " + i + ", " + j, edges[i][j], calculatedEdges[i][j], 0.001);
             }
         }
+        
+        // make sure it raises an exception if no lines can be found
+        try {
+            squarefinder = new SquareFinder(hLines, new double[0][0]);
+            fail("Square Finder did not throw an exception");
+        } catch (NoSudokuFoundException e){  }
+        
+        try {
+            squarefinder = new SquareFinder(hLines, hLines);
+        } catch (NoSudokuFoundException e) {
+            fail(e.getMessage());
+        }
+        // All lines are horizontal.
+        try {
+            squarefinder.findUpperAndLowerEdge();
+            squarefinder.findLeftAndRightEdge();
+            fail("Find Edges did not throw an exception");
+        } catch (NoSudokuFoundException e){  }
     }
     
 

@@ -15,6 +15,7 @@ import android.util.Log;
  */
 public class SquareFinder {
     private static final String TAG = "SudokuHelper::SquareFinder";
+    private static final int LINE_THRESHOLD = 1;
 
     private double[][] horizontalLines;
     private double[][] verticalLines;
@@ -23,7 +24,7 @@ public class SquareFinder {
     // CSS style array of lines: top, right, bottom, left
     private double[][] edges = new double[4][4];
     
-    public SquareFinder(Mat lines) {
+    SquareFinder(Mat lines) throws NoSudokuFoundException {
         int cols = lines.cols();
         horizontalLines = new double[cols][4];
         verticalLines = new double[cols][4];
@@ -39,22 +40,28 @@ public class SquareFinder {
                   verticalLines[nextV++] = vec.clone();
               }
         }
+        if(nextH==0 || nextV==0) {
+            throw new NoSudokuFoundException("No horizontal or vertical lines found");
+        }
         Log.v(TAG, "Lines horizontal: " + nextH + ", vertical: " + nextV);
     }
     
     // helper constructor used for testing without OpenCV
-    public SquareFinder(double[][] horizontalLines, double[][] verticalLines) {
+    public SquareFinder(double[][] horizontalLines, double[][] verticalLines) throws NoSudokuFoundException {
         this.horizontalLines = horizontalLines;
         this.verticalLines = verticalLines;
         nextH = horizontalLines.length;
         nextV = verticalLines.length;
+        if(nextH==0 || nextV==0) {
+            throw new NoSudokuFoundException("No horizontal or vertical lines found");
+        }
     }
     
     public double[][] getEdges(){
         return edges;
     }
     
-    public void findUpperAndLowerEdge(){
+    public void findUpperAndLowerEdge() throws NoSudokuFoundException{
         // iterate through all the horizontal lines
         int bestUpperHit = 0;
         int bestLowerHit = 0;
@@ -97,10 +104,13 @@ public class SquareFinder {
                 bestLowerHit = lowerHit;
             }
         }
+        if(bestUpperHit < LINE_THRESHOLD || bestLowerHit < LINE_THRESHOLD){
+            throw new NoSudokuFoundException("Number of upper or lower line ends below threshold.");
+        }
         Log.v(TAG, "Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
     }
     
-    public void findLeftAndRightEdge(){
+    public void findLeftAndRightEdge() throws NoSudokuFoundException{
         // iterate through all the vertical lines
         int bestLeftHit = 0;
         int bestRightHit = 0;
@@ -143,10 +153,13 @@ public class SquareFinder {
                 bestRightHit = rightHit;
             }
         }
+        if(bestLeftHit < LINE_THRESHOLD || bestRightHit < LINE_THRESHOLD){
+            throw new NoSudokuFoundException("Number of left or right line ends below threshold.");
+        }
         Log.v(TAG, "Best left hit: " + bestLeftHit + ", best right: " + bestRightHit);
     }
     
-    public void drawEdges(Mat mRgba){
+    public void drawEdges(Mat mRgba) throws NoSudokuFoundException{
         // draw edge points
         findUpperAndLowerEdge();
         findLeftAndRightEdge();

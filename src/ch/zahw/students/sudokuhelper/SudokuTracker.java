@@ -49,9 +49,11 @@ public class SudokuTracker {
     public Mat detect(Mat imageGray) {
         threshold(imageGray);
         Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
-//        int result = floodFill();
-//        Log.v(TAG, "Biggest blob: "+ result);
-        markLines();
+        try {
+            markLines();
+        } catch (NoSudokuFoundException e) {
+            
+        }
         return mRgba;
     }
     
@@ -93,7 +95,7 @@ public class SudokuTracker {
         return scalar;
     }
     
-    private void markLines(){
+    private void markLines() throws NoSudokuFoundException{
         Mat lines = new Mat();
         int threshold = 70;
         int minLineSize = 300;
