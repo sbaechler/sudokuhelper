@@ -30,6 +30,7 @@ obj/
 
 .settings/
 .loadpath
+project.properties
 
 # External tool builders
 .externalToolBuilders/

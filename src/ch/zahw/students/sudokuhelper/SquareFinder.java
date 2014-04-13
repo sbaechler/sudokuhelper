@@ -6,7 +6,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 
-// import android.util.Log;
+import android.util.Log;
 
 /**
  * Helper class that finds the Sudoku from a collection of lines.
@@ -27,7 +27,7 @@ public class SquareFinder {
         int cols = lines.cols();
         horizontalLines = new double[cols][4];
         verticalLines = new double[cols][4];
-        // Log.v(TAG, "Lines size: " + lines.cols());
+        Log.v(TAG, "Lines size: " + lines.cols());
         // split up the lines matrix into horizontal and vertical lines
         for (int x = 0; x < lines.cols(); x++) 
         {
@@ -39,13 +39,15 @@ public class SquareFinder {
                   verticalLines[nextV++] = vec.clone();
               }
         }
-        // Log.v(TAG, "Lines horizontal: " + nextH + ", vertical: " + nextV);
+        Log.v(TAG, "Lines horizontal: " + nextH + ", vertical: " + nextV);
     }
     
     // helper constructor used for testing without OpenCV
     public SquareFinder(double[][] horizontalLines, double[][] verticalLines) {
         this.horizontalLines = horizontalLines;
         this.verticalLines = verticalLines;
+        nextH = horizontalLines.length;
+        nextV = verticalLines.length;
     }
     
     public double[][] getEdges(){
@@ -95,8 +97,7 @@ public class SquareFinder {
                 bestLowerHit = lowerHit;
             }
         }
-        // Log.v(TAG, "Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
-        System.out.println("Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
+        Log.v(TAG, "Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
     }
     
     public void findLeftAndRightEdge(){
@@ -142,7 +143,7 @@ public class SquareFinder {
                 bestRightHit = rightHit;
             }
         }
-        // Log.v(TAG, "Best left hit: " + bestLeftHit + ", best right: " + bestRightHit);
+        Log.v(TAG, "Best left hit: " + bestLeftHit + ", best right: " + bestRightHit);
     }
     
     public void drawEdges(Mat mRgba){

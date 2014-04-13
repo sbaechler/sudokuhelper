@@ -1,13 +1,12 @@
 package ch.zahw.students.sudokuhelper.test;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import android.test.InstrumentationTestCase;
 import ch.zahw.students.sudokuhelper.SquareFinder;
 
 // org.opencv.test is not in the release version yet as of 2.4.8.
 
 
-public class SquareFinderTest {
+public class SquareFinderTest extends InstrumentationTestCase {
     
     private double[][] vLines;
     private double[][] hLines;
@@ -19,9 +18,11 @@ public class SquareFinderTest {
         edges = new double[4][4];
     }
     
-    @Test
-    public void testLines()
-    {
+    /**
+     * This class creates a line-grid with the borders 10/10, 10/100, 10/500
+     * and 100/500.
+     */
+    public void testLines() {
         hLines[0] = new double[]{10.0, 10.0,  100.0, 10.0};
         hLines[1] = new double[]{10.0, 100.0, 100.0, 100.0};
         hLines[2] = new double[]{ 0.0, 200.0, 150.0, 200.0};
@@ -37,8 +38,8 @@ public class SquareFinderTest {
         vLines[5] = new double[]{500.0, 10.0, 500.0, 500.0};
         
         edges[0] = new double[]{10.0, 10.0, 100.0, 10.0};
-        edges[1] = new double[]{500.0, 10.0, 500.0, 500.0};
-        edges[2] = new double[]{500.0, 10.0, 500.0, 500.0};
+        edges[1] = new double[]{100.0, 10.0, 100.0, 500.0};
+        edges[2] = new double[]{10.0, 500.0, 100.0, 500.0};
         edges[3] = new double[]{10.0, 10.0, 10.0, 500.0};
         
         SquareFinder squarefinder = new SquareFinder(hLines, vLines);
@@ -51,7 +52,7 @@ public class SquareFinderTest {
         assertEquals(calculatedEdges.length, edges.length);
         for(int i = 0; i<4; i++) {
             for (int j = 0; j<4; j++) {
-                assertEquals(edges[i][j], calculatedEdges[i][j], 0.001);
+                assertEquals("Compare edge " + i + ", " + j, edges[i][j], calculatedEdges[i][j], 0.001);
             }
         }
     }
