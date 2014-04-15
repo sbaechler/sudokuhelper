@@ -1,5 +1,7 @@
 package ch.zahw.students.sudokuhelper;
 
+import java.util.Arrays;
+
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -27,6 +29,9 @@ public class SquareFinder {
     
     SquareFinder(Mat lines) throws NoSudokuFoundException {
         int cols = lines.cols();
+        if (cols < 4) {
+            throw new NoSudokuFoundException("Not enough lines found");
+        }
         horizontalLines = new double[cols][4];
         verticalLines = new double[cols][4];
         Log.v(TAG, "Lines size: " + lines.cols());
@@ -34,7 +39,7 @@ public class SquareFinder {
         for (int x = 0; x < lines.cols(); x++) 
         {
               double[] vec = lines.get(0, x);
-              if(Math.abs(vec[0]-vec[2]) > Math.abs(vec[1]-vec[3])) {
+              if(!(vec==null) && (Math.abs(vec[0]-vec[2]) > Math.abs(vec[1]-vec[3]))) {
                   // line is horizontal
                   horizontalLines[nextH++] = vec.clone();
               } else {
@@ -213,27 +218,38 @@ public class SquareFinder {
     public Point findCornerPoint(double[] v1, double[] v2){
         // calculate the matrix A and vector b from the coordinates 
         // of the edge lines
+        Log.d(TAG, "Finding intersection: "+Arrays.toString(v1)+Arrays.toString(v2));
         Mat x = Mat.zeros(2, 1, CvType.CV_64F);  // result
         Mat A = new Mat(2, 2, CvType.CV_64F);
         Mat b = new Mat(2, 1, CvType.CV_64F);
+        double x1, y1;
         
         A.put(0, 0, v1[2]-v1[0]);
         A.put(0, 1, -v2[2]+v2[0]);
         A.put(1, 0, v1[3]-v1[1]);
         A.put(1, 1, -v2[3]+v2[1]);
         b.put(0, 0, v2[0]-v1[0]);
-        b.put(1, 0, v2[1]-v1[3]);
+        b.put(1, 0, v2[1]-v1[1]);
         // solve the matrix equation
         // OpenCV Java does not support the * operator on matrices.
         Core.gemm(A.inv(), b,  1, new Mat(), 0, x, 0 );
         double u = x.get(0,0)[0];
         double v = x.get(1,0)[0];
-        Log.v(TAG, "scalars u: " + u + " v: " + v);
+//        Log.d(TAG, "scalars u: " + u + " v: " + v);
+//        Log.d(TAG, "Matrix A: "+A.dump());
+//        Log.d(TAG, "b: " + b.dump());
         // insert the scalar uv into the original equation
-        double x1 = Math.round(v1[0] + u*(v1[2]-v1[0]));
-        double y1 = Math.round(v1[1] + v*(v1[3]-v1[1]));
+        if(u>0 || v<0) { // use the positive value due to better precision
+            x1 = Math.round(v1[0] + u*(v1[2]-v1[0]));
+            y1 = Math.round(v1[1] + u*(v1[3]-v1[1]));    
+        } else {
+            x1 = Math.round(v2[0] + v*(v2[2]-v2[0]));
+            y1 = Math.round(v2[1] + v*(v2[3]-v2[1]));
+        }
         Log.v(TAG, "Point (" + x1 + ", " + y1 + ")");
-        A = null; b = null; x = null;
+        A.release(); 
+        b.release();
+        x.release();
         return new Point(x1, y1);
     }
     
