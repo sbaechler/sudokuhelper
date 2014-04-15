@@ -1,6 +1,6 @@
 package ch.zahw.students.sudokuhelper;
 
-import java.util.Arrays;
+// import java.util.Arrays;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -114,7 +114,7 @@ public class SquareFinder {
         if(bestUpperHit < LINE_THRESHOLD || bestLowerHit < LINE_THRESHOLD){
             throw new NoSudokuFoundException("Number of upper or lower line ends below threshold.");
         }
-        Log.v(TAG, "Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
+        // Log.v(TAG, "Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
     }
     
     public void findLeftAndRightEdge() throws NoSudokuFoundException{
@@ -218,7 +218,7 @@ public class SquareFinder {
     public Point findCornerPoint(double[] v1, double[] v2){
         // calculate the matrix A and vector b from the coordinates 
         // of the edge lines
-        Log.d(TAG, "Finding intersection: "+Arrays.toString(v1)+Arrays.toString(v2));
+        // Log.d(TAG, "Finding intersection: "+Arrays.toString(v1)+Arrays.toString(v2));
         Mat x = Mat.zeros(2, 1, CvType.CV_64F);  // result
         Mat A = new Mat(2, 2, CvType.CV_64F);
         Mat b = new Mat(2, 1, CvType.CV_64F);
