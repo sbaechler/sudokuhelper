@@ -47,7 +47,7 @@ public class SquareFinder {
         Log.v(TAG, "Lines horizontal: " + nextH + ", vertical: " + nextV);
     }
     
-    // helper constructor used for testing without OpenCV
+    // helper constructors used for testing without OpenCV
     public SquareFinder(double[][] horizontalLines, double[][] verticalLines) throws NoSudokuFoundException {
         this.horizontalLines = horizontalLines;
         this.verticalLines = verticalLines;
@@ -57,6 +57,8 @@ public class SquareFinder {
             throw new NoSudokuFoundException("No horizontal or vertical lines found");
         }
     }
+    public SquareFinder(){}
+    
     
     public double[][] getEdges(){
         return edges;
@@ -208,7 +210,7 @@ public class SquareFinder {
      * by finding the intersection points of the edge lines.
      * It uses simple vector algebra: v1=P1+u(P2-P1) ∩ v2=P2+v(P4-P3) 
      */
-    private Point findCornerPoint(double[] v1, double[] v2){
+    public Point findCornerPoint(double[] v1, double[] v2){
         // calculate the matrix A and vector b from the coordinates 
         // of the edge lines
         Mat x = Mat.zeros(2, 1, CvType.CV_64F);  // result

@@ -4,8 +4,10 @@ import android.test.InstrumentationTestCase;
 import ch.zahw.students.sudokuhelper.NoSudokuFoundException;
 import ch.zahw.students.sudokuhelper.SquareFinder;
 
-// org.opencv.test is not in the release version yet as of 2.4.8.
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
 
+// org.opencv.test is not in the release version yet as of 2.4.8.
 
 public class SquareFinderTest extends InstrumentationTestCase {
     
@@ -13,7 +15,7 @@ public class SquareFinderTest extends InstrumentationTestCase {
     private double[][] hLines;
     private double[][] edges;
     
-    public SquareFinderTest(){
+    public void setUp(){
         vLines = new double[6][4];
         hLines = new double[6][4];
         edges = new double[4][4];
@@ -83,6 +85,15 @@ public class SquareFinderTest extends InstrumentationTestCase {
             squarefinder.findLeftAndRightEdge();
             fail("Find Edges did not throw an exception");
         } catch (NoSudokuFoundException e){  }
+    }
+    
+    public void testFindCornerPoints(){
+        SquareFinder squarefinder = new SquareFinder();
+        double[] v1 = new double[]{0, 0, 0, 100};
+        double[] v2 = new double[]{0, 0, 100, 0};
+        Point result = squarefinder.findCornerPoint(v1, v2);
+        assertEquals(0.0, result.x, 0.01);
+        assertEquals(0.0, result.y, 0.01);
     }
     
 

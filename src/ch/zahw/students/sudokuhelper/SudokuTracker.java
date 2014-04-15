@@ -25,6 +25,7 @@ public class SudokuTracker {
     
     private Mat mIntermediateMat;
     private Mat mRgba;
+    private Mat lines;
     private int width;
     private int height;
     
@@ -33,6 +34,7 @@ public class SudokuTracker {
         Log.v(TAG, "Sudoku Tracker initialized: " + width + "x" + height);
         mIntermediateMat = new Mat(height, width, CvType.CV_8UC1);
         mRgba = new Mat(height, width, CvType.CV_8UC4);
+        lines = new Mat();
         this.width = width;
         this.height = height;
     }
@@ -72,24 +74,9 @@ public class SudokuTracker {
         Imgproc.dilate(mIntermediateMat, mIntermediateMat, Imgproc.getStructuringElement(Imgproc.MORPH_CROSS, new Size(3, 3)));
     }
     
-    // helper method that toggles between red, green and blue.
-//    private Scalar getColor(){
-//        int color = count % 3;
-//        Scalar scalar = null;
-//        count ++;
-//        switch(color) {
-//            case 0: scalar = new Scalar(255,0,0);
-//                    break;
-//            case 1: scalar = new Scalar(0,255,0);
-//                    break;
-//            case 2: scalar = new Scalar(0, 0, 255);
-//                    break;
-//        }
-//        return scalar;
-//    }
     
     private void markLines() throws NoSudokuFoundException{
-        Mat lines = new Mat();
+        
         int threshold = 60;
         int minLineSize = 250;
         int lineGap = 10;
@@ -110,7 +97,6 @@ public class SudokuTracker {
 
               Core.line(mRgba, start, end, new Scalar(0,255,0), 3);           
         }
-
         finder.drawEdges(mRgba);
     }
     
