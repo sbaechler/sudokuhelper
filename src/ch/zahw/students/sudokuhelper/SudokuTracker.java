@@ -56,7 +56,7 @@ public class SudokuTracker {
             tg.startTone(ToneGenerator.TONE_PROP_BEEP);
             // TODO: throw new SudokuFoundException and change activities
         } catch (NoSudokuFoundException e) {
-            Log.v(TAG, e.getMessage());
+            // Log.v(TAG, e.getMessage());
             System.gc();
         }
         return mRgba;
@@ -76,7 +76,9 @@ public class SudokuTracker {
             meanOffset 
         );
         // dillate the result to close gaps that might have occured.
-        Imgproc.dilate(mIntermediateMat, mIntermediateMat, Imgproc.getStructuringElement(Imgproc.MORPH_CROSS, new Size(3, 3)));
+        Imgproc.dilate(mIntermediateMat, mIntermediateMat, 
+            Imgproc.getStructuringElement(Imgproc.MORPH_CROSS, new Size(3, 3))
+        );
     }
     
     
