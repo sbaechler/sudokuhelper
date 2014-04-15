@@ -1,5 +1,7 @@
 package ch.zahw.students.sudokuhelper;
 
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.util.Log;
 
 import org.opencv.core.Core;
@@ -28,6 +30,7 @@ public class SudokuTracker {
     private Mat lines;
     private int width;
     private int height;
+    final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
     
 
     public SudokuTracker(int width, int height) {
@@ -49,7 +52,9 @@ public class SudokuTracker {
         Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
         try {
             markLines();  // Throws NoSudokuFoundException
-            // throw new SudokuFoundException and change activities
+            // TODO: Add another sanity check after the matrix transformation.
+            tg.startTone(ToneGenerator.TONE_PROP_BEEP);
+            // TODO: throw new SudokuFoundException and change activities
         } catch (NoSudokuFoundException e) {
             Log.v(TAG, e.getMessage());
             System.gc();

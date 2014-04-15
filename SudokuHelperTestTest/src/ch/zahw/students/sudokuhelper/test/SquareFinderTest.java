@@ -92,8 +92,39 @@ public class SquareFinderTest extends InstrumentationTestCase {
         double[] v1 = new double[]{0, 0, 0, 100};
         double[] v2 = new double[]{0, 0, 100, 0};
         Point result = squarefinder.findCornerPoint(v1, v2);
+        // lines touch at (0,0)
         assertEquals(0.0, result.x, 0.01);
         assertEquals(0.0, result.y, 0.01);
+        
+        v1 = new double[]{0, 10, 0, 100};
+        v2 = new double[]{10, 0, 100, 0};
+        result = squarefinder.findCornerPoint(v1, v2);
+        // lines cross at (0,0)
+        assertEquals(0.0, result.x, 0.01);
+        assertEquals(0.0, result.y, 0.01);
+        
+        v1 = new double[]{50, 0, 50, 100};
+        v2 = new double[]{0, 50, 100, 50};
+        result = squarefinder.findCornerPoint(v1, v2);
+        // lines intersece at (50,50)
+        assertEquals(50.0, result.x, 0.01);
+        assertEquals(50.0, result.y, 0.01);
+        
+        v1 = new double[]{0, 0, 100, 100};
+        v2 = new double[]{0, 100, 100, 0};
+        result = squarefinder.findCornerPoint(v1, v2);
+        // lines intersece at (50,50)
+        assertEquals(50.0, result.x, 0.01);
+        assertEquals(50.0, result.y, 0.01);
+        
+        // Test previously failing corner:
+        v1 = new double[]{143, 619, 143, 231};
+        v2 = new double[]{133, 739, 703, 719};
+        result = squarefinder.findCornerPoint(v1, v2);
+        // lines intersece at (143,739)
+        assertEquals(143.0, result.x, 0.01);
+        assertEquals(739.0, result.y, 0.01);
+        
     }
     
 
