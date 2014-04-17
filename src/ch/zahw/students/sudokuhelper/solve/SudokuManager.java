@@ -4,7 +4,7 @@ public class SudokuManager {
 
 	private Sudoku sudoku;
 
-	public Sudoku solveWithNaivlyApproach(Sudoku sudoku) {
+	public Sudoku solveWithNaiveApproach(Sudoku sudoku) {
 		// eine zahl möglich -> sofort ausprobieren (rekursiv)
 
 		boolean solved = false;
