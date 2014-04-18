@@ -1,6 +1,7 @@
 package ch.zahw.students.sudokuhelper;
 
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
+import ch.zahw.students.sudokuhelper.solve.SudokuField;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +23,7 @@ public class MainActivity extends Activity {
 	private int[][] sudoku;
 	private SudokuManager sudokuManager;
 	private int lightGreen = Color.rgb(186, 243, 183);
+	private boolean isSudokuSolved = false;
 
 	// @Override
 	// protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +36,34 @@ public class MainActivity extends Activity {
 		Log.i(TAG, "called doCapture");
 		Intent intent = new Intent(this, CaptureActivity.class);
 		startActivity(intent);
+
+		isSudokuSolved = false;
 	}
 
 	/** Called when the user clicks the Solve button */
 	public void doSolve(View view) {
 		Log.i(TAG, "called doSolve");
 
-		System.out.println("TEST");
-
 		Sudoku sudokuFields = new Sudoku(sudoku);
 		sudokuManager = new SudokuManager();
 
 		sudokuManager.solveWithBetterApproach(sudokuFields);
 		fillSolvedNumber(sudokuManager.solveWithBetterApproach(sudokuFields));
+		isSudokuSolved = true;
+	}
+
+	/** Called when the user clicks the Solve button */
+	public void doStep(View view) {
+		Log.i(TAG, "called doStep");
+
+		if (!isSudokuSolved) {
+			Sudoku sudokuFields = new Sudoku(sudoku);
+			sudokuManager = new SudokuManager();
+			sudokuManager.solveWithBetterApproach(sudokuFields);
+			isSudokuSolved = true;
+		}
+		
+		fillSolvedCell(sudokuManager.getNextSolveOrder());
 	}
 
 	/** Called when the user clicks the Test button */
@@ -198,7 +215,7 @@ public class MainActivity extends Activity {
 			sudokuCell.setBackgroundColor(Color.WHITE);
 			sudokuCell.setId(cellIds[i][j]);
 
-			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(30,30);
+			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(30, 30);
 
 			cellalyout.weight = 1;
 			cellalyout.setMargins(1, 1, right, bottom);
@@ -314,6 +331,18 @@ public class MainActivity extends Activity {
 				}
 			}
 		}
+	}
+
+	private void fillSolvedCell(SudokuField sudokuField) {
+		if(sudokuField==null){
+			return;
+		}
+		int row = sudokuField.getRow();
+		int column = sudokuField.getColumn();
+		
+		EditText cell = (EditText) findViewById(cellIds[row][column]);
+		cell.setText(String.valueOf(sudokuField.getNumber()));
+		cell.setBackgroundColor(lightGreen);
 	}
 
 	private void fillSudokuTable(int[][] sudoku) {

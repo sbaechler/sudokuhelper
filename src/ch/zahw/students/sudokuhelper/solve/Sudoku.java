@@ -18,7 +18,7 @@ public class Sudoku {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				
-				fields[i][j] = new SudokuField();
+				fields[i][j] = new SudokuField(i, j);
 				
 				if (notSolvedSudoku[i][j] != 0) {
 					//TODO eventuell mögliche Zahlen aus Sudoku field löschen

@@ -6,17 +6,31 @@ public class SudokuManager {
 
 	private Sudoku sudoku;
 	private Vector<Boolean> check;
+	private Vector<SudokuField> solveOrder;
+	//TODO use command Pattern
+	private int indexNextSolveOrder;
+
+	public SudokuManager() {
+		init();
+	}
 
 	public Sudoku solveWithNaiveApproach(Sudoku sudoku) {
 		// eine zahl möglich -> sofort ausprobieren (rekursiv)
 		this.sudoku = sudoku;
-		this.check = new Vector<Boolean>();
 
+		init();
+		
 		while (!checkIfSolved()) {
 			naiveApproach(0, 0);
 		}
 
 		return sudoku;
+	}
+
+	private void init() {
+		this.check = new Vector<Boolean>();
+		this.solveOrder = new Vector<SudokuField>();
+		this.indexNextSolveOrder = -1;
 	}
 
 	private boolean naiveApproach(int row, int column) {
@@ -205,6 +219,7 @@ public class SudokuManager {
 			int number = sField.getAvailableNumbers().get(0);
 			sField.setNumber(sField.getAvailableNumbers().get(0));
 			sField.setFounded(true);
+			solveOrder.add(sField);
 			removeNotAvailablenUmber(row, column, number);
 		}
 	}
@@ -300,6 +315,20 @@ public class SudokuManager {
 
 	public Sudoku getSudoku() {
 		return sudoku;
+	}
+
+	public Vector<SudokuField> getSolveOrder() {
+		return solveOrder;
+	}
+
+	public SudokuField getNextSolveOrder() {
+		indexNextSolveOrder++;
+
+		if (indexNextSolveOrder >= solveOrder.size()) {
+			return null;
+		}
+
+		return solveOrder.get(indexNextSolveOrder);
 	}
 
 	public int[][] getSudokuAsArray(Sudoku toArray) {

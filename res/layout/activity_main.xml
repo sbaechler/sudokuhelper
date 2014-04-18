@@ -44,33 +44,38 @@
             android:id="@+id/buttonCapture"
             android:layout_width="10dp"
             android:layout_height="30dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/simple_button"
+            android:onClick="doCapture"
             android:text="@string/capture"
             android:textColor="#ffffff"
-            android:textSize="15sp"
-            android:onClick="doCapture" />
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/buttonSolve"
             android:layout_width="10dp"
             android:layout_height="30sp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/simple_button"
+            android:onClick="doSolve"
             android:text="@string/solve"
             android:textColor="#ffffffff"
-            android:textSize="15sp" 
-            android:onClick="doSolve"/>
+            android:textSize="15sp" />
+
         <Button
             android:id="@+id/buttonStep"
             android:layout_width="10dp"
-            android:layout_height="30sp"
+            android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@drawable/simple_button"
             android:drawablePadding="2dip"
+            android:onClick="doStep"
             android:text="@string/step"
             android:textColor="#ffffff"
             android:textSize="15sp" />
+
     </LinearLayout>
 
 </LinearLayout>

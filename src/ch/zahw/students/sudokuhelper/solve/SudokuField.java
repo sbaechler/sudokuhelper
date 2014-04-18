@@ -8,11 +8,15 @@ public class SudokuField {
 	private int number;
 	private boolean startGap;
 	private boolean isFounded;
+	private int row;
+	private int column;
 
-	public SudokuField() {
+	public SudokuField(int row, int column) {
 		this.number = 0;
 		this.isFounded = false;
 		this.startGap = false;
+		this.row = row;
+		this.column = column;
 		this.availableNumbers = new ArrayList<Integer>();
 		initAvailableNumbers();
 	}
@@ -50,9 +54,17 @@ public class SudokuField {
 	public void setStartGap(boolean startGap) {
 		this.startGap = startGap;
 	}
-	
+
 	public boolean isStartGap() {
 		return startGap;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
 	}
 
 }
