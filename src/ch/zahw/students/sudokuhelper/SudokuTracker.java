@@ -1,5 +1,8 @@
 package ch.zahw.students.sudokuhelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.util.Log;
@@ -11,6 +14,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.utils.Converters;
 
 
 
@@ -24,12 +28,16 @@ import org.opencv.imgproc.Imgproc;
  */
 public class SudokuTracker {
     private static final String TAG = "SudokuHelper::SudokuTracker";
+    private static final int RESULT_SIZE = 540;
     
     private Mat mIntermediateMat;
     private Mat mRgba;
     private Mat lines;
+    private Mat transform;
+    private Mat mStraight;
     private int width;
     private int height;
+    private boolean hasFoundCandidate = false;
     final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
     
 
@@ -37,6 +45,7 @@ public class SudokuTracker {
         Log.v(TAG, "Sudoku Tracker initialized: " + width + "x" + height);
         mIntermediateMat = new Mat(height, width, CvType.CV_8UC1);
         mRgba = new Mat(height, width, CvType.CV_8UC4);
+        mStraight = new Mat(RESULT_SIZE, RESULT_SIZE, CvType.CV_8UC1);
         lines = new Mat();
         this.width = width;
         this.height = height;
@@ -50,14 +59,22 @@ public class SudokuTracker {
     public Mat detect(Mat imageGray) {
         threshold(imageGray);
         Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
-        try {
-            markLines();  // Throws NoSudokuFoundException
-            // TODO: Add another sanity check after the matrix transformation.
-            tg.startTone(ToneGenerator.TONE_PROP_BEEP);
-            // TODO: throw new SudokuFoundException and change activities
-        } catch (NoSudokuFoundException e) {
-            // Log.v(TAG, e.getMessage());
-            System.gc();
+        if (!hasFoundCandidate){
+            try {
+                List<Point> points = markLines();  // Throws NoSudokuFoundException
+                // TODO: Add another sanity check after the matrix transformation.
+                tg.startTone(ToneGenerator.TONE_PROP_BEEP);
+                hasFoundCandidate = true;
+                // TODO: Start this in another thread.
+                perspectiveTransform(points); // fills mStraight
+                // uncomment this to view the result matrix.
+                // mStraight.copyTo(mIntermediateMat);
+                
+                // TODO: throw new SudokuFoundException and change activities
+            } catch (NoSudokuFoundException e) {
+                // Log.v(TAG, e.getMessage());
+                System.gc();
+            }
         }
         return mRgba;
     }
@@ -82,7 +99,7 @@ public class SudokuTracker {
     }
     
     
-    private void markLines() throws NoSudokuFoundException{
+    private List<Point> markLines() throws NoSudokuFoundException{
         
         int threshold = 60;
         int minLineSize = 250;
@@ -90,7 +107,7 @@ public class SudokuTracker {
         
         Imgproc.HoughLinesP(mIntermediateMat, lines, 1, Math.PI/90, threshold, minLineSize, lineGap);
 
-        SquareFinder finder = new SquareFinder(lines);
+        SquareFinder finder = new SquareFinder(lines, width, height);
         
         for (int x = 0; x < lines.cols(); x++) 
         {
@@ -104,10 +121,30 @@ public class SudokuTracker {
 
               Core.line(mRgba, start, end, new Scalar(0,255,0), 3);           
         }
-        finder.drawEdges(mRgba);
+        List<Point> points = finder.drawEdges(mRgba);
+        finder = null;
+        return points;
     }
     
-
+    private void perspectiveTransform(List<Point> points){
+        Mat startM = Converters.vector_Point2f_to_Mat(points);
+        Mat endM = Mat.zeros(4,2, CvType.CV_32F);
+        endM.put(0,1, RESULT_SIZE);
+        endM.put(1,0, RESULT_SIZE);
+        endM.put(1,1, RESULT_SIZE);
+        endM.put(2,0, RESULT_SIZE);       
+//        Log.v(TAG, "Start Matrix: " + startM.dump());
+//        Log.v(TAG, "End Matrix: " + endM.dump());
+        Mat transformMat = Imgproc.getPerspectiveTransform(startM, endM);
+        startM.release();
+        endM.release();
+        Imgproc.warpPerspective(mIntermediateMat, 
+                mStraight,
+                transformMat,
+                new Size(RESULT_SIZE, RESULT_SIZE), 
+                Imgproc.INTER_LINEAR);
+        transformMat.release();
+    }
     
     
     
