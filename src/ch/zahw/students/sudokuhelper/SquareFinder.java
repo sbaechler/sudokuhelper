@@ -2,6 +2,9 @@ package ch.zahw.students.sudokuhelper;
 
 // import java.util.Arrays;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -24,10 +27,14 @@ public class SquareFinder {
     private double[][] verticalLines;
     private int nextH = 0;
     private int nextV = 0;
+    private int width;
+    private int height;
+    int centerX;
+    int centerY;
     // CSS style array of lines: top, right, bottom, left
     private double[][] edges = new double[4][4];
     
-    SquareFinder(Mat lines) throws NoSudokuFoundException {
+    SquareFinder(Mat lines, int width, int height) throws NoSudokuFoundException {
         int cols = lines.cols();
         if (cols < 4) {
             throw new NoSudokuFoundException("Not enough lines found");
@@ -50,6 +57,8 @@ public class SquareFinder {
             throw new NoSudokuFoundException("No horizontal or vertical lines found");
         }
         Log.v(TAG, "Lines horizontal: " + nextH + ", vertical: " + nextV);
+        centerX = width / 2;
+        centerY = width / 2;
     }
     
     // helper constructors used for testing without OpenCV
@@ -58,6 +67,8 @@ public class SquareFinder {
         this.verticalLines = verticalLines;
         nextH = horizontalLines.length;
         nextV = verticalLines.length;
+        centerX = 360;
+        centerY = 640;
         if(nextH==0 || nextV==0) {
             throw new NoSudokuFoundException("No horizontal or vertical lines found");
         }
@@ -89,16 +100,25 @@ public class SquareFinder {
                 // if they are, count them
                 if(ay < by) { // A is above B
                     if ((hy1<=ay+t && ay<=hy2+t) || (hy1+t>=ay && ay+t>=hy2)){
-                        // A is between the left and right edge point
-                        upperHit++;
+                        // A is between the left and right edge point.
+                        // only count it if it is above the screen center.
+                        if(hy1 < centerY && hy2 < centerY) {
+                            upperHit++;
+                        }
                     } else if ((hy1<=by+t && by<=hy2+t) || (hy1+t>=by && by+t>=hy2)) {
-                        lowerHit++;
+                        if(hy1 > centerY && hy2 > centerY) {
+                            lowerHit++;
+                        }
                     }
                 } else { // B is above A
                     if ((hy1<=by+t && by<=hy2+t) || (hy1+t>=by && by+t>=hy2)) {
-                        upperHit++;
+                        if(hy1 < centerY && hy2 < centerY) {
+                            upperHit++;
+                        }
                     }  else if ((hy1<=ay+t && ay<=hy2+t) || (hy1+t>=ay && ay+t>=hy2)) {
-                        lowerHit++;
+                        if(hy1 > centerY && hy2 > centerY) {
+                            lowerHit++;
+                        }
                     }                  
                 }
             }
@@ -139,16 +159,23 @@ public class SquareFinder {
                 if(ax < bx) { // A is left of B
                     if ((vx1<=ax && ax<=vx2) || (vx1>=ax && ax>=vx2)){
                         // A is between the upper and lower edge point
-                        // TODO: Sanity check if the point is vertically within the box.
-                        leftHit++;
+                        if(vx1 < centerX && vx2 < centerX) {
+                            leftHit++;
+                        }
                     } else if ((vx1<=bx&& bx<=vx2) || (vx1>=bx && bx>=vx2)){
-                        rightHit++;
+                        if(vx1 > centerX && vx2 > centerX) {
+                            rightHit++;
+                        }
                     }
                 } else {
                     if ((vx1<=bx && bx<=vx2) || (vx1>=bx && bx>=vx2)){
-                        leftHit++;
+                        if(vx1 < centerX && vx2 < centerX) {
+                            leftHit++;
+                        }
                     } else if ((vx1<=ax && ax<=vx2) || (vx1>=ax && ax>=vx2)){
-                        rightHit++;
+                        if(vx1 > centerX && vx2 > centerX) {
+                            rightHit++;
+                        }
                     }
                 }
             }
@@ -167,7 +194,7 @@ public class SquareFinder {
         Log.v(TAG, "Best left hit: " + bestLeftHit + ", best right: " + bestRightHit);
     }
     
-    public void drawEdges(Mat mRgba) throws NoSudokuFoundException{
+    public List<Point> drawEdges(Mat mRgba) throws NoSudokuFoundException{
         // draw edge points
         findUpperAndLowerEdge();
         findLeftAndRightEdge();
@@ -198,6 +225,12 @@ public class SquareFinder {
         double a = Math.pow(tr.y-bl.y, 2) + Math.pow(tr.x-bl.x, 2);
         double b = Math.pow(tl.y-br.y, 2) + Math.pow(tl.x-br.x, 2);
         double diff = Math.abs(a-b);
+        
+        // Sanity check: The upper edge is the shortest because it is farthest
+        // from the lens. So the area of the square found must be larger than 
+        // the square of the upper line.
+
+        
 
         // draw the points cyan.
         Core.line(mRgba, tl, tl, new Scalar(20,255,255), 3);
@@ -208,6 +241,12 @@ public class SquareFinder {
         if(diff * 10 > a || diff * 10 > b) {
             throw new NoSudokuFoundException("Structure is not a square.");
         }
+        List<Point> points = new ArrayList<Point>();
+        points.add(bl);
+        points.add(br);
+        points.add(tr);
+        points.add(tl);
+        return points;
     }
     
     /**
