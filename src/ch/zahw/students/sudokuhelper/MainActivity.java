@@ -1,5 +1,7 @@
 package ch.zahw.students.sudokuhelper;
 
+import ch.zahw.students.sudokuhelper.solve.Sudoku;
+import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,32 +17,95 @@ import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 
 public class MainActivity extends Activity {
-    private static final String TAG = "SudokuHelper::MainActivity";
-    private int[][] cellIds = new int[9][9];
-        
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//    }
+	private static final String TAG = "SudokuHelper::MainActivity";
+	private int[][] cellIds = new int[9][9];
+	private int[][] sudoku;
+	private SudokuManager sudokuManager;
+	private int lightGreen = Color.rgb(186, 243, 183);
 
-    
-    /** Called when the user clicks the Capture button */
-    public void doCapture(View view) {
-        Log.i(TAG, "called doCapture");
-        Intent intent = new Intent(this, CaptureActivity.class);
-        startActivity(intent);
-    }
-    
-    /** Called when the user clicks the Test button */
-    public void doTest(View view) {
-        Intent intent = new Intent(this, TestActivity.class);
-        startActivity(intent);
-    }
-    
+	// @Override
+	// protected void onCreate(Bundle savedInstanceState) {
+	// super.onCreate(savedInstanceState);
+	// setContentView(R.layout.activity_main);
+	// }
 
-	
+	/** Called when the user clicks the Capture button */
+	public void doCapture(View view) {
+		Log.i(TAG, "called doCapture");
+		Intent intent = new Intent(this, CaptureActivity.class);
+		startActivity(intent);
+	}
 
+	/** Called when the user clicks the Solve button */
+	public void doSolve(View view) {
+		Log.i(TAG, "called doSolve");
+
+		System.out.println("TEST");
+
+		Sudoku sudokuFields = new Sudoku(sudoku);
+		sudokuManager = new SudokuManager();
+
+		sudokuManager.solveWithBetterApproach(sudokuFields);
+		fillSolvedNumber(sudokuManager.solveWithBetterApproach(sudokuFields));
+	}
+
+	/** Called when the user clicks the Test button */
+	public void doTest(View view) {
+		Intent intent = new Intent(this, TestActivity.class);
+		startActivity(intent);
+	}
+
+	public int[][] createSudokuSimply() {
+		int[][] toFillSudoku = new int[9][9];
+
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				// first: row, second: column
+				toFillSudoku[i][j] = 0;
+			}
+
+		}
+
+		toFillSudoku[0][0] = 8;
+		toFillSudoku[0][1] = 1;
+		toFillSudoku[0][2] = 2;
+		toFillSudoku[0][7] = 9;
+
+		toFillSudoku[1][0] = 5;
+		toFillSudoku[1][2] = 3;
+		toFillSudoku[1][4] = 2;
+		toFillSudoku[1][6] = 1;
+
+		toFillSudoku[2][3] = 1;
+		toFillSudoku[2][4] = 5;
+		toFillSudoku[2][8] = 6;
+
+		toFillSudoku[3][3] = 2;
+		toFillSudoku[3][4] = 4;
+		toFillSudoku[3][7] = 1;
+		toFillSudoku[3][8] = 5;
+
+		toFillSudoku[4][2] = 7;
+		toFillSudoku[4][3] = 5;
+		toFillSudoku[4][7] = 2;
+
+		toFillSudoku[5][1] = 8;
+		toFillSudoku[5][3] = 3;
+		toFillSudoku[5][7] = 4;
+
+		toFillSudoku[6][0] = 9;
+		toFillSudoku[6][5] = 4;
+
+		toFillSudoku[7][2] = 1;
+		toFillSudoku[7][6] = 7;
+		toFillSudoku[7][8] = 9;
+
+		toFillSudoku[8][0] = 3;
+		toFillSudoku[8][1] = 5;
+		toFillSudoku[8][2] = 8;
+
+		return toFillSudoku;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +113,8 @@ public class MainActivity extends Activity {
 		init();
 		setContentView(R.layout.activity_main);
 		createTable();
-		fillSudokuTable(dummySudoku());
+		sudoku = createSudokuSimply();
+		fillSudokuTable(sudoku);
 	}
 
 	private int[][] dummySudoku() {
@@ -109,9 +175,10 @@ public class MainActivity extends Activity {
 			row.setLayoutParams(tableParams);
 
 			buttom = i == 2 || i == 5 ? 3 : 1;
-
+			rowParams.weight = 1;
 			row.setBackgroundColor(Color.BLACK);
 			row.setLayoutParams(rowParams);
+
 			createCell(tableLayout, rowParams, row, i, buttom);
 			tableLayout.addView(row);
 		}
@@ -123,22 +190,20 @@ public class MainActivity extends Activity {
 
 		for (int j = 0; j < 9; j++) {
 
-			right = j==2||j==5?3:1;
+			right = j == 2 || j == 5 ? 3 : 1;
 
 			EditText sudokuCell = new EditText(this);
-			sudokuCell.setEms(6);
 			sudokuCell.setGravity(Gravity.CENTER);
 			sudokuCell.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
 			sudokuCell.setBackgroundColor(Color.WHITE);
 			sudokuCell.setId(cellIds[i][j]);
-			
-			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(
-					47,
-					47);
-			
+
+			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(30,30);
+
 			cellalyout.weight = 1;
-			cellalyout.setMargins(1,1, right, bottom);
-			
+			cellalyout.setMargins(1, 1, right, bottom);
+			sudokuCell.setPadding(0, 0, 0, 0);
+
 			sudokuCell.setLayoutParams(cellalyout);
 			tableRow.addView(sudokuCell);
 		}
@@ -237,12 +302,28 @@ public class MainActivity extends Activity {
 
 	}
 
+	private void fillSolvedNumber(Sudoku sudoku) {
+
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				if (sudoku.getField(i, j).isStartGap()) {
+					EditText cell = (EditText) findViewById(cellIds[i][j]);
+					cell.setText(String.valueOf(sudoku.getField(i, j)
+							.getNumber()));
+					cell.setBackgroundColor(lightGreen);
+				}
+			}
+		}
+	}
+
 	private void fillSudokuTable(int[][] sudoku) {
 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				EditText cell = (EditText) findViewById(cellIds[i][j]);
-				cell.setText(String.valueOf(sudoku[i][j]));
+				if (sudoku[i][j] != 0) {
+					EditText cell = (EditText) findViewById(cellIds[i][j]);
+					cell.setText(String.valueOf(sudoku[i][j]));
+				}
 			}
 		}
 	}

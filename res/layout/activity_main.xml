@@ -2,6 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/background"
+  
     android:orientation="vertical"
     android:padding="10dp" >
 
@@ -59,8 +60,7 @@
             android:text="@string/solve"
             android:textColor="#ffffffff"
             android:textSize="15sp" 
-            android:onClick="doTest" />
-
+            android:onClick="doSolve"/>
         <Button
             android:id="@+id/buttonStep"
             android:layout_width="10dp"

@@ -24,6 +24,8 @@ public class Sudoku {
 					//TODO eventuell mögliche Zahlen aus Sudoku field löschen
 					fields[i][j].setNumber(notSolvedSudoku[i][j]);
 					fields[i][j].setFounded(true);
+				}else{
+					fields[i][j].setStartGap(true);
 				}
 			}
 

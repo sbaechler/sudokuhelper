@@ -1,19 +1,57 @@
 package ch.zahw.students.sudokuhelper.solve;
 
+import java.util.Vector;
+
 public class SudokuManager {
 
 	private Sudoku sudoku;
+	private Vector<Boolean> check;
 
 	public Sudoku solveWithNaiveApproach(Sudoku sudoku) {
 		// eine zahl möglich -> sofort ausprobieren (rekursiv)
+		this.sudoku = sudoku;
+		this.check = new Vector<Boolean>();
 
-		boolean solved = false;
-
-		while (!solved) {
-
+		while (!checkIfSolved()) {
+			naiveApproach(0, 0);
 		}
 
 		return sudoku;
+	}
+
+	private boolean naiveApproach(int row, int column) {
+
+		SudokuField sf = sudoku.getField(row, column);
+		int number;
+
+		if (!sf.isFounded()) {
+			for (int i = 0; i < sf.getAvailableNumbers().size(); i++) {
+				number = sf.getAvailableNumbers().get(i);
+				if (checkIfNumberShouldBeRemoved(row, column, number)) {
+					// int index = sf.getAvailableNumbers().indexOf(number);
+					// sf.getAvailableNumbers().remove(index);
+				} else {
+
+					sf.setNumber(number);
+
+					if (row == 8 && column == 8) {
+
+						return false;
+					} else {
+
+						row = row == 7 ? 0 : row++;
+						column = column == 8 ? 0 : column++;
+						if (naiveApproach(row, column)) {
+							sf.setFounded(true);
+							return true;
+						}
+					}
+				}
+			}
+
+		}
+
+		return false;
 	}
 
 	/**
@@ -26,7 +64,8 @@ public class SudokuManager {
 		// Zahl in der gleichen Zeile entfernen
 		for (int i = 0; i < 9; i++) {
 			if (!sudoku.getField(row, i).isFounded()) {
-				int index = sudoku.getField(row, i).getAvailableNumbers().indexOf(number);
+				int index = sudoku.getField(row, i).getAvailableNumbers()
+						.indexOf(number);
 
 				if (index != -1) {
 					sudoku.getField(row, i).getAvailableNumbers().remove(index);
@@ -37,10 +76,12 @@ public class SudokuManager {
 		// Zahl in der gleichen Spalte entfernen
 		for (int i = 0; i < 9; i++) {
 			if (!sudoku.getField(i, column).isFounded()) {
-				int index = sudoku.getField(i, column).getAvailableNumbers().indexOf(number);
+				int index = sudoku.getField(i, column).getAvailableNumbers()
+						.indexOf(number);
 
 				if (index != -1) {
-					sudoku.getField(i, column).getAvailableNumbers().remove(index);
+					sudoku.getField(i, column).getAvailableNumbers()
+							.remove(index);
 				}
 			}
 		}
@@ -53,10 +94,12 @@ public class SudokuManager {
 		for (int i = qy; i < qy + 3; i++) {
 			for (int j = qx; j < qx + 3; j++) {
 				if (!sudoku.getField(i, j).isFounded()) {
-					int index = sudoku.getField(i, j).getAvailableNumbers().indexOf(number);
+					int index = sudoku.getField(i, j).getAvailableNumbers()
+							.indexOf(number);
 
 					if (index != -1) {
-						sudoku.getField(i, j).getAvailableNumbers().remove(index);
+						sudoku.getField(i, j).getAvailableNumbers()
+								.remove(index);
 					}
 				}
 			}
@@ -98,6 +141,12 @@ public class SudokuManager {
 		return false;
 	}
 
+	public Sudoku solveWithBetterApproach(int[][] sudokuArray) {
+		Sudoku sudoku = new Sudoku(sudokuArray);
+
+		return solveWithBetterApproach(sudoku);
+	}
+
 	public Sudoku solveWithBetterApproach(Sudoku sudoku) {
 		// mögliche Zahlen temporär speichern (falls eine zutrifft-> sofort das
 		// Feld auffüllen und die Zahl aus der Zeile, Spalte und Quadrat
@@ -117,8 +166,10 @@ public class SudokuManager {
 
 							number = sField.getAvailableNumbers().get(k);
 
-							if (checkIfNumberShouldBeRemoved(row, column, number)) {
-								int index = sField.getAvailableNumbers().indexOf(number);
+							if (checkIfNumberShouldBeRemoved(row, column,
+									number)) {
+								int index = sField.getAvailableNumbers()
+										.indexOf(number);
 								sField.getAvailableNumbers().remove(index);
 								k--;
 							}
@@ -136,6 +187,18 @@ public class SudokuManager {
 		return sudoku;
 	}
 
+	public void print() {
+		int[][] sud = getSudokuAsArray(sudoku);
+		for (int i = 0; i < 9; i++) {
+			System.out.print("\n-------------------\n|");
+			for (int j = 0; j < 9; j++) {
+				System.out.print(sud[i][j] + "|");
+			}
+
+		}
+		System.out.println("\n-------------------");
+	}
+
 	private void checkIsFounded(SudokuField sField, int row, int column) {
 
 		if (sField.getSizeOfAvailableNumbers() == 1) {
@@ -144,6 +207,76 @@ public class SudokuManager {
 			sField.setFounded(true);
 			removeNotAvailablenUmber(row, column, number);
 		}
+	}
+
+	public void reset() {
+		this.check = new Vector<Boolean>();
+	}
+
+	public boolean checkIfSolved2() {
+		int number = 0;
+
+		for (int row = 0; row < 9; row++) {
+			for (int i = 0; i < 9; i++) {
+
+				number = sudoku.getField(row, i).getNumber();
+
+				if (number == 0) {
+					return false;
+				}
+
+				if (check.get(number) == true) {
+					return false;
+				} else {
+					check.set(number, true);
+				}
+			}
+			reset();
+		}
+
+		for (int i = 0; i < 9; i++) {
+			for (int column = 0; column < 9; column++) {
+				number = sudoku.getField(i, column).getNumber();
+
+				if (number == 0) {
+					return false;
+				}
+
+				if (check.get(number) == true) {
+					return false;
+				} else {
+					check.set(number, true);
+				}
+			}
+			reset();
+		}
+
+		int row = 0;
+		int col = 0;
+		while (row < 8) {
+
+			for (int i = row; i < row + 3; i++) {
+				for (int j = col; j < col + 3; j++) {
+					number = sudoku.getField(row, col).getNumber();
+
+					if (number == 0) {
+						return false;
+					}
+
+					if (check.get(number) == true) {
+						return false;
+					} else {
+						check.set(number, true);
+					}
+				}
+				reset();
+			}
+
+			row += 3;
+			col = 0;
+		}
+
+		return true;
 	}
 
 	public boolean checkIfSolved() {
@@ -159,6 +292,14 @@ public class SudokuManager {
 		}
 
 		return true;
+	}
+
+	public int[][] getArrSud(int[][] arrSud) {
+		return arrSud;
+	}
+
+	public Sudoku getSudoku() {
+		return sudoku;
 	}
 
 	public int[][] getSudokuAsArray(Sudoku toArray) {
