@@ -342,4 +342,15 @@ public class SudokuManager {
 		return arrSud;
 	}
 
+	public SudokuField getPreviousSolveOrder() {
+		
+		int prev = indexNextSolveOrder-1;
+	
+		if(prev<0){
+			return null;
+		}
+		
+		return solveOrder.get(prev);
+	}
+
 }

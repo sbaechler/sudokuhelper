@@ -3,6 +3,7 @@ package ch.zahw.students.sudokuhelper;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
+import android.R.color;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -62,8 +63,8 @@ public class MainActivity extends Activity {
 			sudokuManager.solveWithBetterApproach(sudokuFields);
 			isSudokuSolved = true;
 		}
-		
-		fillSolvedCell(sudokuManager.getNextSolveOrder());
+
+		fillSolvedCell();
 	}
 
 	/** Called when the user clicks the Test button */
@@ -324,25 +325,36 @@ public class MainActivity extends Activity {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				if (sudoku.getField(i, j).isStartGap()) {
-					EditText cell = (EditText) findViewById(cellIds[i][j]);
-					cell.setText(String.valueOf(sudoku.getField(i, j)
-							.getNumber()));
-					cell.setBackgroundColor(lightGreen);
+					changeCell(i, j, sudoku.getField(i, j).getNumber(),
+							lightGreen);
 				}
 			}
 		}
 	}
 
-	private void fillSolvedCell(SudokuField sudokuField) {
-		if(sudokuField==null){
-			return;
-		}
-		int row = sudokuField.getRow();
-		int column = sudokuField.getColumn();
-		
+	private void changeCell(int row, int column, int number, int color) {
 		EditText cell = (EditText) findViewById(cellIds[row][column]);
-		cell.setText(String.valueOf(sudokuField.getNumber()));
-		cell.setBackgroundColor(lightGreen);
+
+		if (number != -1) {
+			cell.setText(String.valueOf(number));
+		}
+
+		cell.setBackgroundColor(color);
+	}
+
+	private void fillSolvedCell() {
+		SudokuField nextField = sudokuManager.getNextSolveOrder();
+		SudokuField prevSf = sudokuManager.getPreviousSolveOrder();
+
+		if (nextField != null) {
+			changeCell(nextField.getRow(), nextField.getColumn(),
+					nextField.getNumber(), Color.GREEN);
+		}
+
+		if (prevSf != null) {
+			changeCell(prevSf.getRow(), prevSf.getColumn(), -1, lightGreen);
+		}
+
 	}
 
 	private void fillSudokuTable(int[][] sudoku) {
@@ -350,8 +362,7 @@ public class MainActivity extends Activity {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				if (sudoku[i][j] != 0) {
-					EditText cell = (EditText) findViewById(cellIds[i][j]);
-					cell.setText(String.valueOf(sudoku[i][j]));
+					changeCell(i, j, sudoku[i][j], Color.WHITE);
 				}
 			}
 		}
