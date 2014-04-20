@@ -220,10 +220,10 @@ public class SquareFinder {
         }
         
         // Sanity check: The Sudoku has to be about square
-        // calculate and compare the square distance of the diagonals
+        // calculate and compare the distance of the diagonals
         // raise an exception if the difference is more than 10%.
-        double a = Math.pow(tr.y-bl.y, 2) + Math.pow(tr.x-bl.x, 2);
-        double b = Math.pow(tl.y-br.y, 2) + Math.pow(tl.x-br.x, 2);
+        double a = Math.sqrt(Math.pow(tr.y-bl.y, 2) + Math.pow(tr.x-bl.x, 2));
+        double b = Math.sqrt(Math.pow(tl.y-br.y, 2) + Math.pow(tl.x-br.x, 2));
         double diff = Math.abs(a-b);
         
         // Sanity check: The upper edge is the shortest because it is farthest
