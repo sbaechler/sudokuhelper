@@ -1,9 +1,5 @@
 package ch.zahw.students.sudokuhelper;
 
-import ch.zahw.students.sudokuhelper.solve.Sudoku;
-import ch.zahw.students.sudokuhelper.solve.SudokuField;
-import ch.zahw.students.sudokuhelper.solve.SudokuManager;
-import android.R.color;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +13,9 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
+import ch.zahw.students.sudokuhelper.solve.Sudoku;
+import ch.zahw.students.sudokuhelper.solve.SudokuField;
+import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 
 public class MainActivity extends Activity {
 	private static final String TAG = "SudokuHelper::MainActivity";
@@ -178,11 +177,11 @@ public class MainActivity extends Activity {
 
 	private void createRow(TableLayout tableLayout) {
 		TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(
-				TableLayout.LayoutParams.WRAP_CONTENT,
-				TableLayout.LayoutParams.WRAP_CONTENT);
+				TableLayout.LayoutParams.MATCH_PARENT,
+				TableLayout.LayoutParams.MATCH_PARENT);
 		TableRow.LayoutParams rowParams = new TableRow.LayoutParams(
-				TableRow.LayoutParams.WRAP_CONTENT,
-				TableRow.LayoutParams.WRAP_CONTENT);
+				TableRow.LayoutParams.MATCH_PARENT,
+				TableRow.LayoutParams.MATCH_PARENT);
 		tableLayout.setLayoutParams(tableParams);
 
 		int buttom;
@@ -216,7 +215,7 @@ public class MainActivity extends Activity {
 			sudokuCell.setBackgroundColor(Color.WHITE);
 			sudokuCell.setId(cellIds[i][j]);
 
-			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(30, 30);
+			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(rowParams.MATCH_PARENT, rowParams.MATCH_PARENT);
 
 			cellalyout.weight = 1;
 			cellalyout.setMargins(1, 1, right, bottom);
