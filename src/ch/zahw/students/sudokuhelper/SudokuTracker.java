@@ -76,6 +76,7 @@ public class SudokuTracker {
                 System.gc();
             }
         }
+        // Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
         return mRgba;
     }
     
@@ -129,6 +130,7 @@ public class SudokuTracker {
     private void perspectiveTransform(List<Point> points){
         Mat startM = Converters.vector_Point2f_to_Mat(points);
         Mat endM = Mat.zeros(4,2, CvType.CV_32F);
+        // Mat tempM = new Mat();
         endM.put(0,1, RESULT_SIZE);
         endM.put(1,0, RESULT_SIZE);
         endM.put(1,1, RESULT_SIZE);
@@ -144,6 +146,9 @@ public class SudokuTracker {
                 new Size(RESULT_SIZE, RESULT_SIZE), 
                 Imgproc.INTER_LINEAR);
         transformMat.release();
+        // inverse the result, so text is black on white.
+        // Core.bitwise_not(tempM, mStraight);
+        // tempM.release();
     }
     
     
