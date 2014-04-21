@@ -9,6 +9,8 @@ import org.opencv.android.Utils;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -79,7 +81,8 @@ public class TestActivity extends Activity {
         
         // send the image to the tracker
         mRgba = sudokuTracker.detect(mGray);
-
+        Mat mStraight = sudokuTracker.getMStraight();
+        Imgproc.cvtColor(mStraight, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 );
         
     
         // convert to bitmap:

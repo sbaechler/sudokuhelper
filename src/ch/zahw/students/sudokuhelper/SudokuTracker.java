@@ -38,6 +38,7 @@ public class SudokuTracker {
     private int width;
     private int height;
     private boolean hasFoundCandidate = false;
+    private DigitExtractor digitExtractor;
     final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
     
 
@@ -46,9 +47,14 @@ public class SudokuTracker {
         mIntermediateMat = new Mat(height, width, CvType.CV_8UC1);
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mStraight = new Mat(RESULT_SIZE, RESULT_SIZE, CvType.CV_8UC1);
+        digitExtractor = new DigitExtractor(mStraight);
         lines = new Mat();
         this.width = width;
         this.height = height;
+    }
+    
+    public Mat getMStraight() {
+        return mStraight;
     }
     
     /**
@@ -69,7 +75,7 @@ public class SudokuTracker {
                 // TODO: Start this in another thread.
                 perspectiveTransform(points); // fills mStraight
                 // uncomment this to view the result matrix.
-                // mStraight.copyTo(mIntermediateMat);
+                digitExtractor.extractDigits();
                 
                 // TODO: throw new SudokuFoundException and change activities
             } catch (NoSudokuFoundException e) {
@@ -152,6 +158,8 @@ public class SudokuTracker {
         // Core.bitwise_not(tempM, mStraight);
         // tempM.release();
     }
+
+
     
     
     
