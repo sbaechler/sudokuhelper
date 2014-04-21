@@ -75,7 +75,7 @@ public class SudokuTracker {
                 // TODO: Start this in another thread.
                 perspectiveTransform(points); // fills mStraight
                 // uncomment this to view the result matrix.
-                digitExtractor.extractDigits();
+                // digitExtractor.extractDigits();
                 
                 // TODO: throw new SudokuFoundException and change activities
             } catch (NoSudokuFoundException e) {

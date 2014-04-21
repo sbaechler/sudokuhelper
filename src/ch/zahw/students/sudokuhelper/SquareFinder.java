@@ -71,13 +71,14 @@ public class SquareFinder {
         this.verticalLines = verticalLines;
         nextH = horizontalLines.length;
         nextV = verticalLines.length;
-        centerX = 360;
-        centerY = 640;
+        centerX = 240;
+        centerY = 240;
         if(nextH==0 || nextV==0) {
             throw new NoSudokuFoundException("No horizontal or vertical lines found");
         }
     }
-    public SquareFinder(){}
+    public SquareFinder(){
+    }
     
     
     public double[][] getEdges(){
@@ -136,7 +137,7 @@ public class SquareFinder {
             }
         }
         if(bestUpperHit < LINE_THRESHOLD || bestLowerHit < LINE_THRESHOLD){
-            throw new NoSudokuFoundException("Number of upper or lower line ends below threshold.");
+            throw new NoSudokuFoundException("Number of upper ("+bestUpperHit+") or lower ("+bestLowerHit+") line ends below threshold. h");
         }
         // Log.v(TAG, "Best upper hit: " + bestUpperHit + ", best lower: " + bestLowerHit);
     }
@@ -193,7 +194,7 @@ public class SquareFinder {
             }
         }
         if(bestLeftHit < LINE_THRESHOLD || bestRightHit < LINE_THRESHOLD){
-            throw new NoSudokuFoundException("Number of left or right line ends below threshold.");
+            throw new NoSudokuFoundException("Number of left or right line ends below threshold: L" + bestLeftHit + " R" + bestRightHit);
         }
         Log.v(TAG, "Best left hit: " + bestLeftHit + ", best right: " + bestRightHit);
     }
