@@ -11,6 +11,8 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+import android.util.Log;
+
 
 
 /**
@@ -20,7 +22,8 @@ import org.opencv.imgproc.Imgproc;
  *
  */
 public class DigitExtractor {
-
+    private static final String TAG = "SudokuHelper::DigitExtractor";
+    private static final double MIN_ASPECT_RATIO = 0.3;
     private Mat source;
     private int sudokuSize;
     private int fieldSize;
@@ -41,11 +44,19 @@ public class DigitExtractor {
         if(source.rows() != sudokuSize) {
             throw new IllegalArgumentException("Source Mat needs to be square");
         }
-        borderWidth = sudokuSize/200;
+        borderWidth = sudokuSize/80;
         fieldSize = (int) Math.floor(sudokuSize/9);
     }
     
-
+    public void extractDigits(){
+        for (int row=0; row<9; row++){
+            for (int col=0; col<9; col++) {
+                Mat field = getFieldAt(row, col);
+                drawBoundingBox(field, row, col);
+            }
+        }
+    }
+    
     
     /**
      * This method returns a submatrix which is a pointer to the source matrix.
@@ -69,31 +80,55 @@ public class DigitExtractor {
      */
     public Rect getBoundingBoxFor(Mat field) {
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-        Imgproc.findContours(field, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-        double maxArea = -1;
+        Mat tempField = new Mat(field.rows(), field.cols(), field.type());
+        field.copyTo(tempField);
+        Imgproc.findContours(tempField, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        // Log.v(TAG, "Contours size: " + contours.size());
+        double maxArea = -1, 
+               contourarea;
+        double limitArea = field.cols() * field.rows() * 8/10;
         int maxAreaIdx = -1;
         for (int idx = 0; idx < contours.size(); idx++) {
             Mat contour = contours.get(idx);
-            double contourarea = Imgproc.contourArea(contour);
+            contourarea = Imgproc.contourArea(contour);
             if (contourarea > maxArea) {
                 maxArea = contourarea;
                 maxAreaIdx = idx;
+            } else if (contourarea > limitArea){
+                // if the box is larger than 80% of the field, it must be empty.
+                return null;
             }
         }
+        tempField.release();
+        if (maxArea == -1){
+            return null;
+        }
+        
         Rect rect = Imgproc.boundingRect(contours.get(maxAreaIdx));
+        // check the aspect ratio of the found area. If it is less than 1:3,
+        // it is invalid.
+        if((double)rect.width/rect.height < MIN_ASPECT_RATIO || (double)rect.height/rect.width < MIN_ASPECT_RATIO){
+            // Log.v(TAG, "Bad aspect ratio: " + ((double)rect.width/rect.height) + ", " + ((double)rect.height/rect.width));
+            return null;
+        }
+        
         return rect;
     }
 
     /**
      * A helper method used during development and debugging.
      */
-    public void drawBoundingBoxes(Mat field, int row, int col){
+    public void drawBoundingBox(Mat field, int row, int col){
         Rect rect = getBoundingBoxFor(field);
-        int x = rect.x + col*fieldSize;
-        int y = rect.y + row*fieldSize;
-        Core.rectangle(field, new Point(x, y), 
-                new Point(x+rect.width, y+rect.height),
-                new Scalar(255), 3);
+        if (rect != null){
+            int x = rect.x + col*fieldSize + borderWidth;
+            int y = rect.y + row*fieldSize + borderWidth;
+            // Log.v(TAG, "Bounding box: " + x + ", " + y + " w:" + rect.width + " h: " + rect.height);
+            Core.rectangle(source, new Point(x, y), 
+                    new Point(x+rect.width, y+rect.height),
+                    new Scalar(192));
+        }
+
     }
     
 }
