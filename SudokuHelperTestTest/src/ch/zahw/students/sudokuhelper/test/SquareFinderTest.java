@@ -1,11 +1,17 @@
 package ch.zahw.students.sudokuhelper.test;
 
+import java.io.IOException;
+
 import android.test.InstrumentationTestCase;
+import android.util.Log;
+import ch.zahw.students.sudokuhelper.DigitExtractor;
 import ch.zahw.students.sudokuhelper.NoSudokuFoundException;
 import ch.zahw.students.sudokuhelper.SquareFinder;
 
+import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.highgui.Highgui;
 
 // org.opencv.test is not in the release version yet as of 2.4.8.
 
@@ -26,12 +32,12 @@ public class SquareFinderTest extends InstrumentationTestCase {
      * and 100/500.
      */
     public void testLines() {
-        hLines[0] = new double[]{10.0, 10.0,  100.0, 10.0};
-        hLines[1] = new double[]{10.0, 100.0, 100.0, 100.0};
-        hLines[2] = new double[]{ 0.0, 200.0, 150.0, 200.0};
-        hLines[3] = new double[]{10.0, 300.0, 100.0, 300.0};
-        hLines[4] = new double[]{10.0, 400.0, 100.0, 400.0};
-        hLines[5] = new double[]{10.0, 500.0, 100.0, 500.0};
+        hLines[0] = new double[]{10.0, 10.0,  500.0, 10.0};
+        hLines[1] = new double[]{10.0, 100.0, 500.0, 100.0};
+        hLines[2] = new double[]{ 0.0, 200.0, 550.0, 200.0};
+        hLines[3] = new double[]{10.0, 300.0, 500.0, 300.0};
+        hLines[4] = new double[]{10.0, 400.0, 500.0, 400.0};
+        hLines[5] = new double[]{10.0, 500.0, 500.0, 500.0};
         
         vLines[0] = new double[]{ 10.0, 10.0,  10.0, 500.0};
         vLines[1] = new double[]{100.0, 10.0, 100.0, 500.0};
@@ -40,9 +46,9 @@ public class SquareFinderTest extends InstrumentationTestCase {
         vLines[4] = new double[]{400.0, 10.0, 400.0, 500.0};
         vLines[5] = new double[]{500.0, 10.0, 500.0, 500.0};
         
-        edges[0] = new double[]{10.0, 10.0, 100.0, 10.0};
-        edges[1] = new double[]{100.0, 10.0, 100.0, 500.0};
-        edges[2] = new double[]{10.0, 500.0, 100.0, 500.0};
+        edges[0] = new double[]{10.0, 10.0, 500.0, 10.0};
+        edges[1] = new double[]{500.0, 10.0, 500.0, 500.0};
+        edges[2] = new double[]{10.0, 500.0, 500.0, 500.0};
         edges[3] = new double[]{10.0, 10.0, 10.0, 500.0};
         
         SquareFinder squarefinder = null;
@@ -64,7 +70,8 @@ public class SquareFinderTest extends InstrumentationTestCase {
         assertEquals(calculatedEdges.length, edges.length);
         for(int i = 0; i<4; i++) {
             for (int j = 0; j<4; j++) {
-                assertEquals("Compare edge " + i + ", " + j, edges[i][j], calculatedEdges[i][j], 0.001);
+                assertEquals("Compare edge " + i + ", " + j, 
+                        edges[i][j], calculatedEdges[i][j], 0.001);
             }
         }
         
@@ -124,6 +131,52 @@ public class SquareFinderTest extends InstrumentationTestCase {
         // lines intersece at (143,739)
         assertEquals(143.0, result.x, 0.01);
         assertEquals(739.0, result.y, 0.01);
+        
+    }
+    
+    public void testFindBoundingBoxes(){
+        // sudoku1 has 27 digits
+        Mat mGray = null;
+        try {
+            mGray = Utils.loadResource(getInstrumentation().getContext(), R.raw.sudoku1, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        DigitExtractor extractor = new DigitExtractor(mGray);
+        try {
+            extractor.extractDigits();
+        } catch (NoSudokuFoundException e1) {
+            fail(e1.getMessage());
+        }
+        assertEquals(27, extractor.getDigitCount());
+        
+        // sudoku2 has 24 digits
+        try {
+            mGray = Utils.loadResource(getInstrumentation().getContext(), R.raw.sudoku2, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        extractor = new DigitExtractor(mGray);
+        try {
+            extractor.extractDigits();
+        } catch (NoSudokuFoundException e1) {
+            fail(e1.getMessage());
+        }
+        assertEquals(24, extractor.getDigitCount());
+        
+        // sudoku3 is not recognized correctly. This should fail
+        try {
+            mGray = Utils.loadResource(getInstrumentation().getContext(), R.raw.sudoku3, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        extractor = new DigitExtractor(mGray);
+        try {
+            extractor.extractDigits();
+            fail("Bad Sudoku did not throw exception");
+        } catch (NoSudokuFoundException e) {
+            assert(e instanceof NoSudokuFoundException);
+        }
         
     }
     

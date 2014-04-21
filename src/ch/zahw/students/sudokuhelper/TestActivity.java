@@ -1,5 +1,6 @@
 package ch.zahw.students.sudokuhelper;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -14,6 +15,7 @@ import org.opencv.imgproc.Imgproc;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -82,7 +84,22 @@ public class TestActivity extends Activity {
         // send the image to the tracker
         mRgba = sudokuTracker.detect(mGray);
         Mat mStraight = sudokuTracker.getMStraight();
+        DigitExtractor extractor = new DigitExtractor(mStraight);
         Imgproc.cvtColor(mStraight, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 );
+
+        try {
+            extractor.extractDigits(mRgba);
+        } catch (NoSudokuFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        
+        // write the Mat to disk for test use. (uncomment permission in AndroidManifest)
+//        File file = new File(Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES), "straightMat.png");
+//        Log.i(TAG, "Saving mat to " + file.toString());
+//        Highgui.imwrite(file.toString(), mStraight);
         
     
         // convert to bitmap:
