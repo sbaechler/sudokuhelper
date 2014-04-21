@@ -61,6 +61,7 @@ public class SudokuTracker {
         Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
         if (!hasFoundCandidate){
             try {
+                Imgproc.medianBlur(mIntermediateMat, mIntermediateMat, 3);
                 List<Point> points = markLines();  // Throws NoSudokuFoundException
                 // TODO: Add another sanity check after the matrix transformation.
                 tg.startTone(ToneGenerator.TONE_PROP_BEEP);
@@ -146,6 +147,7 @@ public class SudokuTracker {
                 new Size(RESULT_SIZE, RESULT_SIZE), 
                 Imgproc.INTER_LINEAR);
         transformMat.release();
+        Imgproc.threshold(mStraight, mStraight, 128, 255, Imgproc.THRESH_BINARY);
         // inverse the result, so text is black on white.
         // Core.bitwise_not(tempM, mStraight);
         // tempM.release();

@@ -43,15 +43,19 @@ public class SquareFinder {
         verticalLines = new double[cols][4];
         Log.v(TAG, "Lines size: " + lines.cols());
         // split up the lines matrix into horizontal and vertical lines
-        for (int x = 0; x < lines.cols(); x++) 
-        {
-              double[] vec = lines.get(0, x);
-              if(!(vec==null) && (Math.abs(vec[0]-vec[2]) > Math.abs(vec[1]-vec[3]))) {
-                  // line is horizontal
-                  horizontalLines[nextH++] = vec.clone();
-              } else {
-                  verticalLines[nextV++] = vec.clone();
-              }
+        try {
+            for (int x = 0; x < lines.cols(); x++) 
+            {
+                  double[] vec = lines.get(0, x);
+                  if(!(vec==null) && (Math.abs(vec[0]-vec[2]) > Math.abs(vec[1]-vec[3]))) {
+                      // line is horizontal
+                      horizontalLines[nextH++] = vec.clone();
+                  } else {
+                      verticalLines[nextV++] = vec.clone();
+                  }
+            }
+        } catch(NullPointerException e){
+            throw new NoSudokuFoundException("Bad format of lines found");
         }
         if(nextH==0 || nextV==0) {
             throw new NoSudokuFoundException("No horizontal or vertical lines found");
