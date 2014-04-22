@@ -112,7 +112,7 @@ public class DigitExtractor {
         double maxArea = -1, 
                contourarea;
         double upperAreaLimit = field.cols() * field.rows() * 8.0/10.0;
-        double lowerAreaLimit = field.cols() * field.rows() / 30.0;
+        double lowerAreaLimit = field.cols() * field.rows() / 10.0;
         int maxAreaIdx = -1;
         for (int idx = 0; idx < contours.size(); idx++) {
             Mat contour = contours.get(idx);
