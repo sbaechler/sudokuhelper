@@ -3,6 +3,7 @@ package ch.zahw.students.sudokuhelper.capture;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.util.Log;
@@ -42,12 +43,13 @@ public class SudokuTracker {
     final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
     
 
-    public SudokuTracker(int width, int height) {
+    public SudokuTracker(int width, int height, Context context) {
         Log.v(TAG, "Sudoku Tracker initialized: " + width + "x" + height);
         mIntermediateMat = new Mat(height, width, CvType.CV_8UC1);
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mStraight = new Mat(RESULT_SIZE, RESULT_SIZE, CvType.CV_8UC1);
-        digitExtractor = new DigitExtractor(mStraight);
+//        digitExtractor = new DigitExtractor(context);
+//        digitExtractor.setSource(mStraight);
         lines = new Mat();
         this.width = width;
         this.height = height;
