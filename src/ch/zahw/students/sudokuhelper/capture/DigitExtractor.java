@@ -12,6 +12,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+import android.content.Context;
 import android.util.Log;
 
 
@@ -32,13 +33,20 @@ public class DigitExtractor {
     private int fieldSize;
     private int borderWidth;
     private int digitCount = 0;
+    // private Context context;
+    private Recognizer recognizer;
     
     
     /**
-     * The default constructor. Takes the straightened Sudoku Mat as argument.
-     * @param source
+     * The default constructor. Takes the application context as argument.
+     * @param applicationContext - the applicationContext of the Android app.
      */
-    public DigitExtractor(Mat source){
+    public DigitExtractor(Context applicationContext){
+        // this.context = applicationContext;
+        this.recognizer = new NeuralNetworkRecognizer(applicationContext);
+    }
+    
+    public void setSource(Mat source) {
         this.source = source;
         sudokuSize = source.cols();
         if(source.rows() != sudokuSize) {
@@ -67,6 +75,8 @@ public class DigitExtractor {
                     digitCount++;
                     rowCount++;
                     drawBoundingBox(mat, rect, row, col);
+                    Mat box = field.submat(rect);
+                    recognizer.recognize(box);
                 }
             }
             if(rowCount > MAX_ROW_HITS){

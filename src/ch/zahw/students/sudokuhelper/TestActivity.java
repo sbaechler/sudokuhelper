@@ -19,7 +19,6 @@ import ch.zahw.students.sudokuhelper.capture.SudokuTracker;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -37,6 +36,7 @@ public class TestActivity extends Activity {
     private Mat mGray;
     private Mat mRgba;
     private static SudokuTracker sudokuTracker;
+    private static DigitExtractor digitExtractor;
     
     public TestActivity() {
         Log.v(TAG, "Test Activity initialized: " + WIDTH + "x" + HEIGHT);
@@ -56,8 +56,8 @@ public class TestActivity extends Activity {
             if (status == LoaderCallbackInterface.SUCCESS ) {
                 Log.v(TAG, "OpenCV loaded...");
                 mGray = new Mat(HEIGHT, WIDTH, CvType.CV_8UC1);
-                // mRgba = new Mat(HEIGHT, WIDTH, CvType.CV_8UC4);
-                sudokuTracker = new SudokuTracker(WIDTH, HEIGHT);
+                sudokuTracker = new SudokuTracker(WIDTH, HEIGHT, getApplicationContext());
+                digitExtractor = new DigitExtractor(getApplicationContext());
 
                 // now we can call opencv code !
                 findSudoku();
@@ -88,11 +88,11 @@ public class TestActivity extends Activity {
         // send the image to the tracker
         mRgba = sudokuTracker.detect(mGray);
         Mat mStraight = sudokuTracker.getMStraight();
-        DigitExtractor extractor = new DigitExtractor(mStraight);
+        digitExtractor.setSource(mStraight);
         Imgproc.cvtColor(mStraight, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 );
 
         try {
-            extractor.extractDigits(mRgba);
+            digitExtractor.extractDigits(mRgba);
         } catch (NoSudokuFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

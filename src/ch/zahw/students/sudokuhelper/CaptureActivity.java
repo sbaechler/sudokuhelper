@@ -73,7 +73,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     }
     
     public void onCameraViewStarted(int width, int height) {
-        sudokuTracker = new SudokuTracker(width, height);
+        sudokuTracker = new SudokuTracker(width, height, getApplicationContext());
     }
 
     public void onCameraViewStopped() {
