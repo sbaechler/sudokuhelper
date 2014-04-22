@@ -8,6 +8,8 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.core.Mat;
 
+import ch.zahw.students.sudokuhelper.capture.SudokuTracker;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;

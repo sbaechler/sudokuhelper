@@ -1,4 +1,4 @@
-package ch.zahw.students.sudokuhelper;
+package ch.zahw.students.sudokuhelper.capture;
 
 @SuppressWarnings("serial")
 public class NoSudokuFoundException extends Exception {

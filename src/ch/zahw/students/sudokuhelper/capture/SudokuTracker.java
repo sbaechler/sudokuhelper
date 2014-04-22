@@ -1,4 +1,4 @@
-package ch.zahw.students.sudokuhelper;
+package ch.zahw.students.sudokuhelper.capture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,16 +74,14 @@ public class SudokuTracker {
                 hasFoundCandidate = true;
                 // TODO: Start this in another thread.
                 perspectiveTransform(points); // fills mStraight
-                // uncomment this to view the result matrix.
-                // digitExtractor.extractDigits();
                 
                 // TODO: throw new SudokuFoundException and change activities
             } catch (NoSudokuFoundException e) {
                 // Log.v(TAG, e.getMessage());
                 System.gc();
+                hasFoundCandidate = false;
             }
         }
-        // Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
         return mRgba;
     }
     

@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;
-import ch.zahw.students.sudokuhelper.DigitExtractor;
-import ch.zahw.students.sudokuhelper.NoSudokuFoundException;
-import ch.zahw.students.sudokuhelper.SquareFinder;
+import ch.zahw.students.sudokuhelper.capture.DigitExtractor;
+import ch.zahw.students.sudokuhelper.capture.NoSudokuFoundException;
+import ch.zahw.students.sudokuhelper.capture.SquareFinder;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
