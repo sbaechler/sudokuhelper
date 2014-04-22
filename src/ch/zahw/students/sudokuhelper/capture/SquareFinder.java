@@ -1,4 +1,4 @@
-package ch.zahw.students.sudokuhelper;
+package ch.zahw.students.sudokuhelper.capture;
 
 // import java.util.Arrays;
 

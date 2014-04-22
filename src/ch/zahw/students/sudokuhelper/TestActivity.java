@@ -12,6 +12,10 @@ import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
+import ch.zahw.students.sudokuhelper.capture.DigitExtractor;
+import ch.zahw.students.sudokuhelper.capture.NoSudokuFoundException;
+import ch.zahw.students.sudokuhelper.capture.SudokuTracker;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
