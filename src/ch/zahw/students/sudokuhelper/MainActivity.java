@@ -25,12 +25,6 @@ public class MainActivity extends Activity {
 	private int lightGreen = Color.rgb(186, 243, 183);
 	private boolean isSudokuSolved = false;
 
-	// @Override
-	// protected void onCreate(Bundle savedInstanceState) {
-	// super.onCreate(savedInstanceState);
-	// setContentView(R.layout.activity_main);
-	// }
-
 	/** Called when the user clicks the Capture button */
 	public void doCapture(View view) {
 		Log.i(TAG, "called doCapture");
@@ -172,6 +166,7 @@ public class MainActivity extends Activity {
 
 	private void createTable() {
 		TableLayout tLayout = (TableLayout) findViewById(R.id.sudoku_table);
+		tLayout.setClickable(false);
 		createRow(tLayout);
 	}
 
@@ -214,8 +209,10 @@ public class MainActivity extends Activity {
 			sudokuCell.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
 			sudokuCell.setBackgroundColor(Color.WHITE);
 			sudokuCell.setId(cellIds[i][j]);
-
-			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(rowParams.MATCH_PARENT, rowParams.MATCH_PARENT);
+			sudokuCell.setFocusable(false);
+			
+			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(
+					TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
 
 			cellalyout.weight = 1;
 			cellalyout.setMargins(1, 1, right, bottom);
@@ -365,6 +362,7 @@ public class MainActivity extends Activity {
 				}
 			}
 		}
+		
 	}
 
 }
