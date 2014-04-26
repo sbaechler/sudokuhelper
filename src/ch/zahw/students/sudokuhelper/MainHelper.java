@@ -38,9 +38,7 @@ public class MainHelper {
 	// 2. nur einmal das Sudoku zu lösen
 	private void internSolve(){
 		if (!isSudokuSolved) {
-			Sudoku sudokuFields = new Sudoku(sudoku);
-			sudokuManager = new SudokuManager();
-			this.solvedSudoku = sudokuManager.solveWithBetterApproach(sudokuFields);
+			this.solvedSudoku = sudokuManager.solveWithBetterApproach(sudoku);
 			isSudokuSolved = true;
 		}
 	}
