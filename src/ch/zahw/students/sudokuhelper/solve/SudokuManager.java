@@ -7,7 +7,6 @@ public class SudokuManager {
 	private Sudoku sudoku;
 	private Vector<Boolean> check;
 	private Vector<SudokuField> solveOrder;
-	//TODO use command Pattern
 	private int indexNextSolveOrder;
 
 	public SudokuManager() {
@@ -340,6 +339,91 @@ public class SudokuManager {
 			}
 		}
 		return arrSud;
+	}
+	
+	
+	// TODO wieder löschen
+	public int[][] createSudokuSimply() {
+		int[][] toFillSudoku = new int[9][9];
+
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				// first: row, second: column
+				toFillSudoku[i][j] = 0;
+			}
+
+		}
+
+		toFillSudoku[0][0] = 8;
+		toFillSudoku[0][1] = 1;
+		toFillSudoku[0][2] = 2;
+		toFillSudoku[0][7] = 9;
+
+		toFillSudoku[1][0] = 5;
+		toFillSudoku[1][2] = 3;
+		toFillSudoku[1][4] = 2;
+		toFillSudoku[1][6] = 1;
+
+		toFillSudoku[2][3] = 1;
+		toFillSudoku[2][4] = 5;
+		toFillSudoku[2][8] = 6;
+
+		toFillSudoku[3][3] = 2;
+		toFillSudoku[3][4] = 4;
+		toFillSudoku[3][7] = 1;
+		toFillSudoku[3][8] = 5;
+
+		toFillSudoku[4][2] = 7;
+		toFillSudoku[4][3] = 5;
+		toFillSudoku[4][7] = 2;
+
+		toFillSudoku[5][1] = 8;
+		toFillSudoku[5][3] = 3;
+		toFillSudoku[5][7] = 4;
+
+		toFillSudoku[6][0] = 9;
+		toFillSudoku[6][5] = 4;
+
+		toFillSudoku[7][2] = 1;
+		toFillSudoku[7][6] = 7;
+		toFillSudoku[7][8] = 9;
+
+		toFillSudoku[8][0] = 3;
+		toFillSudoku[8][1] = 5;
+		toFillSudoku[8][2] = 8;
+
+		return toFillSudoku;
+	}
+
+	// TODO wieder löschen
+	private int[][] dummySudoku() {
+
+		int k = 0;
+		int fillCount = 1;
+		int subGrid = 1;
+		int N = 3;
+		int[][] sudoku = new int[N * N][N * N];
+		for (int i = 0; i < N * N; i++) {
+			if (k == N) {
+				k = 1;
+				subGrid++;
+				fillCount = subGrid;
+			} else {
+				k++;
+				if (i != 0)
+					fillCount = fillCount + N;
+			}
+			for (int j = 0; j < N * N; j++) {
+				if (fillCount == N * N) {
+					sudoku[i][j] = fillCount;
+					fillCount = 1;
+				} else {
+					sudoku[i][j] = fillCount++;
+				}
+			}
+		}
+
+		return sudoku;
 	}
 
 	public SudokuField getPreviousSolveOrder() {
