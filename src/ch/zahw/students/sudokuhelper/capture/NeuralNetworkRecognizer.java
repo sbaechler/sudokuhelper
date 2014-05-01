@@ -26,14 +26,14 @@ public class NeuralNetworkRecognizer implements Recognizer {
     private double minScore;
     private Context context;
     private CvANN_MLP nnetwork;
+    // private int debug = 0;
+    private Mat scaled;
     
     
     public NeuralNetworkRecognizer(Context applicationContext) {
         this.context = applicationContext;
-//        Mat layerSizes = new MatOfInt(new int[]{256,16,10});
-//        layerSizes = layerSizes.t();
-//        Log.v(TAG, "layerSizes: " + layerSizes.dump());
-        nnetwork = new CvANN_MLP();
+        this.scaled = new Mat(16,16, CvType.CV_8UC1);
+        this.nnetwork = new CvANN_MLP();
 
         // Hack for Android to allow loading a file into the neural network.
         File f = new File(context.getCacheDir(), "param.xml");
@@ -87,18 +87,33 @@ public class NeuralNetworkRecognizer implements Recognizer {
      * @return 1x256 Pixel Mat to be sent to the neural network.
      */
     public Mat preprocess(Mat candidate){
-        Mat scaled = new Mat(16,16, CvType.CV_8UC1);
-        Imgproc.resize(candidate, scaled, scaled.size());
+        Mat reshaped = Mat.ones(1, ATTRIBUTES, CvType.CV_64F);
         double[] result = new double[ATTRIBUTES];
+
         // normalize and invert the matrix
+        Imgproc.resize(candidate, scaled, scaled.size());
+        Imgproc.adaptiveThreshold( 
+                scaled, 
+                scaled, 
+                1, // maxValue
+                Imgproc.ADAPTIVE_THRESH_MEAN_C, 
+                Imgproc.THRESH_BINARY_INV, 
+                9, // blockSize
+                15 // meanOffset
+            );
+        // create a linear array from the 2-dimensional data.
         for(int y=0; y<16; y++) {
             for (int x=0; x<16; x++){
-                double r = scaled.get(y,x)[0] > 0 ? 0.0 : 1.0;
-                result[y*16+x] = r;
+                result[y*16 + x] = scaled.get(y,x)[0];
             }
         }
-        Mat reshaped = new MatOfDouble(result);
-        return reshaped.t();
+        reshaped.put(0, 0, result);
+//        if(debug < 1){
+//            Log.v(TAG, "Scaled: " + scaled.dump());
+//            Log.v(TAG, "Reshaped: " + reshaped.dump());
+//            debug++;
+//        }
+        return reshaped;
     }
 
 }

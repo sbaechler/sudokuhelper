@@ -142,7 +142,8 @@ public class SquareFinderTest extends InstrumentationTestCase {
         } catch (IOException e) {
             fail(e.getMessage());
         }
-        DigitExtractor extractor = new DigitExtractor(mGray);
+        DigitExtractor extractor = new DigitExtractor(getInstrumentation().getTargetContext());
+        extractor.setSource(mGray);
         try {
             extractor.extractDigits();
         } catch (NoSudokuFoundException e1) {
@@ -156,7 +157,8 @@ public class SquareFinderTest extends InstrumentationTestCase {
         } catch (IOException e) {
             fail(e.getMessage());
         }
-        extractor = new DigitExtractor(mGray);
+        extractor = new DigitExtractor(getInstrumentation().getTargetContext());
+        extractor.setSource(mGray);
         try {
             extractor.extractDigits();
         } catch (NoSudokuFoundException e1) {
@@ -170,7 +172,8 @@ public class SquareFinderTest extends InstrumentationTestCase {
         } catch (IOException e) {
             fail(e.getMessage());
         }
-        extractor = new DigitExtractor(mGray);
+        extractor = new DigitExtractor(getInstrumentation().getTargetContext());
+        extractor.setSource(mGray);
         try {
             extractor.extractDigits();
             fail("Bad Sudoku did not throw exception");

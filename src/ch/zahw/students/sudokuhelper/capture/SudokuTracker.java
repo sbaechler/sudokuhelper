@@ -32,6 +32,7 @@ public class SudokuTracker {
     private static final int RESULT_SIZE = 540;
     
     private Mat mIntermediateMat;
+    private Mat mIntermediate2Mat;
     private Mat mRgba;
     private Mat lines;
     private Mat transform;
@@ -46,6 +47,7 @@ public class SudokuTracker {
     public SudokuTracker(int width, int height, Context context) {
         Log.v(TAG, "Sudoku Tracker initialized: " + width + "x" + height);
         mIntermediateMat = new Mat(height, width, CvType.CV_8UC1);
+        mIntermediate2Mat = new Mat(height, width, CvType.CV_8UC1);
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mStraight = new Mat(RESULT_SIZE, RESULT_SIZE, CvType.CV_8UC1);
 //        digitExtractor = new DigitExtractor(context);
@@ -65,11 +67,12 @@ public class SudokuTracker {
      * @return RGBA Mat
      */
     public Mat detect(Mat imageGray) {
-        threshold(imageGray);
+        Imgproc.medianBlur(mIntermediateMat, mIntermediateMat, 3);
+        threshold(imageGray, mIntermediateMat);
         Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
         if (!hasFoundCandidate){
             try {
-                Imgproc.medianBlur(mIntermediateMat, mIntermediateMat, 3);
+                dilate(mIntermediateMat, mIntermediate2Mat);
                 List<Point> points = markLines();  // Throws NoSudokuFoundException
                 // TODO: Add another sanity check after the matrix transformation.
                 tg.startTone(ToneGenerator.TONE_PROP_BEEP);
@@ -87,21 +90,24 @@ public class SudokuTracker {
         return mRgba;
     }
     
-    private void threshold(Mat imageGray){
+    private void threshold(Mat source, Mat dest){
         int maxValue = 255; 
         int blockSize = 61; 
         int meanOffset = 15; 
         Imgproc.adaptiveThreshold( 
-            imageGray, 
-            mIntermediateMat, 
+            source, 
+            dest, 
             maxValue, 
             Imgproc.ADAPTIVE_THRESH_MEAN_C, 
             Imgproc.THRESH_BINARY_INV, 
             blockSize, 
             meanOffset 
         );
+    }
+    
+    private void dilate(Mat source, Mat dest){
         // dillate the result to close gaps that might have occured.
-        Imgproc.dilate(mIntermediateMat, mIntermediateMat, 
+        Imgproc.dilate(source, dest, 
             Imgproc.getStructuringElement(Imgproc.MORPH_CROSS, new Size(3, 3))
         );
     }
@@ -113,7 +119,8 @@ public class SudokuTracker {
         int minLineSize = 250;
         int lineGap = 10;
         
-        Imgproc.HoughLinesP(mIntermediateMat, lines, 1, Math.PI/90, threshold, minLineSize, lineGap);
+        Imgproc.HoughLinesP(mIntermediate2Mat, lines, 1, Math.PI/90, 
+                threshold, minLineSize, lineGap);
 
         SquareFinder finder = new SquareFinder(lines, width, height);
         
