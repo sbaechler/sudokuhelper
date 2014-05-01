@@ -12,7 +12,6 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-import android.content.Context;
 import android.util.Log;
 
 
@@ -33,18 +32,9 @@ public class DigitExtractor {
     private int fieldSize;
     private int borderWidth;
     private int digitCount = 0;
-    // private Context context;
-    private Recognizer recognizer;
+    private Recognizer recognizer;   
     
-    
-    /**
-     * The default constructor. Takes the application context as argument.
-     * @param applicationContext - the applicationContext of the Android app.
-     */
-    public DigitExtractor(Context applicationContext){
-        // this.context = applicationContext;
-        this.recognizer = new NeuralNetworkRecognizer(applicationContext);
-    }
+
     
     public void setSource(Mat source) {
         this.source = source;
@@ -63,9 +53,11 @@ public class DigitExtractor {
     /**
      * Extracts the digits and passes them to the processing class.
      * @param displayMat - optional Mat for displaying the boxes.
+     * @return A list with FieldCandidates
      * @throws NoSudokuFoundException 
      */
-    public void extractDigits(Mat displayMat) throws NoSudokuFoundException{
+    public List<FieldCandidate> extractDigits(Mat displayMat) throws NoSudokuFoundException{
+        List<FieldCandidate> candidates = new ArrayList<FieldCandidate>();
         for (int row=0; row<9; row++){
             int rowCount = 0;
             for (int col=0; col<9; col++) {
@@ -76,20 +68,25 @@ public class DigitExtractor {
                     rowCount++;
                     drawBoundingBox(displayMat, rect, row, col);
                     Mat box = field.submat(rect);
-                    recognizer.recognize(box);
+                    FieldCandidate candidate = new FieldCandidate(row, col, box);
+                    candidates.add(candidate);
                 }
             }
             if(rowCount > MAX_ROW_HITS){
+                candidates = null;
                 throw new NoSudokuFoundException("Found more than " + MAX_ROW_HITS + " hits in row " + (row+1));
             }
         }
         Log.v(TAG, "Found " + digitCount + " digits.");
         if(digitCount > MAX_TOTAL_HITS) {
+            candidates = null;
             throw new NoSudokuFoundException("Found more than " + MAX_TOTAL_HITS + "hits.");
         }
+        return candidates;
     }
-    public void extractDigits() throws NoSudokuFoundException{
-        this.extractDigits(source);
+    
+    public List<FieldCandidate> extractDigits() throws NoSudokuFoundException{
+        return this.extractDigits(source);
     }
     
     

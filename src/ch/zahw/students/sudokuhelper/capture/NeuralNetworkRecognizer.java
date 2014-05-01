@@ -5,11 +5,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDouble;
-import org.opencv.core.MatOfFloat;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.ml.CvANN_MLP;
 
@@ -23,7 +21,6 @@ public class NeuralNetworkRecognizer implements Recognizer {
     private static final int ATTRIBUTES = 256; // numbers of pixels per sample
     private static final int LABELS = 10; // number of distinct labels
     
-    private double minScore;
     private Context context;
     private CvANN_MLP nnetwork;
     // private int debug = 0;
@@ -54,29 +51,43 @@ public class NeuralNetworkRecognizer implements Recognizer {
 
  
     @Override
-    public int recognize(Mat candidate) {
+    public int[] recognize(Mat candidate) {
         Mat classOut = new MatOfDouble();
         int maxIndex = 0;
+        int secondaryIndex = 0;
         Mat linearized = preprocess(candidate);
         nnetwork.predict(linearized, classOut);
         double value;
         double maxValue = classOut.get(0,0)[0];
+        double secondaryValue = classOut.get(0,0)[0];
         
         for(int i=1; i<LABELS; i++) {
             value = classOut.get(0, i)[0];
             if(value > maxValue){
+                secondaryValue = maxValue;
                 maxValue = value;
+                secondaryIndex = maxIndex;
                 maxIndex = i;
             }
         }        
-        Log.v(TAG, "Found label: " + maxIndex);
-        return maxIndex;
+
+        // TODO: Implement learning and train better.
+        // The algorithm has issues recognizing the 7.
+        if(maxIndex == 1) { 
+            secondaryIndex = 7; 
+        }
+        
+        Log.v(TAG, "Found label: " + maxIndex + " (" + maxValue + ")" + 
+                " 2nd best: " + secondaryIndex + "(" + secondaryValue + ")");
+        
+        return new int[]{maxIndex, secondaryIndex};
     }
     
     @Override
     public void regognize(List<FieldCandidate> candidates) {
-        // TODO Auto-generated method stub
-        
+        for(FieldCandidate candidate: candidates){
+            candidate.setContent(recognize(candidate.getImage()));
+        }
     }
 
     

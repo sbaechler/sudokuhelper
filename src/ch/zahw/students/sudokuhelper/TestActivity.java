@@ -2,6 +2,7 @@ package ch.zahw.students.sudokuhelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
@@ -13,7 +14,10 @@ import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
 import ch.zahw.students.sudokuhelper.capture.DigitExtractor;
+import ch.zahw.students.sudokuhelper.capture.FieldCandidate;
+import ch.zahw.students.sudokuhelper.capture.NeuralNetworkRecognizer;
 import ch.zahw.students.sudokuhelper.capture.NoSudokuFoundException;
+import ch.zahw.students.sudokuhelper.capture.Recognizer;
 import ch.zahw.students.sudokuhelper.capture.SudokuTracker;
 
 import android.app.Activity;
@@ -37,16 +41,14 @@ public class TestActivity extends Activity {
     private Mat mRgba;
     private static SudokuTracker sudokuTracker;
     private static DigitExtractor digitExtractor;
+    private Recognizer recognizer;
     
-    public TestActivity() {
-        Log.v(TAG, "Test Activity initialized: " + WIDTH + "x" + HEIGHT);
-    }
-        
-    
+      
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        Log.v(TAG, "Test Activity initialized: " + WIDTH + "x" + HEIGHT);
     }
 
     
@@ -57,7 +59,8 @@ public class TestActivity extends Activity {
                 Log.v(TAG, "OpenCV loaded...");
                 mGray = new Mat(HEIGHT, WIDTH, CvType.CV_8UC1);
                 sudokuTracker = new SudokuTracker(WIDTH, HEIGHT, getApplicationContext());
-                digitExtractor = new DigitExtractor(getApplicationContext());
+                digitExtractor = new DigitExtractor();
+                recognizer = new NeuralNetworkRecognizer(getApplicationContext());
 
                 // now we can call opencv code !
                 findSudoku();
@@ -75,6 +78,7 @@ public class TestActivity extends Activity {
     }
 
     public void findSudoku() {
+        List<FieldCandidate> candidates;
 
         try {
             mGray = Utils.loadResource(this, R.raw.s57, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
@@ -92,11 +96,13 @@ public class TestActivity extends Activity {
         Imgproc.cvtColor(mStraight, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 );
 
         try {
-            digitExtractor.extractDigits(mRgba);
+            candidates = digitExtractor.extractDigits(mRgba);
+            recognizer.regognize(candidates);
         } catch (NoSudokuFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
 
         
         // write the Mat to disk for test use. (uncomment permission in AndroidManifest)
