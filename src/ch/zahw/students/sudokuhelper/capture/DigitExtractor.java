@@ -62,10 +62,10 @@ public class DigitExtractor {
     
     /**
      * Extracts the digits and passes them to the processing class.
-     * @param mat - optional Mat for displaying the boxes.
+     * @param displayMat - optional Mat for displaying the boxes.
      * @throws NoSudokuFoundException 
      */
-    public void extractDigits(Mat mat) throws NoSudokuFoundException{
+    public void extractDigits(Mat displayMat) throws NoSudokuFoundException{
         for (int row=0; row<9; row++){
             int rowCount = 0;
             for (int col=0; col<9; col++) {
@@ -74,7 +74,7 @@ public class DigitExtractor {
                 if(rect!=null){
                     digitCount++;
                     rowCount++;
-                    drawBoundingBox(mat, rect, row, col);
+                    drawBoundingBox(displayMat, rect, row, col);
                     Mat box = field.submat(rect);
                     recognizer.recognize(box);
                 }
@@ -118,11 +118,11 @@ public class DigitExtractor {
         Mat tempField = new Mat(field.rows(), field.cols(), field.type());
         field.copyTo(tempField);
         Imgproc.findContours(tempField, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-        // Log.v(TAG, "Contours size: " + contours.size());
+        Log.v(TAG, "Contours size: " + contours.size());
         double maxArea = -1, 
                contourarea;
         double upperAreaLimit = field.cols() * field.rows() * 8.0/10.0;
-        double lowerAreaLimit = field.cols() * field.rows() / 10.0;
+        double lowerAreaLimit = field.cols() * field.rows() / 20.0;
         int maxAreaIdx = -1;
         for (int idx = 0; idx < contours.size(); idx++) {
             Mat contour = contours.get(idx);
