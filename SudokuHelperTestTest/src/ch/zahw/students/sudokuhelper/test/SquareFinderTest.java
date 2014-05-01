@@ -142,7 +142,7 @@ public class SquareFinderTest extends InstrumentationTestCase {
         } catch (IOException e) {
             fail(e.getMessage());
         }
-        DigitExtractor extractor = new DigitExtractor(getInstrumentation().getTargetContext());
+        DigitExtractor extractor = new DigitExtractor();
         extractor.setSource(mGray);
         try {
             extractor.extractDigits();
@@ -157,7 +157,7 @@ public class SquareFinderTest extends InstrumentationTestCase {
         } catch (IOException e) {
             fail(e.getMessage());
         }
-        extractor = new DigitExtractor(getInstrumentation().getTargetContext());
+        extractor = new DigitExtractor();
         extractor.setSource(mGray);
         try {
             extractor.extractDigits();
@@ -172,7 +172,7 @@ public class SquareFinderTest extends InstrumentationTestCase {
         } catch (IOException e) {
             fail(e.getMessage());
         }
-        extractor = new DigitExtractor(getInstrumentation().getTargetContext());
+        extractor = new DigitExtractor();
         extractor.setSource(mGray);
         try {
             extractor.extractDigits();

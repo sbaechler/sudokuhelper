@@ -14,7 +14,7 @@ public interface Recognizer {
      * @param candidate - A binary Mat of arbitrary size cropped to the digit.
      * @return integer 0-9. (0 if no number has been found)
      */
-    public int recognize(Mat candidate);
+    public int[] recognize(Mat candidate);
     
     /**
      * Recognize multiple fields
