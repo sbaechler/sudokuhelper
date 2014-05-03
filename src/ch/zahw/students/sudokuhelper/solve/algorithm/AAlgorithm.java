@@ -153,7 +153,7 @@ public abstract class AAlgorithm {
 		return true;
 	}
 
-	public boolean checkIfSolved2() {
+	public boolean checkIfSolvedAdvaced() {
 
 		// Überprüft ob die Zahlen 1-9 in jeder Spalte und Zeile richtig gesetzt
 		// wurde
@@ -192,7 +192,7 @@ public abstract class AAlgorithm {
 		return true;
 	}
 
-	protected boolean checkIfSolved() {
+	protected boolean checkSimplySolved() {
 		// Evlt eine bessere Überprüfung schreiben (oder nur für bereits
 		// angefangene Sudokus) überprüfen ob wirklich 1-9 einmal vorkommen
 
