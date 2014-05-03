@@ -29,7 +29,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     private static final String TAG = "SudokuHelper::CaptureActivity";
     
     private CameraBridgeViewBase mOpenCvCameraView;
-    private SudokuTracker sudokuTracker;
+    private SudokuTracker sudokuTracker = null;
     private static DigitExtractor digitExtractor;
     private Recognizer recognizer;
     
@@ -75,21 +75,25 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     }
 
     public void onDestroy() {
+        Log.d(TAG, "Capture Activity destroyed");
         super.onDestroy();    
+        sudokuTracker = null;
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
     }
     
     public void onCameraViewStarted(int width, int height) {
-        sudokuTracker = new SudokuTracker(width, height, getApplicationContext());
+        if(sudokuTracker == null){
+            sudokuTracker = new SudokuTracker(width, height, getApplicationContext());
+        }
     }
 
     public void onCameraViewStopped() {
-        sudokuTracker = null;
         Log.d(TAG, "Camera view stopped");
     }
     
     public void finish(List<FieldCandidate> candidates){
+        Log.d(TAG, "Capture Activity Finish method called");
         String allCandidates = TextUtils.join(";", candidates);
         // Create intent to deliver some kind of result data
         Intent result = new Intent(this, MainActivity.class);
@@ -102,7 +106,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
         Mat mRgba = sudokuTracker.detect(inputFrame.gray());
         if(sudokuTracker.hasFoundCandidate()){
             List<FieldCandidate> candidates;
-            mOpenCvCameraView.disableView();
+            // mOpenCvCameraView.disableView();
             Mat mStraight = sudokuTracker.getMStraight();
             digitExtractor.setSource(mStraight);
             try {
@@ -112,7 +116,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
                 finish(candidates);
             } catch (NoSudokuFoundException e) {
                 sudokuTracker.setFoundCandidate(false);
-                mOpenCvCameraView.enableView();
+                // mOpenCvCameraView.enableView();
             }
         }
         return mRgba;

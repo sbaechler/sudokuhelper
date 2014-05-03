@@ -10,12 +10,13 @@ import android.view.View;
 public class MainActivity extends Activity {
 	private static final String TAG = "SudokuHelper::MainActivity";
 	private MainHelper mainHelper;
+	private final int REQUEST_CODE = 1;
 
 	/** Called when the user clicks the Capture button */
 	public void doCapture(View view) {
 		Log.i(TAG, "called doCapture");
 		Intent intent = new Intent(this, CaptureActivity.class);
-		startActivity(intent);
+		startActivityForResult(intent, REQUEST_CODE);
 	}
 
 	/** Called when the user clicks the Solve button */
@@ -30,10 +31,11 @@ public class MainActivity extends Activity {
 		mainHelper.step(view);
 	}
 
-	/** Called when the user clicks the Test button */
+	/** Called when the user clicks the Test button 
+	 *  (currently not in use) */
 	public void doTest(View view) {
 		Intent intent = new Intent(this, TestActivity.class);
-		startActivity(intent);
+		startActivityForResult(intent, REQUEST_CODE);
 	}
 
 	@Override
@@ -46,6 +48,22 @@ public class MainActivity extends Activity {
 		mainHelper.startSudoku();
 	}
 
+	/**
+	 * Callback from the CaptureActivity.
+	 * If successful returns a string containing all the found digits.
+	 * The format of one element is row,column:primary-secondary;
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	  Log.v(TAG, "Result Callback called");
+	  if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+	    if (data.hasExtra("candidates")) {
+	        String candidates = data.getExtras().getString("candidates");
+                Log.v(TAG, "Got candidates: "+candidates);
+	    }
+	  }
+	} 
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);

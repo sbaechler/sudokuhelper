@@ -21,8 +21,10 @@ import ch.zahw.students.sudokuhelper.capture.Recognizer;
 import ch.zahw.students.sudokuhelper.capture.SudokuTracker;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 // import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
@@ -79,7 +81,7 @@ public class TestActivity extends Activity {
     }
 
     public void findSudoku() {
-        List<FieldCandidate> candidates;
+        List<FieldCandidate> candidates = null;
 
         try {
             mGray = Utils.loadResource(this, R.raw.s58, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
@@ -103,9 +105,7 @@ public class TestActivity extends Activity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-
-        
+                
         // write the Mat to disk for test use. (uncomment permission in AndroidManifest)
 //        File file = new File(Environment.getExternalStoragePublicDirectory(
 //                Environment.DIRECTORY_PICTURES), "straightMat.png");
@@ -120,6 +120,20 @@ public class TestActivity extends Activity {
         // find the imageview and draw it!
         ImageView iv = (ImageView) findViewById(R.id.imageView1);
         iv.setImageBitmap(bm);
+        
+        finish(candidates);
+
+    }
+    
+    
+    public void finish(List<FieldCandidate> candidates){
+        Log.d(TAG, "Capture Activity Finish method called");
+        String allCandidates = TextUtils.join(";", candidates);
+        // Create intent to deliver some kind of result data
+        Intent result = new Intent(this, MainActivity.class);
+        setResult(Activity.RESULT_OK, result);
+        result.putExtra("candidates", allCandidates);
+        super.finish();
     }
 
 }
