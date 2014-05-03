@@ -1,5 +1,8 @@
 package ch.zahw.students.sudokuhelper;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.graphics.Color;
 import android.text.InputType;
 import android.util.Log;
@@ -23,6 +26,8 @@ public class MainHelper {
 	private boolean isSudokuSolved = false;
 	private MainActivity mainActivity;
 	private Sudoku solvedSudoku;
+        private static final Pattern CANDIDATE_PATTERN = Pattern.compile("^(\\d\\d?),(\\d\\d?):(\\d)-(\\d)$");
+
 
 	public MainHelper(MainActivity mainActivity2) {
 		Log.v(TAG, "Creating instance MainActivity");
@@ -256,9 +261,7 @@ public class MainHelper {
 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				if (sudoku[i][j] != 0) {
-					changeCell(i, j, sudoku[i][j], Color.WHITE);
-				}
+			    changeCell(i, j, sudoku[i][j], Color.WHITE);
 			}
 		}
 
@@ -268,11 +271,43 @@ public class MainHelper {
 		EditText cell = (EditText) mainActivity
 				.findViewById(cellIds[row][column]);
 
-		if (number != -1) {
+		if (number > 0) {
 			cell.setText(String.valueOf(number));
+		} else {
+		    cell.setText("");
 		}
 
 		cell.setBackgroundColor(color);
 	}
+	
+	/**
+	 * Extract the sudoku values from the String returned from the
+	 * capture activity
+	 */
+	public void parseResult(String candidates){
+            int[][] primaryValues = new int[9][9];
+            int[][] secondaryValues = new int[9][9];
+            String[] fields = candidates.split(";");
+            for(int i=0; i<fields.length; i++){
+                Matcher matcher = CANDIDATE_PATTERN.matcher(fields[i]);
+                if (matcher.matches()) {
+                    // 1: row, 2: column, 3: primary value, 4: secondary value
+                    int row = Integer.parseInt(matcher.group(1));
+                    int column = Integer.parseInt(matcher.group(2));
+                    int primary = Integer.parseInt(matcher.group(3));
+                    int secondary = Integer.parseInt(matcher.group(4));
+                    primaryValues[row][column] = primary;
+                    if(secondary > 0){
+                        secondaryValues[row][column] = secondary;
+                    }
+                    // TODO: Add verification
+                    fillSudokuTable(primaryValues);
+                } else {
+                    Log.e(TAG, "No match for: " + fields[i]);
+                }
+            }
+	}
+	
+	
 
 }

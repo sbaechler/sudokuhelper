@@ -60,8 +60,10 @@ public class MainActivity extends Activity {
 	    if (data.hasExtra("candidates")) {
 	        String candidates = data.getExtras().getString("candidates");
                 Log.v(TAG, "Got candidates: "+candidates);
+                mainHelper.parseResult(candidates);
 	    }
 	  }
+	  	  
 	} 
 	
 	@Override
