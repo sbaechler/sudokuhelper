@@ -39,7 +39,7 @@ public class SudokuTracker {
     private Mat mStraight;
     private int width;
     private int height;
-    private boolean hasFoundCandidate = false;
+    private boolean foundCandidate = false;
     private DigitExtractor digitExtractor;
     final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
     
@@ -61,6 +61,13 @@ public class SudokuTracker {
         return mStraight;
     }
     
+    public boolean hasFoundCandidate(){
+        return foundCandidate;
+    }
+    public void setFoundCandidate(boolean candidateOk){
+        foundCandidate = candidateOk;
+    }
+    
     /**
      * This is the main method called by the app.
      * @param imageGray - Grayscale Mat.
@@ -70,13 +77,13 @@ public class SudokuTracker {
         Imgproc.medianBlur(mIntermediateMat, mIntermediateMat, 3);
         threshold(imageGray, mIntermediateMat);
         Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
-        if (!hasFoundCandidate){
+        if (!foundCandidate){
             try {
                 dilate(mIntermediateMat, mIntermediate2Mat);
                 List<Point> points = markLines();  // Throws NoSudokuFoundException
                 // TODO: Add another sanity check after the matrix transformation.
                 tg.startTone(ToneGenerator.TONE_PROP_BEEP);
-                hasFoundCandidate = true;
+                foundCandidate = true;
                 // TODO: Start this in another thread.
                 perspectiveTransform(points); // fills mStraight
                 
@@ -84,7 +91,7 @@ public class SudokuTracker {
             } catch (NoSudokuFoundException e) {
                 // Log.v(TAG, e.getMessage());
                 System.gc();
-                hasFoundCandidate = false;
+                foundCandidate = false;
             }
         }
         return mRgba;
