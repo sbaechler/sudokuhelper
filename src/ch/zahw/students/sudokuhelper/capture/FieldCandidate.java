@@ -56,4 +56,10 @@ public class FieldCandidate {
         // release the Mat
         this.image = null;
     }
+    
+    @Override
+    public String toString(){
+        return ""+row+","+column+":"+primary+"-"+secondary;
+    }
+    
 }
