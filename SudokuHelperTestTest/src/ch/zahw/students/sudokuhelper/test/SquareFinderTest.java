@@ -1,10 +1,13 @@
 package ch.zahw.students.sudokuhelper.test;
 
 import java.io.IOException;
+import java.util.List;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 import ch.zahw.students.sudokuhelper.capture.DigitExtractor;
+import ch.zahw.students.sudokuhelper.capture.FieldCandidate;
+import ch.zahw.students.sudokuhelper.capture.NeuralNetworkRecognizer;
 import ch.zahw.students.sudokuhelper.capture.NoSudokuFoundException;
 import ch.zahw.students.sudokuhelper.capture.SquareFinder;
 
@@ -180,6 +183,39 @@ public class SquareFinderTest extends InstrumentationTestCase {
         } catch (NoSudokuFoundException e) {
             assert(e instanceof NoSudokuFoundException);
         }
+        
+    }
+    
+    public void testNeuralNetworkRecognizer() {
+        Mat mGray = null;
+        List<FieldCandidate> candidates = null;
+        // Pass the context of the application under test to the recognizer
+        NeuralNetworkRecognizer recognizer = new NeuralNetworkRecognizer(
+               getInstrumentation().getTargetContext().getApplicationContext());
+        try {
+            mGray = Utils.loadResource(getInstrumentation().getContext(), R.raw.straight58, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        DigitExtractor extractor = new DigitExtractor();
+        extractor.setSource(mGray);
+        try {
+            candidates = extractor.extractDigits();
+        } catch (NoSudokuFoundException e1) {
+            fail(e1.getMessage());
+        }
+        recognizer.regognize(candidates);
+        // There are 24 digits in the Sudoku
+        assertEquals(24, candidates.size());
+        // Most of the digits are recognized correctly.
+        assertEquals(2, candidates.get(0).getPrimary());
+        assertEquals(3, candidates.get(1).getPrimary());
+        assertEquals(5, candidates.get(3).getPrimary());
+        assertEquals(4, candidates.get(4).getPrimary());
+        assertEquals(6, candidates.get(5).getPrimary());
+        assertEquals(9, candidates.get(6).getPrimary());
+        assertEquals(8, candidates.get(7).getPrimary());
+        assertEquals(5, candidates.get(8).getPrimary());
         
     }
     

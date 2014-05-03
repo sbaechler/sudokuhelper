@@ -1,6 +1,6 @@
 package ch.zahw.students.sudokuhelper;
 
-import java.io.File;
+// import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,6 +23,7 @@ import ch.zahw.students.sudokuhelper.capture.SudokuTracker;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+// import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -81,7 +82,7 @@ public class TestActivity extends Activity {
         List<FieldCandidate> candidates;
 
         try {
-            mGray = Utils.loadResource(this, R.raw.s57, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+            mGray = Utils.loadResource(this, R.raw.s58, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             Log.e(TAG, "error loading resource");
