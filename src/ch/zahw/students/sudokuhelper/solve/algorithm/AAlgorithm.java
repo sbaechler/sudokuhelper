@@ -2,6 +2,8 @@ package ch.zahw.students.sudokuhelper.solve.algorithm;
 
 import java.util.Vector;
 
+import android.util.Log;
+
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
@@ -132,13 +134,15 @@ public abstract class AAlgorithm {
 		for (int j = 0; j < 9; j++) {
 			for (int i = 0; i < 9; i++) {
 
-				numberRow = sudoku.getField(j, i).getNumber();
-				numberCol = sudoku.getField(i, j).getNumber();
+				numberRow = sudoku.getField(j, i).getNumber()-1;
+				numberCol = sudoku.getField(i, j).getNumber()-1;
 
 				if (numberRow == 0 || numberCol == 0) {
 					return false;
 				}
 
+
+				Log.v(" abcd", rowCheck.toString()+"-"+numberRow+"**"+colCheck+"-"+numberCol);
 				if (rowCheck[numberRow] == true || colCheck[numberCol] == true) {
 					return false;
 				} else {

@@ -3,10 +3,9 @@ package ch.zahw.students.sudokuhelper.solve.algorithm;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
+public class NaiveAlgorithmus extends AAlgorithm {
 
-public class NaiveAlgorithmus extends AAlgorithm{
-	
-	public NaiveAlgorithmus(int[][]  sudoku) {
+	public NaiveAlgorithmus(int[][] sudoku) {
 		super(sudoku);
 	}
 
@@ -14,7 +13,7 @@ public class NaiveAlgorithmus extends AAlgorithm{
 	public Sudoku solve() {
 		return solveWithNaiveApproach();
 	}
-	
+
 	public Sudoku solveWithNaiveApproach() {
 		init();
 		SudokuField sField;
@@ -27,13 +26,16 @@ public class NaiveAlgorithmus extends AAlgorithm{
 
 					number = sField.getAvailableNumbers().get(k);
 
-					if (sField.isFounded() == false && checkIfNumberShouldBeRemoved(row, column, number)) {
-						int index = sField.getAvailableNumbers().indexOf(number);
+					if (sField.isFounded() == false
+							&& checkIfNumberShouldBeRemoved(row, column, number)) {
+						int index = sField.getAvailableNumbers()
+								.indexOf(number);
 						sField.getAvailableNumbers().remove(index);
 					}
 				}
 			}
 		}
+
 
 		while (!checkIfSolvedAdvaced()) {
 			naiveApproach(0, 0);
@@ -53,24 +55,39 @@ public class NaiveAlgorithmus extends AAlgorithm{
 				sf.setNumber(number);
 			}
 
-			if (column == 8) {
-				if (row == 8) {
-					if (checkIfSolvedAdvaced()) {
-						return true;
-					}
-				} else {
-					if (naiveApproach(row + 1, column - 8)) {
-						return true;
-					}
+			if (row == 8 && column == 8) {
+				if (checkIfSolvedAdvaced()) {
+					return true;
 				}
 			} else {
+				if (column == 8) {
+					column = -1;
+					row++;
+				}
+
 				if (naiveApproach(row, column + 1)) {
 					return true;
 				}
 			}
+
+			// if (column == 8) {
+			// if (row == 8) {
+			// if (checkIfSolvedAdvaced()) {
+			// return true;
+			// }
+			// } else {
+			// if (naiveApproach(row + 1, column - 8)) {
+			// return true;
+			// }
+			// }
+			// } else {
+			// if (naiveApproach(row, column + 1)) {
+			// return true;
+			// }
+			// }
 		}
 
 		return false;
 	}
-	
+
 }
