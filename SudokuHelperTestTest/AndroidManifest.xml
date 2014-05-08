@@ -9,7 +9,7 @@
         android:targetSdkVersion="18" />
 
     <instrumentation
-        android:name="android.test.InstrumentationTestRunner"
+        android:name="ch.zahw.students.sudokuhelper.test.OpenCVTestRunner"
         android:targetPackage="ch.zahw.students.sudokuhelper" />
 
     <application

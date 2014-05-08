@@ -1,5 +1,6 @@
 package ch.zahw.students.sudokuhelper.solve.algorithm;
 
+import android.util.Log;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
@@ -50,7 +51,7 @@ public class NaiveAlgorithmus extends AAlgorithm {
 		int number = 0;
 
 		for (int i = 0; i < sf.getAvailableNumbers().size(); i++) {
-			if (!sf.isFounded()) {
+			if (sf.isStartGap()) {
 				number = sf.getAvailableNumbers().get(i);
 				sf.setNumber(number);
 			}

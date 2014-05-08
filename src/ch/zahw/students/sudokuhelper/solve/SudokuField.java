@@ -67,4 +67,9 @@ public class SudokuField {
 		return column;
 	}
 
+	public void clearAvailableNumbers() {
+		availableNumbers.clear();
+		availableNumbers.add(0);
+	}
+
 }

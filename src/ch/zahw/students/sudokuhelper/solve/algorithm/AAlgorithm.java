@@ -141,8 +141,6 @@ public abstract class AAlgorithm {
 					return false;
 				}
 
-
-				Log.v(" abcd", rowCheck.toString()+"-"+numberRow+"**"+colCheck+"-"+numberCol);
 				if (rowCheck[numberRow] == true || colCheck[numberCol] == true) {
 					return false;
 				} else {
@@ -210,7 +208,7 @@ public abstract class AAlgorithm {
 
 		return true;
 	}
-
+	
 	public Vector<SudokuField> getSolveOrder() {
 		return solveOrder;
 	}
