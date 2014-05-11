@@ -27,6 +27,7 @@ import android.view.WindowManager;
 
 public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     private static final String TAG = "SudokuHelper::CaptureActivity";
+    private static final int MAX_FRAME_SIZE = 1024;
     
     private CameraBridgeViewBase mOpenCvCameraView;
     private SudokuTracker sudokuTracker = null;
@@ -40,6 +41,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
                     Log.v(TAG, "OpenCV loaded successfully");
                     digitExtractor = new DigitExtractor();
                     recognizer = new NeuralNetworkRecognizer(getApplicationContext());
+                    mOpenCvCameraView.setMaxFrameSize(MAX_FRAME_SIZE, MAX_FRAME_SIZE*3/4);
                     mOpenCvCameraView.enableView();
                 } else {
                     super.onManagerConnected(status);
@@ -105,16 +107,19 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat mRgba = sudokuTracker.detect(inputFrame.gray());
         if(sudokuTracker.hasFoundCandidate()){
-            List<FieldCandidate> candidates;
             // mOpenCvCameraView.disableView();
+            List<FieldCandidate> candidates;
             Mat mStraight = sudokuTracker.getMStraight();
+            Mat transform = sudokuTracker.getInverseTransformMat();
             digitExtractor.setSource(mStraight);
             try {
-                candidates = digitExtractor.extractDigits();
+                candidates = digitExtractor.extractDigits(mRgba, transform);
                 // update array in place.
                 recognizer.regognize(candidates);
-                finish(candidates);
+                // TODO: use button callback
+                sudokuTracker.setFoundCandidate(false);
             } catch (NoSudokuFoundException e) {
+                Log.d(TAG, e.getMessage());
                 sudokuTracker.setFoundCandidate(false);
                 // mOpenCvCameraView.enableView();
             }

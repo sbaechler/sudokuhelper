@@ -10,6 +10,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import android.util.Log;
@@ -25,8 +26,8 @@ import android.util.Log;
 public class DigitExtractor {
     private static final String TAG = "SudokuHelper::DigitExtractor";
     private static final double MIN_ASPECT_RATIO = 0.3;
-    private static final int MAX_ROW_HITS = 6;
-    private static final int MAX_TOTAL_HITS = 30;
+    private static final int MAX_ROW_HITS = 7;
+    private static final int MAX_TOTAL_HITS = 50;
     private Mat source;
     private int sudokuSize;
     private int fieldSize;
@@ -56,7 +57,8 @@ public class DigitExtractor {
      * @return A list with FieldCandidates
      * @throws NoSudokuFoundException 
      */
-    public List<FieldCandidate> extractDigits(Mat displayMat) throws NoSudokuFoundException{
+    public List<FieldCandidate> extractDigits(Mat displayMat, Mat transformMat) throws NoSudokuFoundException{
+        digitCount = 0;
         List<FieldCandidate> candidates = new ArrayList<FieldCandidate>();
         for (int row=0; row<9; row++){
             int rowCount = 0;
@@ -66,27 +68,48 @@ public class DigitExtractor {
                 if(rect!=null){
                     digitCount++;
                     rowCount++;
-                    drawBoundingBox(displayMat, rect, row, col);
+                    if(transformMat == null) {
+                        Log.v(TAG, "Transform Mat is null");
+                        drawBoundingBox(displayMat, rect, row, col);
+                    } else {
+                        drawBoundingBox(source, rect, row, col);
+                    }
                     Mat box = field.submat(rect);
                     FieldCandidate candidate = new FieldCandidate(row, col, box);
                     candidates.add(candidate);
                 }
             }
+            
             if(rowCount > MAX_ROW_HITS){
                 candidates = null;
                 throw new NoSudokuFoundException("Found more than " + MAX_ROW_HITS + " hits in row " + (row+1));
             }
         }
+        if(transformMat != null){
+            Size size = displayMat.size();
+            Log.v(TAG, "Retransforming Mat");
+            Imgproc.cvtColor(source, displayMat, Imgproc.COLOR_GRAY2RGBA, 4 );
+            Imgproc.warpPerspective(source, 
+                    displayMat,
+                    transformMat,
+                    size, 
+                    Imgproc.INTER_LINEAR);
+        }
+        
         Log.v(TAG, "Found " + digitCount + " digits.");
         if(digitCount > MAX_TOTAL_HITS) {
             candidates = null;
-            throw new NoSudokuFoundException("Found more than " + MAX_TOTAL_HITS + "hits.");
+            throw new NoSudokuFoundException("Found more than " + MAX_TOTAL_HITS + "hits in total.");
         }
         return candidates;
     }
     
     public List<FieldCandidate> extractDigits() throws NoSudokuFoundException{
         return this.extractDigits(source);
+    }
+    
+    public List<FieldCandidate> extractDigits(Mat displayMat) throws NoSudokuFoundException{
+        return this.extractDigits(source, null);
     }
     
     
@@ -115,7 +138,7 @@ public class DigitExtractor {
         Mat tempField = new Mat(field.rows(), field.cols(), field.type());
         field.copyTo(tempField);
         Imgproc.findContours(tempField, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-        Log.v(TAG, "Contours size: " + contours.size());
+        // Log.v(TAG, "Contours size: " + contours.size());
         double maxArea = -1, 
                contourarea;
         double upperAreaLimit = field.cols() * field.rows() * 8.0/10.0;

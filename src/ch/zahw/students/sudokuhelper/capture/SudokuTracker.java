@@ -36,6 +36,7 @@ public class SudokuTracker {
     private Mat mRgba;
     private Mat lines;
     private Mat transform;
+    private Mat inverseTransform;
     private Mat mStraight;
     private int width;
     private int height;
@@ -59,6 +60,9 @@ public class SudokuTracker {
     
     public Mat getMStraight() {
         return mStraight;
+    }
+    public Mat getInverseTransformMat(){
+        return inverseTransform;
     }
     
     public boolean hasFoundCandidate(){
@@ -89,7 +93,7 @@ public class SudokuTracker {
                 
                 // TODO: throw new SudokuFoundException and change activities
             } catch (NoSudokuFoundException e) {
-                // Log.v(TAG, e.getMessage());
+                Log.d(TAG, e.getMessage());
                 System.gc();
                 foundCandidate = false;
             }
@@ -159,6 +163,7 @@ public class SudokuTracker {
 //        Log.v(TAG, "Start Matrix: " + startM.dump());
 //        Log.v(TAG, "End Matrix: " + endM.dump());
         Mat transformMat = Imgproc.getPerspectiveTransform(startM, endM);
+        inverseTransform = Imgproc.getPerspectiveTransform(endM, startM);
         startM.release();
         endM.release();
         Imgproc.warpPerspective(mIntermediateMat, 
