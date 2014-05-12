@@ -12,6 +12,7 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -29,26 +30,33 @@ import org.opencv.utils.Converters;
  */
 public class SudokuTracker {
     private static final String TAG = "SudokuHelper::SudokuTracker";
-    private static final int RESULT_SIZE = 540;
+    private static final int RESULT_SIZE = 480;
+    private static final int CW = 0;  // clockwise
+    private static final int CCW = 1;  // counter clockwise
     
     private Mat mIntermediateMat;
     private Mat mIntermediate2Mat;
     private Mat mRgba;
+    private Mat mRgbaSub;
     private Mat lines;
     private Mat transform;
     private Mat inverseTransform;
     private Mat mStraight;
     private int width;
     private int height;
+    private Rect roi;
     private boolean foundCandidate = false;
     private DigitExtractor digitExtractor;
     final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
     
 
     public SudokuTracker(int width, int height, Context context) {
+        if(height > width) {
+            throw new IllegalArgumentException("Height is bigger than width");
+        }
         Log.v(TAG, "Sudoku Tracker initialized: " + width + "x" + height);
-        mIntermediateMat = new Mat(height, width, CvType.CV_8UC1);
-        mIntermediate2Mat = new Mat(height, width, CvType.CV_8UC1);
+        mIntermediateMat = new Mat(height, height, CvType.CV_8UC1);
+        mIntermediate2Mat = new Mat(height, height, CvType.CV_8UC1);
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mStraight = new Mat(RESULT_SIZE, RESULT_SIZE, CvType.CV_8UC1);
 //        digitExtractor = new DigitExtractor(context);
@@ -56,6 +64,8 @@ public class SudokuTracker {
         lines = new Mat();
         this.width = width;
         this.height = height;
+        this.roi = new Rect(new Point((width-height)/2, 0), mIntermediateMat.size());
+        mRgbaSub = mRgba.submat(roi);
     }
     
     public Mat getMStraight() {
@@ -71,6 +81,14 @@ public class SudokuTracker {
     public void setFoundCandidate(boolean candidateOk){
         foundCandidate = candidateOk;
     }
+    public Rect getRoi(){
+        return roi;
+    }
+    public Mat onlyRoi(Mat input){
+        Log.v(TAG, "Roi: " + roi.x + ", " + roi.y + " " + roi.width  + " " +roi.height);
+        Log.v(TAG, "Input Mat: "+ input.cols() + "x" + input.rows());
+        return input.submat(roi);
+    }
     
     /**
      * This is the main method called by the app.
@@ -78,9 +96,15 @@ public class SudokuTracker {
      * @return RGBA Mat
      */
     public Mat detect(Mat imageGray) {
+       
+        Log.v(TAG, "Roi: " + roi.x + ", " + roi.y + " " + roi.width  + " " +roi.height);
+        Log.v(TAG, "Detecting input Mat: " + imageGray.cols() + "x" + imageGray.rows());
+        threshold(imageGray.submat(roi), mIntermediateMat);
+        // rotate the image 90° CCW
+        Core.flip(mIntermediateMat.t(), mIntermediateMat, CCW);
+
         Imgproc.medianBlur(mIntermediateMat, mIntermediateMat, 3);
-        threshold(imageGray, mIntermediateMat);
-        Imgproc.cvtColor(mIntermediateMat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 ); 
+        Imgproc.cvtColor(mIntermediateMat, mRgbaSub, Imgproc.COLOR_GRAY2RGBA, 4 ); 
         if (!foundCandidate){
             try {
                 dilate(mIntermediateMat, mIntermediate2Mat);
@@ -90,14 +114,15 @@ public class SudokuTracker {
                 foundCandidate = true;
                 // TODO: Start this in another thread.
                 perspectiveTransform(points); // fills mStraight
-                
                 // TODO: throw new SudokuFoundException and change activities
             } catch (NoSudokuFoundException e) {
-                Log.d(TAG, e.getMessage());
+                Log.v(TAG, e.getMessage());
                 System.gc();
                 foundCandidate = false;
             }
         }
+        // rotate the middle part of the image image 90° CW
+        Core.flip(mRgbaSub.t(), mRgbaSub, CW);
         return mRgba;
     }
     
@@ -145,9 +170,9 @@ public class SudokuTracker {
               Point start = new Point(x1, y1);
               Point end = new Point(x2, y2);
 
-              Core.line(mRgba, start, end, new Scalar(0,255,0), 3);           
+              Core.line(mRgbaSub, start, end, new Scalar(0,255,0), 3);           
         }
-        List<Point> points = finder.drawEdges(mRgba);
+        List<Point> points = finder.drawEdges(mRgbaSub);
         finder = null;
         return points;
     }

@@ -8,6 +8,7 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
 import ch.zahw.students.sudokuhelper.capture.DigitExtractor;
@@ -105,7 +106,9 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+        Log.v(TAG, "Got Camera Frame. Width: " + inputFrame.gray().cols());
         Mat mRgba = sudokuTracker.detect(inputFrame.gray());
+        
         if(sudokuTracker.hasFoundCandidate()){
             // mOpenCvCameraView.disableView();
             List<FieldCandidate> candidates;
@@ -113,13 +116,14 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
             Mat transform = sudokuTracker.getInverseTransformMat();
             digitExtractor.setSource(mStraight);
             try {
-                candidates = digitExtractor.extractDigits(mRgba, transform);
+                candidates = digitExtractor.extractDigits(
+                        sudokuTracker.onlyRoi(mRgba), transform);
                 // update array in place.
                 recognizer.regognize(candidates);
-                // TODO: use button callback
-                sudokuTracker.setFoundCandidate(false);
+                // sudokuTracker.setFoundCandidate(false);
+                finish(candidates);
             } catch (NoSudokuFoundException e) {
-                Log.d(TAG, e.getMessage());
+                Log.v(TAG, e.getMessage());
                 sudokuTracker.setFoundCandidate(false);
                 // mOpenCvCameraView.enableView();
             }

@@ -38,8 +38,8 @@ import android.widget.ImageView;
 public class TestActivity extends Activity {
 
     private static final String TAG = "SudokuHelper::TestActivity";
-    private static final int WIDTH = 768;
-    private static final int HEIGHT = 1024;
+    private static final int WIDTH = 1024;
+    private static final int HEIGHT = 768;
     private Mat mGray;
     private Mat mRgba;
     private static SudokuTracker sudokuTracker;
@@ -84,7 +84,7 @@ public class TestActivity extends Activity {
         List<FieldCandidate> candidates = null;
 
         try {
-            mGray = Utils.loadResource(this, R.raw.s58, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+            mGray = Utils.loadResource(this, R.raw.s57, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             Log.e(TAG, "error loading resource");
@@ -95,11 +95,12 @@ public class TestActivity extends Activity {
         // send the image to the tracker
         mRgba = sudokuTracker.detect(mGray);
         Mat mStraight = sudokuTracker.getMStraight();
+        Mat transform = sudokuTracker.getInverseTransformMat();
         digitExtractor.setSource(mStraight);
-        Imgproc.cvtColor(mStraight, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 );
+        // Imgproc.cvtColor(mStraight, mRgba, Imgproc.COLOR_GRAY2RGBA, 4 );
 
         try {
-            candidates = digitExtractor.extractDigits(mRgba);
+            candidates = digitExtractor.extractDigits(sudokuTracker.onlyRoi(mRgba), transform);
             recognizer.regognize(candidates);
         } catch (NoSudokuFoundException e) {
             // TODO Auto-generated catch block

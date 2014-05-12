@@ -59,7 +59,12 @@ public class DigitExtractor {
      */
     public List<FieldCandidate> extractDigits(Mat displayMat, Mat transformMat) throws NoSudokuFoundException{
         digitCount = 0;
+        Mat mTempRgba = null;
         List<FieldCandidate> candidates = new ArrayList<FieldCandidate>();
+        if(transformMat != null){
+            mTempRgba = new Mat(source.rows(), source.cols(), CvType.CV_8UC4);
+            Imgproc.cvtColor(source, mTempRgba, Imgproc.COLOR_GRAY2RGBA, 4 );
+        }
         for (int row=0; row<9; row++){
             int rowCount = 0;
             for (int col=0; col<9; col++) {
@@ -69,10 +74,9 @@ public class DigitExtractor {
                     digitCount++;
                     rowCount++;
                     if(transformMat == null) {
-                        Log.v(TAG, "Transform Mat is null");
                         drawBoundingBox(displayMat, rect, row, col);
                     } else {
-                        drawBoundingBox(source, rect, row, col);
+                        drawBoundingBox(mTempRgba, rect, row, col);
                     }
                     Mat box = field.submat(rect);
                     FieldCandidate candidate = new FieldCandidate(row, col, box);
@@ -87,13 +91,16 @@ public class DigitExtractor {
         }
         if(transformMat != null){
             Size size = displayMat.size();
-            Log.v(TAG, "Retransforming Mat");
-            Imgproc.cvtColor(source, displayMat, Imgproc.COLOR_GRAY2RGBA, 4 );
-            Imgproc.warpPerspective(source, 
+            Log.v(TAG, "Retransforming Mat. Size: " + size);
+            
+            Imgproc.warpPerspective(mTempRgba, 
                     displayMat,
                     transformMat,
                     size, 
                     Imgproc.INTER_LINEAR);
+            mTempRgba.release();
+            // rotate the result image back
+            Core.flip(displayMat.t(), displayMat, 0); // CW
         }
         
         Log.v(TAG, "Found " + digitCount + " digits.");
