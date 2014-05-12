@@ -20,11 +20,14 @@ public class NeuralNetworkRecognizer implements Recognizer {
     private static final String TAG = "SudokuHelper::NeuralNetworkRecognizer";
     private static final int ATTRIBUTES = 256; // numbers of pixels per sample
     private static final int LABELS = 10; // number of distinct labels
+    private static final double CONSIDER_GOOD = 20000000;
+    private static final int MIN_GOOD_HITS = 9;  // TODO: up this to 15
     
     private Context context;
     private CvANN_MLP nnetwork;
     // private int debug = 0;
     private Mat scaled;
+    private int countGood;
     
     
     public NeuralNetworkRecognizer(Context applicationContext) {
@@ -76,17 +79,25 @@ public class NeuralNetworkRecognizer implements Recognizer {
         if(maxIndex == 1) { 
             secondaryIndex = 7; 
         }
+        if(Math.abs(maxValue) < CONSIDER_GOOD){
+            countGood++;
+        }
         
         Log.v(TAG, "Found label: " + maxIndex + " (" + maxValue + ")" + 
                 " 2nd best: " + secondaryIndex + "(" + secondaryValue + ")");
-        
+       
         return new int[]{maxIndex, secondaryIndex};
     }
     
     @Override
-    public void regognize(List<FieldCandidate> candidates) {
+    public void regognize(List<FieldCandidate> candidates) throws NoSudokuFoundException {
+        countGood = 0;
         for(FieldCandidate candidate: candidates){
             candidate.setContent(recognize(candidate.getImage()));
+        }
+        Log.v(TAG, "Considering good hits: " + countGood);
+        if(countGood < MIN_GOOD_HITS){
+            throw new NoSudokuFoundException("Not enough good hits found");
         }
     }
 

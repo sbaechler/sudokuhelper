@@ -20,7 +20,8 @@ public interface Recognizer {
      * Recognize multiple fields
      * @param candidates - A List of FieldCandidates containing Mats cropped to 
      *                     the digit. The object is upadted in place.
+     * @throws NoSudokuFoundException 
      */
-    public void regognize(List<FieldCandidate> candidates);
+    public void regognize(List<FieldCandidate> candidates) throws NoSudokuFoundException;
     
 }
