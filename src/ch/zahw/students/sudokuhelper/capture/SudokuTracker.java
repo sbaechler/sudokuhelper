@@ -26,7 +26,6 @@ import org.opencv.utils.Converters;
  * Make sure OpenCV has initialized before instantiating this class.
  * (instantiate it in the onManagerConnected callback)
  * @author simon
- *
  */
 public class SudokuTracker {
     private static final String TAG = "SudokuHelper::SudokuTracker";
@@ -91,41 +90,51 @@ public class SudokuTracker {
     }
     
     /**
-     * This is the main method called by the app.
+     * This is the main method called by the app on every preview image. 
+     * It has to rotate the input image by 90° to process it
+     * since OpenCV images always have landscape orientation.
+     * If a candidate was found the numbers are extracted. If any of the extracting
+     * methods fail, the current image is discarded.
      * @param imageGray - Grayscale Mat.
-     * @return RGBA Mat
+     * @return RGBA Mat, required by the onCameraFrame method.
      */
     public Mat detect(Mat imageGray) {
        
-        Log.v(TAG, "Roi: " + roi.x + ", " + roi.y + " " + roi.width  + " " +roi.height);
         Log.v(TAG, "Detecting input Mat: " + imageGray.cols() + "x" + imageGray.rows());
+        // discard all the grayscale value and adaptively threshold the image into
+        // a pure black & white image.
         threshold(imageGray.submat(roi), mIntermediateMat);
         // rotate the image 90° CCW
         Core.flip(mIntermediateMat.t(), mIntermediateMat, CCW);
 
+        // blur the image a bit to get rid of noise.
         Imgproc.medianBlur(mIntermediateMat, mIntermediateMat, 3);
         Imgproc.cvtColor(mIntermediateMat, mRgbaSub, Imgproc.COLOR_GRAY2RGBA, 4 ); 
         if (!foundCandidate){
             try {
+                // make the lines a bit wider to close potential gaps.
                 dilate(mIntermediateMat, mIntermediate2Mat);
                 List<Point> points = markLines();  // Throws NoSudokuFoundException
-                // TODO: Add another sanity check after the matrix transformation.
                 tg.startTone(ToneGenerator.TONE_PROP_BEEP);
                 foundCandidate = true;
-                // TODO: Start this in another thread.
                 perspectiveTransform(points); // fills mStraight
-                // TODO: throw new SudokuFoundException and change activities
+                
             } catch (NoSudokuFoundException e) {
+                // This exception can be thrown any time. 
+                // The current frame is no good, abort and continue with the next one.
                 Log.v(TAG, e.getMessage());
                 System.gc();
                 foundCandidate = false;
             }
         }
-        // rotate the middle part of the image image 90° CW
+        // rotate the middle part of the image image 90° CW so it appears correct.
         Core.flip(mRgbaSub.t(), mRgbaSub, CW);
         return mRgba;
     }
     
+    /**
+     * Turn the passed grayscale Mat into a binary image. 
+     */
     private void threshold(Mat source, Mat dest){
         int maxValue = 255; 
         int blockSize = 61; 
@@ -148,7 +157,14 @@ public class SudokuTracker {
         );
     }
     
-    
+    /**
+     * Find all the lines in the image using a Hough transform algorithm.
+     * Use the SquareFinder class to extract the corner points and locate
+     * the Sudoku.
+     * This method also draws the green lines onto the display Mat.
+     * @return a list of the four corner points.
+     * @throws NoSudokuFoundException
+     */
     private List<Point> markLines() throws NoSudokuFoundException{
         
         int threshold = 60;
@@ -172,15 +188,20 @@ public class SudokuTracker {
 
               Core.line(mRgbaSub, start, end, new Scalar(0,255,0), 3);           
         }
-        List<Point> points = finder.drawEdges(mRgbaSub);
+        List<Point> points = finder.findCornerPoints(mRgbaSub);
         finder = null;
         return points;
     }
     
+    /**
+     * Make the sudoku in the frame perfectly straight.
+     * The inverse transform matrix is set here as well to print the result
+     * onto the original frame.
+     * @param points - The four corner points
+     */
     private void perspectiveTransform(List<Point> points){
         Mat startM = Converters.vector_Point2f_to_Mat(points);
         Mat endM = Mat.zeros(4,2, CvType.CV_32F);
-        // Mat tempM = new Mat();
         endM.put(0,1, RESULT_SIZE);
         endM.put(1,0, RESULT_SIZE);
         endM.put(1,1, RESULT_SIZE);
@@ -195,12 +216,9 @@ public class SudokuTracker {
                 mStraight,
                 transformMat,
                 new Size(RESULT_SIZE, RESULT_SIZE), 
-                Imgproc.INTER_LINEAR);
+                Imgproc.INTER_CUBIC);
         transformMat.release();
         Imgproc.threshold(mStraight, mStraight, 128, 255, Imgproc.THRESH_BINARY);
-        // inverse the result, so text is black on white.
-        // Core.bitwise_not(tempM, mStraight);
-        // tempM.release();
     }
 
 

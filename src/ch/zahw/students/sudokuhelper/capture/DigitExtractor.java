@@ -18,8 +18,7 @@ import android.util.Log;
 
 
 /**
- * This class takes care of extracting the digits from the sudoku and
- * passing them to the OCR class.
+ * This class takes care of extracting the digits from the Sudoku.
  * @author simon
  *
  */
@@ -32,9 +31,7 @@ public class DigitExtractor {
     private int sudokuSize;
     private int fieldSize;
     private int borderWidth;
-    private int digitCount = 0;
-    private Recognizer recognizer;   
-    
+    private int digitCount = 0; 
 
     
     public void setSource(Mat source) {
@@ -112,11 +109,11 @@ public class DigitExtractor {
     }
     
     public List<FieldCandidate> extractDigits() throws NoSudokuFoundException{
-        return this.extractDigits(source);
+        return this.extractDigits(source, null);
     }
     
     public List<FieldCandidate> extractDigits(Mat displayMat) throws NoSudokuFoundException{
-        return this.extractDigits(source, null);
+        return this.extractDigits(displayMat, null);
     }
     
     

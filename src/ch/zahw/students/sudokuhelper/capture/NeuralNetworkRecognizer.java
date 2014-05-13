@@ -29,7 +29,11 @@ public class NeuralNetworkRecognizer implements Recognizer {
     private Mat scaled;
     private int countGood;
     
-    
+    /**
+     * The neural network needs to load its configuration from an xml file first.
+     * The xml file is stored in assets/param.xml.
+     * @param applicationContext
+     */
     public NeuralNetworkRecognizer(Context applicationContext) {
         this.context = applicationContext;
         this.scaled = new Mat(16,16, CvType.CV_8UC1);
@@ -52,7 +56,6 @@ public class NeuralNetworkRecognizer implements Recognizer {
         nnetwork.load(f.getAbsolutePath(), "DigitOCR");
     }
 
- 
     @Override
     public int[] recognize(Mat candidate) {
         Mat classOut = new MatOfDouble();
@@ -89,6 +92,7 @@ public class NeuralNetworkRecognizer implements Recognizer {
         return new int[]{maxIndex, secondaryIndex};
     }
     
+
     @Override
     public void regognize(List<FieldCandidate> candidates) throws NoSudokuFoundException {
         countGood = 0;
@@ -104,9 +108,9 @@ public class NeuralNetworkRecognizer implements Recognizer {
     
     
     /**
-     * Preprocessing helper method.
+     * Pre-processing helper method.
      * @param candidate - input Mat, actual size.
-     * @return 1x256 Pixel Mat to be sent to the neural network.
+     * @return 1x256 Binary FP Mat to be sent to the neural network.
      */
     public Mat preprocess(Mat candidate){
         Mat reshaped = Mat.ones(1, ATTRIBUTES, CvType.CV_64F);
