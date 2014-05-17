@@ -307,7 +307,5 @@ public class MainHelper {
                 }
             }
 	}
-	
-	
 
 }

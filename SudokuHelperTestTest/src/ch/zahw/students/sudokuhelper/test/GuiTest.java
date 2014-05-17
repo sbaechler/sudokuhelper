@@ -7,8 +7,11 @@ import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
 import android.test.UiThreadTest;
+import android.widget.EditText;
 import android.widget.TableLayout;
+import android.widget.TextView.BufferType;
 
 public class GuiTest extends ActivityInstrumentationTestCase2<MainActivity> {
     
@@ -27,22 +30,40 @@ public class GuiTest extends ActivityInstrumentationTestCase2<MainActivity> {
         mActivity = getActivity(); // get a references to the app under test
     }
     
-    @UiThreadTest
     public void testManualOverrideNumbers(){
         mainHelper = new MainHelper(mActivity);
-        mainHelper.createTable(mActivity.findViewById(ch.zahw.students.sudokuhelper.R.id.sudoku_table));
-
         
+        mActivity.runOnUiThread(
+            new Runnable(){
+                public void run(){
+                    mainHelper.createTable(mActivity.findViewById(ch.zahw.students.sudokuhelper.R.id.sudoku_table));
+                }
+            }           
+        );
+        
+        final EditText cell1 = (EditText) mActivity.findViewById(ch.zahw.students.sudokuhelper.R.id.table_cell_00);
+        final EditText cell2 = (EditText) mActivity.findViewById(ch.zahw.students.sudokuhelper.R.id.table_cell_00);
         // The first and second cells are empty.
-        
-        
+        assertEquals("", cell1.getText().toString());
+        assertEquals("", cell2.getText().toString());
         
         // The first cell has the number 1
+        mActivity.runOnUiThread(
+            new Runnable(){
+                public void run(){
+                    cell1.setText("1", BufferType.EDITABLE);
+                    assertEquals("1", cell1.getText().toString());
+                }
+            }           
+        );
+                
+
+                
         // The number is marked as good (green)
         
-        
-        
+               
         // The user taps on the cell
+        TouchUtils.clickView(this, cell1);
         
         
         // The keyboard appears. He enters the number 2
