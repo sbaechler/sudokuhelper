@@ -49,12 +49,11 @@ public class MainHelper {
 	}
 
 	// Hier wird später das eingelesene Sudoku übergeben
-	public void startSudoku() {
+	public void showSudoku() {
 		this.isSudokuSolved = false;
 		this.solvedSudoku = null;
-		sudoku = sudokuManager.createSudokuSimply();
 		fillSudokuTable(sudoku);
-		internSolve();
+//		internSolve();
 	}
 
 	// ****************************** Init ******************************
@@ -225,6 +224,7 @@ public class MainHelper {
 
 	public void solve(View view) {
 		Log.v(TAG, "Solve");
+		internSolve();
 		fillSolvedNumber(solvedSudoku);
 	}
 
@@ -301,7 +301,7 @@ public class MainHelper {
                         secondaryValues[row][column] = secondary;
                     }
                     // TODO: Add verification
-                    fillSudokuTable(primaryValues);
+                    sudoku = primaryValues;
                 } else {
                     Log.e(TAG, "No match for: " + fields[i]);
                 }

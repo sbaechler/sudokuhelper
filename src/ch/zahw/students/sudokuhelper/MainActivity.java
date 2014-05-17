@@ -45,7 +45,6 @@ public class MainActivity extends Activity {
 		
 		mainHelper = new MainHelper(this);
 		mainHelper.createTable(findViewById(R.id.sudoku_table));
-		// mainHelper.startSudoku();
 	}
 
 	/**
@@ -63,6 +62,8 @@ public class MainActivity extends Activity {
                 mainHelper.parseResult(candidates);
 	    }
 	  }
+	  
+	  mainHelper.showSudoku();
 	  	  
 	} 
 	
