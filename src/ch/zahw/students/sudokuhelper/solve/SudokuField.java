@@ -71,5 +71,5 @@ public class SudokuField {
 		availableNumbers.clear();
 		availableNumbers.add(0);
 	}
-
+	
 }

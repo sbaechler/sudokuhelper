@@ -8,9 +8,9 @@ import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 public class SudokuSolveTest extends ActivityTestCase {
 
 	private SudokuManager sudokuManager;
-
-	public SudokuSolveTest() {
-		sudokuManager = new SudokuManager();
+	
+	public void setUp(){
+	    sudokuManager = new SudokuManager();
 	}
 
 	public void solveSudoku(int[][] toSolve, int[][] sudoku) {

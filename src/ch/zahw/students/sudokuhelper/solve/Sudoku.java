@@ -1,10 +1,12 @@
 package ch.zahw.students.sudokuhelper.solve;
 
+import java.util.Set;
 import java.util.Vector;
 
 public class Sudoku {
 
 	private SudokuField[][] fields;
+	private Set<SudokuField> invalidFields; 
 
 	public Sudoku() {
 		fields = new SudokuField[9][9];
