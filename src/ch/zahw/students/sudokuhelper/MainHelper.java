@@ -4,16 +4,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.graphics.Color;
-import android.telephony.CellLocation;
 import android.text.InputType;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
+import ch.zahw.students.sudokuhelper.solve.SquareView;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
@@ -167,8 +166,8 @@ public class MainHelper {
 
 	private void createRow(TableLayout tableLayout) {
 		TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(
-				TableLayout.LayoutParams.WRAP_CONTENT,
-				TableLayout.LayoutParams.WRAP_CONTENT);
+				TableLayout.LayoutParams.MATCH_PARENT,
+				TableLayout.LayoutParams.MATCH_PARENT);
 		TableRow.LayoutParams rowParams = new TableRow.LayoutParams(
 				TableRow.LayoutParams.MATCH_PARENT,
 				TableRow.LayoutParams.MATCH_PARENT);
@@ -216,7 +215,6 @@ public class MainHelper {
 
 			sudokuCell.setLayoutParams(celllayout);
 
-			
 			tableRow.addView(sudokuCell);
 
 		}
