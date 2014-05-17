@@ -4,8 +4,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.graphics.Color;
+import android.telephony.CellLocation;
 import android.text.InputType;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -26,8 +28,8 @@ public class MainHelper {
 	private boolean isSudokuSolved = false;
 	private MainActivity mainActivity;
 	private Sudoku solvedSudoku;
-        private static final Pattern CANDIDATE_PATTERN = Pattern.compile("^(\\d\\d?),(\\d\\d?):(\\d)-(\\d)$");
-
+	private static final Pattern CANDIDATE_PATTERN = Pattern
+			.compile("^(\\d\\d?),(\\d\\d?):(\\d)-(\\d)$");
 
 	public MainHelper(MainActivity mainActivity2) {
 		Log.v(TAG, "Creating instance MainActivity");
@@ -36,15 +38,15 @@ public class MainHelper {
 		this.solvedSudoku = null;
 		init();
 	}
-	
 
 	// Diese Methode wird nach dem Capture und dem startSudoku ausgeführt um
-	// 1. zu überprüfen ob das Sudoku valid ist bzw. die Zahlen richtig eingelesen wurden
+	// 1. zu überprüfen ob das Sudoku valid ist bzw. die Zahlen richtig
+	// eingelesen wurden
 	// 2. nur einmal das Sudoku zu lösen
-	private void internSolve(){
+	private void internSolve() {
 		if (!isSudokuSolved) {
-			this.solvedSudoku = sudokuManager.solveWithBetterApproach(sudoku);
-			isSudokuSolved = true;
+			this.solvedSudoku = sudokuManager.solve(sudoku);
+			isSudokuSolved = sudokuManager.isSolved();
 		}
 	}
 
@@ -52,7 +54,6 @@ public class MainHelper {
 	public void startSudoku() {
 		this.isSudokuSolved = false;
 		this.solvedSudoku = null;
-		sudoku = sudokuManager.createSudokuSimply();
 		fillSudokuTable(sudoku);
 		internSolve();
 	}
@@ -159,14 +160,15 @@ public class MainHelper {
 	public void createTable(View sudokuTableLayout) {
 		Log.v(TAG, "Creating table");
 		TableLayout tLayout = (TableLayout) sudokuTableLayout;
+
 		tLayout.setClickable(false);
 		createRow(tLayout);
 	}
 
 	private void createRow(TableLayout tableLayout) {
 		TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(
-				TableLayout.LayoutParams.MATCH_PARENT,
-				TableLayout.LayoutParams.MATCH_PARENT);
+				TableLayout.LayoutParams.WRAP_CONTENT,
+				TableLayout.LayoutParams.WRAP_CONTENT);
 		TableRow.LayoutParams rowParams = new TableRow.LayoutParams(
 				TableRow.LayoutParams.MATCH_PARENT,
 				TableRow.LayoutParams.MATCH_PARENT);
@@ -204,16 +206,19 @@ public class MainHelper {
 			sudokuCell.setId(cellIds[i][j]);
 			sudokuCell.setFocusable(false);
 
-			TableRow.LayoutParams cellalyout = new TableRow.LayoutParams(
+			TableRow.LayoutParams celllayout = new TableRow.LayoutParams(
 					TableRow.LayoutParams.MATCH_PARENT,
 					TableRow.LayoutParams.MATCH_PARENT);
 
-			cellalyout.weight = 1;
-			cellalyout.setMargins(1, 1, right, bottom);
+			celllayout.weight = 1;
+			celllayout.setMargins(1, 1, right, bottom);
 			sudokuCell.setPadding(0, 0, 0, 0);
 
-			sudokuCell.setLayoutParams(cellalyout);
+			sudokuCell.setLayoutParams(celllayout);
+
+			
 			tableRow.addView(sudokuCell);
+
 		}
 	}
 
@@ -261,7 +266,7 @@ public class MainHelper {
 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-			    changeCell(i, j, sudoku[i][j], Color.WHITE);
+				changeCell(i, j, sudoku[i][j], Color.WHITE);
 			}
 		}
 
@@ -274,40 +279,53 @@ public class MainHelper {
 		if (number > 0) {
 			cell.setText(String.valueOf(number));
 		} else {
-		    cell.setText("");
+			cell.setText("");
 		}
 
 		cell.setBackgroundColor(color);
 	}
-	
+
 	/**
-	 * Extract the sudoku values from the String returned from the
-	 * capture activity
+	 * Extract the sudoku values from the String returned from the capture
+	 * activity
 	 */
-	public void parseResult(String candidates){
-            int[][] primaryValues = new int[9][9];
-            int[][] secondaryValues = new int[9][9];
-            String[] fields = candidates.split(";");
-            for(int i=0; i<fields.length; i++){
-                Matcher matcher = CANDIDATE_PATTERN.matcher(fields[i]);
-                if (matcher.matches()) {
-                    // 1: row, 2: column, 3: primary value, 4: secondary value
-                    int row = Integer.parseInt(matcher.group(1));
-                    int column = Integer.parseInt(matcher.group(2));
-                    int primary = Integer.parseInt(matcher.group(3));
-                    int secondary = Integer.parseInt(matcher.group(4));
-                    primaryValues[row][column] = primary;
-                    if(secondary > 0){
-                        secondaryValues[row][column] = secondary;
-                    }
-                    // TODO: Add verification
-                    fillSudokuTable(primaryValues);
-                } else {
-                    Log.e(TAG, "No match for: " + fields[i]);
-                }
-            }
+	public void parseResult(String candidates) {
+		int[][] primaryValues = new int[9][9];
+		int[][] secondaryValues = new int[9][9];
+		String[] fields = candidates.split(";");
+
+		for (int i = 0; i < fields.length; i++) {
+			Matcher matcher = CANDIDATE_PATTERN.matcher(fields[i]);
+			if (matcher.matches()) {
+				// 1: row, 2: column, 3: primary value, 4: secondary value
+				int row = Integer.parseInt(matcher.group(1));
+				int column = Integer.parseInt(matcher.group(2));
+				int primary = Integer.parseInt(matcher.group(3));
+				int secondary = Integer.parseInt(matcher.group(4));
+
+				primaryValues[row][column] = primary;
+
+				if (secondary > 0) {
+					secondaryValues[row][column] = secondary;
+				}
+				// sudoku = primaryValues;
+				// TODO: Add verification
+			} else {
+				Log.e(TAG, "No match for: " + fields[i]);
+			}
+		}
+		sudoku = sudokuManager.createSudokuSimply();
+		// TODO
+		// sudoku = primaryValues;
+		startSudoku();
 	}
-	
-	
+
+	public void testSudoku() {
+		sudoku = sudokuManager.createSudokuSimply();
+		this.isSudokuSolved = false;
+		this.solvedSudoku = null;
+		fillSudokuTable(sudoku);
+		// startSudoku();
+	}
 
 }

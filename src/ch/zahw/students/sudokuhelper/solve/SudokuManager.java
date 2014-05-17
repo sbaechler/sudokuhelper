@@ -3,36 +3,61 @@ package ch.zahw.students.sudokuhelper.solve;
 import java.util.Vector;
 
 import ch.zahw.students.sudokuhelper.solve.algorithm.AAlgorithm;
+import ch.zahw.students.sudokuhelper.solve.algorithm.HiddenSingleAlgorithmus;
 import ch.zahw.students.sudokuhelper.solve.algorithm.NaiveAlgorithmus;
 import ch.zahw.students.sudokuhelper.solve.algorithm.SimpleAlgorithm;
-
 
 public class SudokuManager {
 
 	private Sudoku sudoku;
-	private AAlgorithm aaAlgorithm;
+
+	private NaiveAlgorithmus naiveAlgorithm;
+	private HiddenSingleAlgorithmus hiddenSingle;
+	private SimpleAlgorithm nakedSingle;
+
 	private Vector<SudokuField> solveOrder;
 	private int indexNextSolveOrder;
+	private boolean isSolved = false;
 
-	public Sudoku solveWithNaiveApproach(int[][] sudokuArray) {
-		// eine zahl möglich -> sofort ausprobieren (rekursiv)
-		aaAlgorithm = new NaiveAlgorithmus(sudokuArray);
-		Sudoku solvedSudoku = aaAlgorithm.solve();
-		this.solveOrder = aaAlgorithm.getSolveOrder();
+	public Sudoku solve(int[][] sudokuArray) {
+		naiveAlgorithm = new NaiveAlgorithmus(sudokuArray);
+		hiddenSingle = new HiddenSingleAlgorithmus(sudokuArray);
+		nakedSingle = new SimpleAlgorithm(sudokuArray);
+
+		Sudoku solvedSudokuNakedSingle;
+		Sudoku solvedSudokuHiddenSingle;
+
+		while (true) {
+			// solve with naked singles
+			solvedSudokuNakedSingle = nakedSingle.solve();
+
+			if (nakedSingle.isSolved()) {
+				// GELÖST !
+				isSolved = true;
+				break;
+			} else {
+				// sovle with hidden singles
+				solvedSudokuHiddenSingle = hiddenSingle.solve();
+
+				if (!solvedSudokuNakedSingle.equals(solvedSudokuHiddenSingle)) {
+					// wieder naked single
+					continue;
+				} else {
+					// ja: naiv
+					naiveAlgorithm.solve();
+				}
+				// nein: abruch
+				isSolved = false;
+				break;
+			}
+		}
+
+		this.solveOrder = naiveAlgorithm.getSolveOrder();
 		this.indexNextSolveOrder = -1;
 
-		return solvedSudoku;
+		return naiveAlgorithm.getSudoku();
 	}
 
-	public Sudoku solveWithBetterApproach(int[][] sudokuArray) {
-		aaAlgorithm = new SimpleAlgorithm(sudokuArray);
-		Sudoku solvedSudoku = aaAlgorithm.solve();
-		this.solveOrder = aaAlgorithm.getSolveOrder();
-		this.indexNextSolveOrder = -1;
-		
-		return solvedSudoku;
-	}
-	
 	public int[][] getArrSud(int[][] arrSud) {
 		return arrSud;
 	}
@@ -42,7 +67,7 @@ public class SudokuManager {
 	}
 
 	public Vector<SudokuField> getSolveOrder() {
-		return aaAlgorithm.getSolveOrder();
+		return naiveAlgorithm.getSolveOrder();
 	}
 
 	public SudokuField getNextSolveOrder() {
@@ -66,7 +91,7 @@ public class SudokuManager {
 		}
 		System.out.println("\n-------------------");
 	}
-	
+
 	public int[][] getSudokuAsArray(Sudoku toArray) {
 		int[][] arrSud = new int[9][9];
 
@@ -77,19 +102,18 @@ public class SudokuManager {
 		}
 		return arrSud;
 	}
-	
+
 	public SudokuField getPreviousSolveOrder() {
-		
-		int prev = indexNextSolveOrder-1;
-	
-		if(prev<0){
+
+		int prev = indexNextSolveOrder - 1;
+
+		if (prev < 0) {
 			return null;
 		}
-		
+
 		return solveOrder.get(prev);
 	}
 
-	
 	// ***************************************** TODO wieder löschen
 	public int[][] createSudokuSimply() {
 		int[][] toFillSudoku = new int[9][9];
@@ -141,6 +165,10 @@ public class SudokuManager {
 		toFillSudoku[8][2] = 8;
 
 		return toFillSudoku;
+	}
+
+	public boolean isSolved() {
+		return isSolved;
 	}
 
 }

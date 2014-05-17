@@ -14,6 +14,7 @@ public abstract class AAlgorithm {
 	private boolean[] colCheck;
 	private boolean[] squareCheck;
 	private Vector<SudokuField> solveOrder;
+	private boolean isSolved = false;
 
 	public AAlgorithm(int[][] sudokuArray) {
 		this.sudoku = new Sudoku(sudokuArray);
@@ -211,5 +212,13 @@ public abstract class AAlgorithm {
 	
 	public Vector<SudokuField> getSolveOrder() {
 		return solveOrder;
+	}
+	
+	public boolean isSolved() {
+		return isSolved;
+	}
+	
+	public Sudoku getSudoku() {
+		return sudoku;
 	}
 }

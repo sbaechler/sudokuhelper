@@ -12,6 +12,8 @@ public class NaiveAlgorithmus extends AAlgorithm {
 
 	@Override
 	public Sudoku solve() {
+		// TODO sicherung einbauen, zbsp: wenn mehr als 10 Felder leer sind,
+		// nicht lösen
 		return solveWithNaiveApproach();
 	}
 
@@ -36,7 +38,6 @@ public class NaiveAlgorithmus extends AAlgorithm {
 				}
 			}
 		}
-
 
 		while (!checkIfSolvedAdvaced()) {
 			naiveApproach(0, 0);

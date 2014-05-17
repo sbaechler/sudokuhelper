@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
 		
 		mainHelper = new MainHelper(this);
 		mainHelper.createTable(findViewById(R.id.sudoku_table));
-		mainHelper.startSudoku();
+		mainHelper.testSudoku();
 	}
 
 	/**
