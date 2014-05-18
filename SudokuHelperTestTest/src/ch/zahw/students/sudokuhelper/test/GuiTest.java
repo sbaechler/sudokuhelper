@@ -2,15 +2,11 @@ package ch.zahw.students.sudokuhelper.test;
 
 import ch.zahw.students.sudokuhelper.MainActivity;
 import ch.zahw.students.sudokuhelper.MainHelper;
-import ch.zahw.students.sudokuhelper.R;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
-import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
-import android.test.UiThreadTest;
 import android.widget.EditText;
-import android.widget.TableLayout;
 import android.widget.TextView.BufferType;
 
 public class GuiTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -19,7 +15,6 @@ public class GuiTest extends ActivityInstrumentationTestCase2<MainActivity> {
         super(MainActivity.class);
     }
 
-    private Sudoku sudoku;
     private MainActivity mActivity;
     private Instrumentation mInstrumentation;
     private MainHelper mainHelper;
@@ -56,17 +51,22 @@ public class GuiTest extends ActivityInstrumentationTestCase2<MainActivity> {
                 }
             }           
         );
-                
-
-                
+                                
         // The number is marked as good (green)
         
                
         // The user taps on the cell
         TouchUtils.clickView(this, cell1);
-        
-        
+                
         // The keyboard appears. He enters the number 2
+        mActivity.runOnUiThread(
+            new Runnable(){
+                public void run(){
+                    cell1.setText("1", BufferType.EDITABLE);
+                    assertEquals("1", cell1.getText().toString());
+                }
+            }           
+        );
         
         
         // The number 2 is in cell 1.
