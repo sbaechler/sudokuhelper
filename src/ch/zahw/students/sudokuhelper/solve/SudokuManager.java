@@ -14,9 +14,30 @@ public class SudokuManager {
 	private Vector<SudokuField> solveOrder;
 	private int indexNextSolveOrder;
 
-	public Sudoku solveWithNaiveApproach(int[][] sudokuArray) {
+	// creates a new, empty Sudoku
+	public SudokuManager(){
+	    this.sudoku = new Sudoku();
+	}
+	// creates a Sudoku from a given list of candidates
+	public SudokuManager(int[][] sudokuArray){
+	    this.sudoku = new Sudoku(sudokuArray);
+	}
+	// Uses an existing Sudoku (i.e. from saved state)
+	public SudokuManager(Sudoku sudoku){
+	    this.sudoku = sudoku;
+	}
+	
+	/**
+        * Sets the values for an existing Sudoku.
+        * @param candidates - 2-dimensional array of numbers.
+        */
+	public void resetSudoku(int[][] candidates){
+	    sudoku.setValues(candidates);
+	}
+	
+	public Sudoku solveWithNaiveApproach() {
 		// eine zahl möglich -> sofort ausprobieren (rekursiv)
-		aaAlgorithm = new NaiveAlgorithmus(sudokuArray);
+		aaAlgorithm = new NaiveAlgorithmus(sudoku);
 		Sudoku solvedSudoku = aaAlgorithm.solve();
 		this.solveOrder = aaAlgorithm.getSolveOrder();
 		this.indexNextSolveOrder = -1;
@@ -24,8 +45,8 @@ public class SudokuManager {
 		return solvedSudoku;
 	}
 
-	public Sudoku solveWithBetterApproach(int[][] sudokuArray) {
-		aaAlgorithm = new SimpleAlgorithm(sudokuArray);
+	public Sudoku solveWithBetterApproach() {
+		aaAlgorithm = new SimpleAlgorithm(sudoku);
 		Sudoku solvedSudoku = aaAlgorithm.solve();
 		this.solveOrder = aaAlgorithm.getSolveOrder();
 		this.indexNextSolveOrder = -1;
@@ -39,6 +60,10 @@ public class SudokuManager {
 
 	public Sudoku getSudoku() {
 		return sudoku;
+	}
+	
+	public SudokuField[] getSudokuFields(){
+	    return sudoku.getFields();
 	}
 
 	public Vector<SudokuField> getSolveOrder() {
@@ -67,6 +92,7 @@ public class SudokuManager {
 		System.out.println("\n-------------------");
 	}
 	
+	@Deprecated
 	public int[][] getSudokuAsArray(Sudoku toArray) {
 		int[][] arrSud = new int[9][9];
 

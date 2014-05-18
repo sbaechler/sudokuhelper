@@ -14,7 +14,8 @@ public class SudokuSolveTest extends ActivityTestCase {
 	}
 
 	public void solveSudoku(int[][] toSolve, int[][] sudoku) {
-		Sudoku solvSudoku = sudokuManager.solveWithBetterApproach(sudoku);
+	    sudokuManager.resetSudoku(sudoku);
+		Sudoku solvSudoku = sudokuManager.solveWithBetterApproach();
 		int[][] solvedSudoku = sudokuManager.getSudokuAsArray(solvSudoku);
 
 		for (int i = 0; i < 9; i++) {

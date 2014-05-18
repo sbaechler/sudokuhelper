@@ -6,7 +6,7 @@ import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
 public class NaiveAlgorithmus extends AAlgorithm {
 
-	public NaiveAlgorithmus(int[][] sudoku) {
+	public NaiveAlgorithmus(Sudoku sudoku) {
 		super(sudoku);
 	}
 

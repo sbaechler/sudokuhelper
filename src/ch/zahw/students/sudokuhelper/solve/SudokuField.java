@@ -2,6 +2,8 @@ package ch.zahw.students.sudokuhelper.solve;
 
 import java.util.ArrayList;
 
+import android.widget.TextView;
+
 public class SudokuField {
 
 	private ArrayList<Integer> availableNumbers;
@@ -10,17 +12,25 @@ public class SudokuField {
 	private boolean isFounded;
 	private int row;
 	private int column;
+	private TextView view = null;
 
 	public SudokuField(int row, int column) {
-		this.number = 0;
-		this.isFounded = false;
-		this.startGap = false;
-		this.row = row;
-		this.column = column;
-		this.availableNumbers = new ArrayList<Integer>();
-		initAvailableNumbers();
+	    this.row = row;
+	    this.column = column;
+	    this.reset();
 	}
 
+	/*
+	 * Resets the field to its initial state.
+	 */
+	public void reset(){
+	    this.number = 0;
+	    this.isFounded = false;
+	    this.startGap = false;
+	    this.availableNumbers = new ArrayList<Integer>();
+	    initAvailableNumbers();
+	}
+	
 	private void initAvailableNumbers() {
 		for (int i = 1; i < 10; i++) {
 			availableNumbers.add(i);
@@ -28,11 +38,21 @@ public class SudokuField {
 	}
 
 	public void setNumber(int number) {
-		this.number = number;
+	    this.number = number;
 	}
+	
+
 
 	public int getNumber() {
 		return number;
+	}
+	
+	public String getNumberAsString(){
+	    if (number > 0){
+	        return Integer.toString(number);
+	    } else {
+	        return "";
+	    }
 	}
 
 	public ArrayList<Integer> getAvailableNumbers() {
@@ -71,5 +91,15 @@ public class SudokuField {
 		availableNumbers.clear();
 		availableNumbers.add(0);
 	}
+
+	public TextView getView(){
+	    return this.view;
+	}
+	
+        public void setView(TextView sudokuCell) {
+            this.view = sudokuCell;
+        }
+    
+    
 	
 }

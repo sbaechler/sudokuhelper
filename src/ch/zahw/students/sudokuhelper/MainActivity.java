@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
 	    }
 	  }
 	  
-	  mainHelper.showSudoku();
+	  // mainHelper.updateSudokuGui();
 	  	  
 	} 
 	

@@ -15,8 +15,8 @@ public abstract class AAlgorithm {
 	private boolean[] squareCheck;
 	private Vector<SudokuField> solveOrder;
 
-	public AAlgorithm(int[][] sudokuArray) {
-		this.sudoku = new Sudoku(sudokuArray);
+	public AAlgorithm(Sudoku sudoku) {
+		this.sudoku = sudoku;
 		init();
 	}
 

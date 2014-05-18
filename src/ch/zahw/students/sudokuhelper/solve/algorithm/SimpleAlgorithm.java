@@ -5,7 +5,7 @@ import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
 public class SimpleAlgorithm extends AAlgorithm {
 
-	public SimpleAlgorithm(int[][]  sudoku) {
+	public SimpleAlgorithm(Sudoku sudoku) {
 		super(sudoku);
 	}
 
