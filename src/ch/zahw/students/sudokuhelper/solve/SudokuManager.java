@@ -65,6 +65,10 @@ public class SudokuManager {
 	public SudokuField[] getSudokuFields(){
 	    return sudoku.getFields();
 	}
+	
+	public void setValue(int row, int column, int value){
+	    sudoku.setValue(row, column, value);
+	}
 
 	public Vector<SudokuField> getSolveOrder() {
 		return aaAlgorithm.getSolveOrder();

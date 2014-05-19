@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
+import ch.zahw.students.sudokuhelper.solve.SudokuFieldView;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 
 public class MainHelper {
@@ -27,7 +27,6 @@ public class MainHelper {
 	private static final int LIGHT_GREEN = Color.rgb(186, 243, 183);
 	private MainActivity mainActivity;
         private static final Pattern CANDIDATE_PATTERN = Pattern.compile("^(\\d\\d?),(\\d\\d?):(\\d)-(\\d)$");
-        private TextView mCurrentlySelectedField = null;
         private final Dialog numberDialog;
 
 	public MainHelper(MainActivity mainActivity, Sudoku sudoku) {
@@ -64,7 +63,7 @@ public class MainHelper {
 	 */
 	public void updateSudokuGui() {
 	    for (SudokuField field : sudokuManager.getSudokuFields()){
-	        field.getView().setText(field.getNumberAsString());
+	       //  field.getView().setText(field.getNumberAsString());
 	    }
 	}
 	
@@ -228,7 +227,7 @@ public class MainHelper {
 
 			right = j == 2 || j == 5 ? 3 : 1;
 
-			TextView sudokuCell = new TextView(mainActivity);
+			SudokuFieldView sudokuCell = new SudokuFieldView(mainActivity, i, j);
 			sudokuCell.setGravity(Gravity.CENTER);
 			sudokuCell.setBackgroundColor(Color.WHITE);
 			sudokuCell.setId(cellIds[i][j]);
@@ -244,9 +243,6 @@ public class MainHelper {
 			sudokuCell.setLayoutParams(cellalyout);
 			tableRow.addView(sudokuCell);
 			sudokuCell.setOnClickListener(mCellListener);
-			
-			// store a reference to the view in the candidates field
-			getSudoku().getField(i, j).setView(sudokuCell);
 			
 		}
 	}
@@ -303,16 +299,12 @@ public class MainHelper {
 //	}
 
 	private void changeCell(int row, int column, int number, int color) {
-		TextView cell = (TextView) mainActivity
+	    SudokuFieldView cell = (SudokuFieldView) mainActivity
 				.findViewById(cellIds[row][column]);
 
-		if (number > 0) {
-			cell.setText(String.valueOf(number));
-		} else {
-		    cell.setText("");
-		}
-		cell.setMinHeight(cell.getWidth());
-		cell.setBackgroundColor(color);
+	    cell.setValue(number);
+	    cell.setMinHeight(cell.getWidth());
+	    cell.setBackgroundColor(color);
 	}
 	
 	private void changeCell(int row, int column, int number){
@@ -352,16 +344,15 @@ public class MainHelper {
 	// Creates an anonymous implementation of OnClickListener
 	private OnClickListener mCellListener = new OnClickListener() {
 	    @Override
-	    public void onClick(View v) {
-	      Log.v(TAG, "Click event received from view " + v);
-	      mCurrentlySelectedField = (TextView) v;
-	      showNumberPicker();
+	    public void onClick(View view) {
+	      Log.v(TAG, "Click event received from view " + view);
+	      showNumberPicker((SudokuFieldView) view, ((SudokuFieldView) view).getValue());
 	    }
 	};
 	
 
 	// show the number picker to edit the field value.
-	private void showNumberPicker(){
+	private void showNumberPicker(SudokuFieldView fieldView, int value){
 	     numberDialog.setTitle("NumberPicker");
 	     numberDialog.setContentView(R.layout.number_picker);
 	     Button bOk = (Button) numberDialog.findViewById(R.id.button_ok);
@@ -371,27 +362,46 @@ public class MainHelper {
 	     np.setMinValue(1);
 	     np.setWrapSelectorWheel(true);
 	     // set the number to the current value
-	     if(!mCurrentlySelectedField.getText().toString().equals("")){
-	         np.setValue(Integer.parseInt(mCurrentlySelectedField.getText().toString()));
+	     if(value > 0){
+	         np.setValue(value);
 	     }
-	     bOk.setOnClickListener(new OnClickListener() {
+	     // send the selected value to the Sudoku Manager.
+	     bOk.setOnClickListener(new PickerListener(fieldView) {
 	          @Override
 	          public void onClick(View v) {
-	              mCurrentlySelectedField.setText(String.valueOf(np.getValue()));
-	              // changeCell(mCurrentlySelectedField)
+	              sudokuManager.setValue(getRow(), getColumn(),
+	                          ((NumberPicker) v).getValue());
 	              numberDialog.dismiss();
-	              // TODO: add validation of the whole Sudoku
 	           }    
 	     });
-	     bClear.setOnClickListener(new OnClickListener(){
+	     bClear.setOnClickListener(new PickerListener(fieldView){
 	          @Override
 	          public void onClick(View v) {
-	              mCurrentlySelectedField.setText("");
+	              sudokuManager.setValue(getRow(), getColumn(), 0);
 	              numberDialog.dismiss();
-	              // TODO: add validation of the whole Sudoku
 	           }    
 	     });
 	     numberDialog.show();
+	}
+	
+	// the base class for the callback. Can store the position of the original field.
+	abstract class PickerListener implements OnClickListener {
+	    private int row;
+	    private int column;	    
+	    
+	    public PickerListener(SudokuFieldView fieldView) {
+	        row = fieldView.getRow();
+	        column = fieldView.getColumn();
+	    }
+	    
+	    protected int getRow() {
+	        return row;
+	    }
+	    protected int getColumn(){
+	        return column;
+	    }
+	    
+	    
 	}
 	
 }

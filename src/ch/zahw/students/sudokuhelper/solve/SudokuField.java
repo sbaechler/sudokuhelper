@@ -2,8 +2,6 @@ package ch.zahw.students.sudokuhelper.solve;
 
 import java.util.ArrayList;
 
-import android.widget.TextView;
-
 public class SudokuField {
 
 	private ArrayList<Integer> availableNumbers;
@@ -12,7 +10,6 @@ public class SudokuField {
 	private boolean isFounded;
 	private int row;
 	private int column;
-	private TextView view = null;
 
 	public SudokuField(int row, int column) {
 	    this.row = row;
@@ -92,14 +89,6 @@ public class SudokuField {
 		availableNumbers.add(0);
 	}
 
-	public TextView getView(){
-	    return this.view;
-	}
-	
-        public void setView(TextView sudokuCell) {
-            this.view = sudokuCell;
-        }
-    
-    
+   
 	
 }
