@@ -1,9 +1,12 @@
 package ch.zahw.students.sudokuhelper.solve;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import android.content.Context;
 import android.widget.TextView;
 
-public class SudokuFieldView extends TextView {
+public class SudokuFieldView extends TextView implements Observer {
     
     private int row;
     private int column;
@@ -39,12 +42,22 @@ public class SudokuFieldView extends TextView {
      * If the value is 0, then the field is erased.
      * @param number - number to display
      */
-    public void setValue(int number){
+    private void setValue(int number){
         if(number > 0 && number <= 9) {
             setText(Integer.toString(number));
         } else {
             setText("");
         }
+        this.setMinHeight(this.getWidth());
+    }
+
+    /**
+     * Callback function from SudokuField if the value is changed.
+     */
+    @Override
+    public void update(Observable field, Object value) {
+        setValue(((Field) value).getNumber());
+        // TODO: do something with isFounded and isStartGap
     }
    
 }

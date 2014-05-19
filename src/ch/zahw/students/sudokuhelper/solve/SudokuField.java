@@ -1,9 +1,19 @@
 package ch.zahw.students.sudokuhelper.solve;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class SudokuField {
 
+/**
+ * A single sudoku field (Model layer)
+ * GUI elements can listen to updates.
+ */
+public class SudokuField extends Observable implements Field {
+
+    // TODO: Ev. können Felder einander gegenseitig beobachten und bei Änderungen
+    // reagieren, z.B. mögliche Nummern selbständig löschen, oder einen Fehler werfen.
+    // http://openbook.galileocomputing.de/javainsel/javainsel_10_002.html
+    
 	private ArrayList<Integer> availableNumbers;
 	private int number;
 	private boolean startGap;
@@ -33,15 +43,18 @@ public class SudokuField {
 			availableNumbers.add(i);
 		}
 	}
+	
 
 	public void setNumber(int number) {
+	    setChanged();
 	    this.number = number;
+	    notifyObservers(new FieldValues());
 	}
 	
 
 
 	public int getNumber() {
-		return number;
+	    return number;
 	}
 	
 	public String getNumberAsString(){
@@ -89,6 +102,28 @@ public class SudokuField {
 		availableNumbers.add(0);
 	}
 
-   
+	
+	/**
+	 * This class can be passed to the listener classes.
+	 * Only discloses important information.
+	 */
+	class FieldValues implements Field {
+
+	    @Override
+	    public int getNumber() {
+	        return number;
+	    }
+	    
+	    @Override
+	    public boolean isFounded() {
+    	        return isFounded;
+	    }
+	    
+	    @Override
+	    public boolean isStartGap() {
+	        return startGap;
+	    }
+	            
+	}
 	
 }

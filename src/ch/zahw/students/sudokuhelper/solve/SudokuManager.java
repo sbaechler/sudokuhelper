@@ -66,6 +66,10 @@ public class SudokuManager {
 	    return sudoku.getFields();
 	}
 	
+	public SudokuField getSudokuField(int row, int column){
+	    return sudoku.getField(row, column);
+	}
+	
 	public void setValue(int row, int column, int value){
 	    sudoku.setValue(row, column, value);
 	}

@@ -243,7 +243,8 @@ public class MainHelper {
 			sudokuCell.setLayoutParams(cellalyout);
 			tableRow.addView(sudokuCell);
 			sudokuCell.setOnClickListener(mCellListener);
-			
+			// bind the listener
+			sudokuManager.getSudokuField(i, j).addObserver(sudokuCell);
 		}
 	}
 
@@ -301,15 +302,10 @@ public class MainHelper {
 	private void changeCell(int row, int column, int number, int color) {
 	    SudokuFieldView cell = (SudokuFieldView) mainActivity
 				.findViewById(cellIds[row][column]);
-
-	    cell.setValue(number);
-	    cell.setMinHeight(cell.getWidth());
+	    // cell.setMinHeight(cell.getWidth());
 	    cell.setBackgroundColor(color);
 	}
 	
-	private void changeCell(int row, int column, int number){
-	    changeCell(row, column, number, Color.WHITE);
-	}
 	
 	/**
 	 * Extracts the candidates values from the String returned from the
@@ -353,7 +349,7 @@ public class MainHelper {
 
 	// show the number picker to edit the field value.
 	private void showNumberPicker(SudokuFieldView fieldView, int value){
-	     numberDialog.setTitle("NumberPicker");
+	     numberDialog.setTitle(R.string.numberPicker);
 	     numberDialog.setContentView(R.layout.number_picker);
 	     Button bOk = (Button) numberDialog.findViewById(R.id.button_ok);
 	     Button bClear = (Button) numberDialog.findViewById(R.id.button_clear);
@@ -369,8 +365,7 @@ public class MainHelper {
 	     bOk.setOnClickListener(new PickerListener(fieldView) {
 	          @Override
 	          public void onClick(View v) {
-	              sudokuManager.setValue(getRow(), getColumn(),
-	                          ((NumberPicker) v).getValue());
+	              sudokuManager.setValue(getRow(), getColumn(), np.getValue());
 	              numberDialog.dismiss();
 	           }    
 	     });
