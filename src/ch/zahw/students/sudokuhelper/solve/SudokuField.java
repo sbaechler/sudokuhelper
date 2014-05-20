@@ -14,10 +14,11 @@ public class SudokuField extends Observable implements Field {
     // reagieren, z.B. mögliche Nummern selbständig löschen, oder einen Fehler werfen.
     // http://openbook.galileocomputing.de/javainsel/javainsel_10_002.html
     
-	private ArrayList<Integer> availableNumbers;
+	private ArrayList<Integer> availableNumbers;  // HashSet
 	private int number;
 	private boolean startGap;
 	private boolean isFounded;
+	private boolean isValid;
 	private int row;
 	private int column;
 
@@ -45,13 +46,27 @@ public class SudokuField extends Observable implements Field {
 	}
 	
 
-	public void setNumber(int number) {
+	void setNumber(int number) {
 	    setChanged();
 	    this.number = number;
+	    this.isValid = this.validate();
 	    notifyObservers(new FieldValues());
 	}
-	
 
+	void setIsValid(Boolean valid){
+		setChanged();
+		this.isValid = valid;
+		notifyObservers(new FieldValues());
+	}
+
+	private Boolean validate(number){
+		// TODO validation logic
+		return number == 0 || availableNumbers.length < 1 || availableNumbers.contains(number)
+	}
+
+	public Boolean isValid(){
+		return isValid;
+	}
 
 	public int getNumber() {
 	    return number;
@@ -75,6 +90,11 @@ public class SudokuField extends Observable implements Field {
 
 	public void setFounded(boolean isFounded) {
 		this.isFounded = isFounded;
+		if(isFounded) {
+			clearAvailableNumbers();
+		} else {
+			// TODO
+		}
 	}
 
 	public boolean isFounded() {
@@ -122,6 +142,11 @@ public class SudokuField extends Observable implements Field {
 	    @Override
 	    public boolean isStartGap() {
 	        return startGap;
+	    }
+
+	    @Override
+	    public boolean isValid(){
+	    	return isValid;
 	    }
 	            
 	}

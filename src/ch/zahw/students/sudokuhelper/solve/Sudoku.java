@@ -60,6 +60,10 @@ public class Sudoku {
         }
     }
 
+    public int getValue(){
+        return sudoku.getValue();
+    }
+
     /**
      * Sets the value of a single field.
      * 
@@ -67,26 +71,28 @@ public class Sudoku {
      *            - int
      * @param column
      *            - int
-     * @param candidate
+     * @param value
      *            - The value (int) or 0 for none.
      */
-    public void setValue(int row, int column, int candidate) {
+    public void setValue(int row, int column, int value) {
         SudokuField field = fields[(row*9)+column];
-        if (candidate != 0) {
+        if (value != 0) {  // a number
             // decrease the empty field count
             if (field.getNumber() > 0) {
                 emptyFields -= 1;
             }
-            field.clearAvailableNumbers();
-            field.setNumber(candidate);
-            field.setFounded(true);
-
-        } else {
+        // TODO: validate field and update all referenced fields.
+        } else {  // empty
             if (field.getNumber() > 0) {
                 emptyFields += 1;
             }
-            field.setStartGap(true);
         }
+        field.setNumber(value);
+        // TODO: restore all referenced fields for possible values
+    }
+
+    public void setFounded(int row, int column, Boolean value){
+        fields[(row*9)+column].setFounded(value);
     }
 
     public SudokuField[] getColumnSudokuFields(int column) {

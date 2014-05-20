@@ -46,7 +46,7 @@ public class SudokuFieldView extends TextView implements Observer {
         if(number > 0 && number <= 9) {
             setText(Integer.toString(number));
         } else {
-            setText("");
+            setText(" ");
         }
         this.setMinHeight(this.getWidth());
     }
