@@ -60,8 +60,8 @@ public class Sudoku {
         }
     }
 
-    public int getValue(){
-        return sudoku.getValue();
+    public int getNumber(int row, int column){
+        return getField(row, column).getNumber();
     }
 
     /**

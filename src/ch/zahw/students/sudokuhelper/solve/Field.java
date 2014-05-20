@@ -4,4 +4,5 @@ public interface Field {
     int getNumber();
     boolean isFounded();
     boolean isStartGap();
+    boolean isValid();
 }

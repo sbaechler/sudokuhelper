@@ -49,7 +49,7 @@ public class SudokuField extends Observable implements Field {
 	void setNumber(int number) {
 	    setChanged();
 	    this.number = number;
-	    this.isValid = this.validate();
+	    this.isValid = this.validate(number);
 	    notifyObservers(new FieldValues());
 	}
 
@@ -59,13 +59,13 @@ public class SudokuField extends Observable implements Field {
 		notifyObservers(new FieldValues());
 	}
 
-	private Boolean validate(number){
-		// TODO validation logic
-		return number == 0 || availableNumbers.length < 1 || availableNumbers.contains(number)
+	private boolean validate(int number){
+	    // TODO validation logic
+	    return number == 0 || availableNumbers.size() < 1 || availableNumbers.contains(number);
 	}
 
-	public Boolean isValid(){
-		return isValid;
+	public boolean isValid(){
+	    return isValid;
 	}
 
 	public int getNumber() {
