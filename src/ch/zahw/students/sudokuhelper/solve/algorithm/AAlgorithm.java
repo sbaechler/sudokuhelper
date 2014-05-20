@@ -143,6 +143,7 @@ public abstract class AAlgorithm {
 		return true;
 	}
 
+	@Deprecated
 	protected boolean checkSimplySolved() {
 		// Evlt eine bessere Überprüfung schreiben (oder nur für bereits
 		// angefangene Sudokus) überprüfen ob wirklich 1-9 einmal vorkommen

@@ -152,7 +152,7 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
         int startColumn = (column / 3) * 3;
         int sfIndex = 0;
         for (int sr = startRow; sr < startRow + 3; sr++) {
-            for (int sc = startColumn; sc < sc + 3; sc++) {
+            for (int sc = startColumn; sc < startColumn + 3; sc++) {
                 sf[sfIndex] = fields[(sr*9)+sc];
                 sfIndex++;
             }
@@ -215,7 +215,7 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
      */
     @Override
     public void hiddenSingleFound(HiddenSingleEvent e) {
-        setValue(e.getRow(), e.getColumn(), e.getNumber());
+        // setValue(e.getRow(), e.getColumn(), e.getNumber());
     }
     
     

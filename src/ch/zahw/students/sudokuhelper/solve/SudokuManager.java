@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import ch.zahw.students.sudokuhelper.solve.algorithm.AAlgorithm;
 import ch.zahw.students.sudokuhelper.solve.algorithm.NaiveAlgorithmus;
-import ch.zahw.students.sudokuhelper.solve.algorithm.SimpleAlgorithm;
 
 
 public class SudokuManager {
@@ -48,7 +47,6 @@ public class SudokuManager {
 	}
 
 	public Sudoku solveWithBetterApproach() {
-		aaAlgorithm = new SimpleAlgorithm(sudoku);
 		Sudoku solvedSudoku = aaAlgorithm.solve();
 		this.solveOrder = aaAlgorithm.getSolveOrder();
 		this.indexNextSolveOrder = -1;

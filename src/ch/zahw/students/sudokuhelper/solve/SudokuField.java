@@ -22,6 +22,7 @@ public class SudokuField extends Observable implements Field {
 	private boolean isValid;
 	private int row;
 	private int column;
+	private boolean isHiddenSingle = false;
 	private HiddenSingleEventListener listener = null; // This is the Sudoku
 	
 	public SudokuField(int row, int column) {
@@ -86,8 +87,8 @@ public class SudokuField extends Observable implements Field {
 	    }
 	}
 
-	public Iterable<Integer> getAvailableNumbers() {
-		return availableNumbers;
+	public HashSet<Integer> getAvailableNumbers() {
+		return (HashSet<Integer>) availableNumbers;
 	}
 
 	@Deprecated
@@ -101,6 +102,10 @@ public class SudokuField extends Observable implements Field {
 
 	public boolean isFounded() {
 		return isFounded;
+	}
+	
+	public boolean isHiddenSingle(){
+	    return isHiddenSingle;
 	}
 
 	// lock the preset field. This method is called on solve.
@@ -124,10 +129,6 @@ public class SudokuField extends Observable implements Field {
 	public int getColumn() {
 		return column;
 	}
-
-	public void clearAvailableNumbers() {
-		availableNumbers.clear();
-	}
 	
 	void removeAvailableNumber(int number){
 	    availableNumbers.remove(number);
@@ -136,9 +137,11 @@ public class SudokuField extends Observable implements Field {
 	        if(this.listener != null){
 	            this.listener.hiddenSingleFound(new HiddenSingleEvent(this));
 	        }
+	        this.isHiddenSingle = true;
 	    } else if (availableNumbers.size() == 0){
 	        isFounded = true;
-	    }
+	        this.isHiddenSingle = false;
+	    } // TODO: if reverse is possible - set this to true on else.
 	}
 
 	/*
