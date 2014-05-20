@@ -35,6 +35,8 @@ public class SudokuManager {
 	    sudoku.setValues(candidates);
 	}
 	
+	// TODO: use sudoku.lock() as first argument in solve()
+	
 	public Sudoku solveWithNaiveApproach() {
 		// eine zahl möglich -> sofort ausprobieren (rekursiv)
 		aaAlgorithm = new NaiveAlgorithmus(sudoku);

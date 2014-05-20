@@ -1,9 +1,11 @@
 package ch.zahw.students.sudokuhelper.solve;
 
 import java.util.HashSet;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
-public class Sudoku {
+public class Sudoku implements Observer, HiddenSingleEventListener {
 
     private SudokuField[] fields;
     private Set<SudokuField> invalidFields;
@@ -32,12 +34,15 @@ public class Sudoku {
     }
 
     private void reset() {
+        int index;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if(fields[(i*9)+j] != null){
-                    fields[(i*9)+j].reset();
+                index = (i*9)+j;
+                if(fields[index] != null){
+                    fields[index].reset();
                 } else {
-                    fields[(i*9)+j] = new SudokuField(i, j);
+                    fields[index] = new SudokuField(i, j);
+                    fields[index].setListener(this);
                 }
             }
         }
@@ -48,8 +53,7 @@ public class Sudoku {
     /**
      * Sets the values for an existing Sudoku.
      * 
-     * @param candidates
-     *            - 2-dimensional array of numbers.
+     * @param candidates - 2-dimensional array of numbers.
      */
     public void setValues(int[][] candidates) {
         reset();
@@ -57,6 +61,13 @@ public class Sudoku {
             for (int j = 0; j < 9; j++) {
                 setValue(i, j, candidates[i][j]);
             }
+        }
+    }
+    
+    // call this method on solve.
+    public void lockSudoku(){
+        for (int i = 0; i < 81; i++) {
+            fields[i].lock();
         }
     }
 
@@ -67,12 +78,9 @@ public class Sudoku {
     /**
      * Sets the value of a single field.
      * 
-     * @param row
-     *            - int
-     * @param column
-     *            - int
-     * @param value
-     *            - The value (int) or 0 for none.
+     * @param row - Sudoku row (0-index)
+     * @param column - Sudoku column (0-index)
+     * @param value - The value (int) or 0 for none.
      */
     public void setValue(int row, int column, int value) {
         SudokuField field = fields[(row*9)+column];
@@ -81,7 +89,9 @@ public class Sudoku {
             if (field.getNumber() > 0) {
                 emptyFields -= 1;
             }
-        // TODO: validate field and update all referenced fields.
+            if(field.isNumberAllowed(value)){
+                removeAvailableNumbersOnOtherFields(row, column, value);
+            } 
         } else {  // empty
             if (field.getNumber() > 0) {
                 emptyFields += 1;
@@ -116,8 +126,7 @@ public class Sudoku {
 
     /**
      * 
-     * @param index
-     *            geht von 0 bis 8
+     * @param index - geht von 0 bis 8
      * @return
      */
     public SudokuField[] getSudokuSquare(int index) {
@@ -134,6 +143,20 @@ public class Sudoku {
             }
         }
 
+        return sf;
+    }
+    
+    public SudokuField[] getSudokuSquare(int row, int column){
+        SudokuField[] sf = new SudokuField[9];
+        int startRow = (row / 3) * 3;
+        int startColumn = (column / 3) * 3;
+        int sfIndex = 0;
+        for (int sr = startRow; sr < startRow + 3; sr++) {
+            for (int sc = startColumn; sc < sc + 3; sc++) {
+                sf[sfIndex] = fields[(sr*9)+sc];
+                sfIndex++;
+            }
+        }
         return sf;
     }
 
@@ -154,4 +177,46 @@ public class Sudoku {
         return invalidFields.size() == 0;
     }
 
+    /**
+     * Hier wird die gefundene Zahl aus der Zeile, Spalte und im Quadrat
+     * entfernt sodass die betreffende Felder diese Zahl nicht mehr zur
+     * Verfügung haben
+     */
+    private void removeAvailableNumbersOnOtherFields(int row, int column, int number) {
+
+        SudokuField[] rowArray = getRowSudokuFields(row);
+        SudokuField[] columnArray = getColumnSudokuFields(column);
+        SudokuField[] squareArray = getSudokuSquare(row, column);
+        
+        for (int i = 0; i < 9; i++) {
+            rowArray[i].removeAvailableNumber(number);
+            columnArray[i].removeAvailableNumber(number);
+            squareArray[i].removeAvailableNumber(number);
+        }
+    }
+
+    /**
+     * Callback from the field class on update.
+     * Sets adds the field to invalid fields if they are valid
+     */
+    @Override
+    public void update(Observable field, Object value) {
+        if(((Field) value).isValid()){
+            invalidFields.remove((SudokuField) field);
+        } else {
+            invalidFields.add((SudokuField) field);
+        }
+    }
+
+    /**
+     * Callback sent from a cell if the count of allowed numbers
+     * reaches exactly 1. An event is sent to the Sudoku to enter this
+     * number.
+     */
+    @Override
+    public void hiddenSingleFound(HiddenSingleEvent e) {
+        setValue(e.getRow(), e.getColumn(), e.getNumber());
+    }
+    
+    
 }
