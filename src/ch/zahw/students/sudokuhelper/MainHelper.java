@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
-import ch.zahw.students.sudokuhelper.solve.SquareView;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
@@ -166,8 +165,8 @@ public class MainHelper {
 
 	private void createRow(TableLayout tableLayout) {
 		TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(
-				TableLayout.LayoutParams.MATCH_PARENT,
-				TableLayout.LayoutParams.MATCH_PARENT);
+				TableLayout.LayoutParams.WRAP_CONTENT,
+				TableLayout.LayoutParams.WRAP_CONTENT);
 		TableRow.LayoutParams rowParams = new TableRow.LayoutParams(
 				TableRow.LayoutParams.MATCH_PARENT,
 				TableRow.LayoutParams.MATCH_PARENT);

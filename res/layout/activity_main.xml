@@ -2,11 +2,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-  
     android:orientation="vertical"
-    android:padding="10dp"  >
-    
-       
+    android:padding="10dp" >
+
     <TextView
         android:id="@+id/title"
         android:layout_width="fill_parent"
@@ -14,8 +12,8 @@
         android:text="@string/Sudoku_Helper"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
-        android:textStyle="bold" 
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/status"
@@ -27,30 +25,20 @@
         android:textColor="#ffffff"
         android:textSize="15sp" />
 
-    
-  <ch.zahw.students.sudokuhelper.solve.SquareView
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:background="#f00"  >
-       
-		  <TableLayout
-		        android:id="@+id/sudoku_table"
-		        android:layout_width="fill_parent"
-		      	android:layout_height="fill_parent"
-     	 android:layout_weight="1"
-		        android:background="#0000ff"
-		        android:textColor="#000000"  android:stretchColumns="*" >
-		   
-		    </TableLayout> 
-    </ch.zahw.students.sudokuhelper.solve.SquareView> 
+    <TableLayout
+        android:id="@+id/sudoku_table"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#0000ff"
+        android:textColor="#000000" >
+    </TableLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-		        android:paddingTop="50dp" >
+        android:paddingTop="50dp" >
 
-       <Button
+        <Button
             android:id="@+id/buttonCapture"
             android:layout_width="10dp"
             android:layout_height="30sp"
@@ -85,7 +73,6 @@
             android:text="@string/step"
             android:textColor="#ffffff"
             android:textSize="15sp" />
-
-    </LinearLayout>   
+    </LinearLayout>
 
 </LinearLayout>
