@@ -179,9 +179,8 @@ public class SquareFinderTest extends InstrumentationTestCase {
         extractor.setSource(mGray);
         try {
             extractor.extractDigits();
-            fail("Bad Sudoku did not throw exception");
         } catch (NoSudokuFoundException e) {
-            assert(e instanceof NoSudokuFoundException);
+            fail(e.getMessage());
         }
         
     }
@@ -204,7 +203,12 @@ public class SquareFinderTest extends InstrumentationTestCase {
         } catch (NoSudokuFoundException e1) {
             fail(e1.getMessage());
         }
-        recognizer.regognize(candidates);
+        try {
+            recognizer.regognize(candidates);
+        } catch (NoSudokuFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // There are 24 digits in the Sudoku
         assertEquals(24, candidates.size());
         // Most of the digits are recognized correctly.

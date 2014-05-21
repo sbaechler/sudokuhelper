@@ -3,57 +3,74 @@ package ch.zahw.students.sudokuhelper;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.Dialog;
 import android.graphics.Color;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
+import ch.zahw.students.sudokuhelper.solve.SudokuFieldView;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 
 public class MainHelper {
 
 	private static final String TAG = "SudokuHelper::MainHelper";
 	private int[][] cellIds = new int[9][9];
-	private int[][] sudoku;
 	private SudokuManager sudokuManager;
-	private int lightGreen = Color.rgb(186, 243, 183);
-	private boolean isSudokuSolved = false;
+	private static final int LIGHT_GREEN = Color.rgb(186, 243, 183);
 	private MainActivity mainActivity;
-	private Sudoku solvedSudoku;
-	private static final Pattern CANDIDATE_PATTERN = Pattern
-			.compile("^(\\d\\d?),(\\d\\d?):(\\d)-(\\d)$");
+        private static final Pattern CANDIDATE_PATTERN = Pattern.compile("^(\\d\\d?),(\\d\\d?):(\\d)-(\\d)$");
+        private final Dialog numberDialog;
 
-	public MainHelper(MainActivity mainActivity2) {
-		Log.v(TAG, "Creating instance MainActivity");
-		this.mainActivity = mainActivity2;
-		this.sudokuManager = new SudokuManager();
-		this.solvedSudoku = null;
-		init();
+	public MainHelper(MainActivity mainActivity, Sudoku sudoku) {
+	    Log.v(TAG, "Creating instance MainHelper");
+	    this.mainActivity = mainActivity;
+	    this.sudokuManager = new SudokuManager(sudoku);
+	    numberDialog = new Dialog(mainActivity);
+	    init();
+	}
+	
+	public MainHelper(MainActivity mainActivity) {
+	    this.mainActivity = mainActivity;
+	    this.sudokuManager = new SudokuManager();
+	    numberDialog = new Dialog(mainActivity);
+	    init();
+        }
+	
+	public Sudoku getSudoku(){
+	    return sudokuManager.getSudoku();
 	}
 
+	
 	// Diese Methode wird nach dem Capture und dem startSudoku ausgeführt um
 	// 1. zu überprüfen ob das Sudoku valid ist bzw. die Zahlen richtig
 	// eingelesen wurden
 	// 2. nur einmal das Sudoku zu lösen
-	private void internSolve() {
-		if (!isSudokuSolved) {
-			this.solvedSudoku = sudokuManager.solve(sudoku);
-			isSudokuSolved = sudokuManager.isSolved();
-		}
+
+	private void internSolve(){
+	    if (!isSudokuSolved()) {
+//		sudokuManager.solve();
+	    }
 	}
 
-	// Hier wird später das eingelesene Sudoku übergeben
-	public void startSudoku() {
-		this.isSudokuSolved = false;
-		this.solvedSudoku = null;
-		fillSudokuTable(sudoku);
-		internSolve();
+	/**
+	 * Re-render the whole Sudoku
+	 */
+	public void updateSudokuGui() {
+	    for (SudokuField field : sudokuManager.getSudokuFields()){
+	       //  field.getView().setText(field.getNumberAsString());
+	    }
+	}
+	
+	public boolean isSudokuSolved(){
+	    return getSudoku().isSolved();
 	}
 
 	// ****************************** Init ******************************
@@ -155,15 +172,31 @@ public class MainHelper {
 	}
 
 	// *********************** Create Table****************************
+	
+	/**
+	 * Creates the empty Sudoku GUI user interface.
+	 * @param sudokuTableLayout - The view for the table layout
+	 */
 	public void createTable(View sudokuTableLayout) {
+	    
 		Log.v(TAG, "Creating table");
 		TableLayout tLayout = (TableLayout) sudokuTableLayout;
 
 		tLayout.setClickable(false);
-		createRow(tLayout);
+		createRows(tLayout);
+		
+		
+//		for (int row = 0; row < 9; row++) {
+//                    for (int column = 0; column < 9; column++) {
+//                        TextView cell = (TextView) mainActivity
+//                                .findViewById(cellIds[row][column]);
+//                        cell.setMinHeight(cell.getWidth());
+//                    }
+//                }
+		
 	}
 
-	private void createRow(TableLayout tableLayout) {
+	private void createRows(TableLayout tableLayout) {
 		TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(
 				TableLayout.LayoutParams.WRAP_CONTENT,
 				TableLayout.LayoutParams.WRAP_CONTENT);
@@ -172,19 +205,19 @@ public class MainHelper {
 				TableRow.LayoutParams.MATCH_PARENT);
 		tableLayout.setLayoutParams(tableParams);
 
-		int buttom;
+		int borderBottom;
 
 		for (int i = 0; i < 9; i++) {
 
 			TableRow row = new TableRow(mainActivity);
 			row.setLayoutParams(tableParams);
 
-			buttom = i == 2 || i == 5 ? 3 : 1;
+			borderBottom = i == 2 || i == 5 ? 3 : 1;
 			rowParams.weight = 1;
 			row.setBackgroundColor(Color.BLACK);
 			row.setLayoutParams(rowParams);
 
-			createCell(tableLayout, rowParams, row, i, buttom);
+			createCell(tableLayout, rowParams, row, i, borderBottom);
 			tableLayout.addView(row);
 		}
 	}
@@ -197,12 +230,10 @@ public class MainHelper {
 
 			right = j == 2 || j == 5 ? 3 : 1;
 
-			EditText sudokuCell = new EditText(mainActivity);
+			SudokuFieldView sudokuCell = new SudokuFieldView(mainActivity, i, j);
 			sudokuCell.setGravity(Gravity.CENTER);
-			sudokuCell.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
 			sudokuCell.setBackgroundColor(Color.WHITE);
 			sudokuCell.setId(cellIds[i][j]);
-			sudokuCell.setFocusable(false);
 
 			TableRow.LayoutParams celllayout = new TableRow.LayoutParams(
 					TableRow.LayoutParams.MATCH_PARENT,
@@ -215,7 +246,9 @@ public class MainHelper {
 			sudokuCell.setLayoutParams(celllayout);
 
 			tableRow.addView(sudokuCell);
-
+			sudokuCell.setOnClickListener(mCellListener);
+			// bind the listener
+			sudokuManager.getSudokuField(i, j).addObserver(sudokuCell);
 		}
 	}
 
@@ -227,7 +260,8 @@ public class MainHelper {
 
 	public void solve(View view) {
 		Log.v(TAG, "Solve");
-		fillSolvedNumber(solvedSudoku);
+		internSolve();
+		fillSolvedNumber(getSudoku());
 	}
 
 	// ****************************** Change table******************************
@@ -241,7 +275,7 @@ public class MainHelper {
 		}
 
 		if (prevSf != null) {
-			changeCell(prevSf.getRow(), prevSf.getColumn(), -1, lightGreen);
+			changeCell(prevSf.getRow(), prevSf.getColumn(), -1, LIGHT_GREEN);
 		}
 
 	}
@@ -252,77 +286,121 @@ public class MainHelper {
 			for (int j = 0; j < 9; j++) {
 				if (sudoku.getField(i, j).isStartGap()) {
 					changeCell(i, j, sudoku.getField(i, j).getNumber(),
-							lightGreen);
+							LIGHT_GREEN);
 				}
 			}
 		}
 	}
 
-	private void fillSudokuTable(int[][] sudoku) {
-		Log.v(TAG, "Filling Sudoku table");
+//	private void fillSudokuTable(int[][] sudoku) {
+//		Log.v(TAG, "Filling Sudoku table");
+//
+//		for (int i = 0; i < 9; i++) {
+//			for (int j = 0; j < 9; j++) {
+//			    changeCell(i, j, sudoku[i][j], Color.WHITE);
+//			}
+//		}
+//
+//	}
 
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				changeCell(i, j, sudoku[i][j], Color.WHITE);
-			}
-		}
-
-	}
 
 	private void changeCell(int row, int column, int number, int color) {
-		EditText cell = (EditText) mainActivity
+	    SudokuFieldView cell = (SudokuFieldView) mainActivity
 				.findViewById(cellIds[row][column]);
-
-		if (number > 0) {
-			cell.setText(String.valueOf(number));
-		} else {
-			cell.setText("");
-		}
-
-		cell.setBackgroundColor(color);
+	    // cell.setMinHeight(cell.getWidth());
+	    cell.setBackgroundColor(color);
 	}
-
+	
+	
 	/**
-	 * Extract the sudoku values from the String returned from the capture
-	 * activity
+	 * Extracts the candidates values from the String returned from the
+	 * capture activity
 	 */
-	public void parseResult(String candidates) {
-		int[][] primaryValues = new int[9][9];
-		int[][] secondaryValues = new int[9][9];
-		String[] fields = candidates.split(";");
-
-		for (int i = 0; i < fields.length; i++) {
-			Matcher matcher = CANDIDATE_PATTERN.matcher(fields[i]);
-			if (matcher.matches()) {
-				// 1: row, 2: column, 3: primary value, 4: secondary value
-				int row = Integer.parseInt(matcher.group(1));
-				int column = Integer.parseInt(matcher.group(2));
-				int primary = Integer.parseInt(matcher.group(3));
-				int secondary = Integer.parseInt(matcher.group(4));
-
-				primaryValues[row][column] = primary;
-
-				if (secondary > 0) {
-					secondaryValues[row][column] = secondary;
-				}
-				// sudoku = primaryValues;
-				// TODO: Add verification
-			} else {
-				Log.e(TAG, "No match for: " + fields[i]);
-			}
-		}
-		sudoku = sudokuManager.createSudokuSimply();
-		// TODO
-		// sudoku = primaryValues;
-		startSudoku();
+	public void parseResult(String candidateString){
+            int[][] primaryValues = new int[9][9];
+            int[][] secondaryValues = new int[9][9];
+            String[] fields = candidateString.split(";");
+            for(int i=0; i<fields.length; i++){
+                Matcher matcher = CANDIDATE_PATTERN.matcher(fields[i]);
+                if (matcher.matches()) {
+                    // 1: row, 2: column, 3: primary value, 4: secondary value
+                    int row = Integer.parseInt(matcher.group(1));
+                    int column = Integer.parseInt(matcher.group(2));
+                    int primary = Integer.parseInt(matcher.group(3));
+                    int secondary = Integer.parseInt(matcher.group(4));
+                    primaryValues[row][column] = primary;
+                    if(secondary > 0){
+                        secondaryValues[row][column] = secondary;
+                    }
+                } else {
+                    Log.e(TAG, "No match for: " + fields[i]);
+                }
+            }
+            sudokuManager.resetSudoku(primaryValues);
+            updateSudokuGui();
 	}
+	
+       // ****************************** Edit numbers ******************************
 
-	public void testSudoku() {
-		sudoku = sudokuManager.createSudokuSimply();
-		this.isSudokuSolved = false;
-		this.solvedSudoku = null;
-		fillSudokuTable(sudoku);
-		// startSudoku();
+	// Creates an anonymous implementation of OnClickListener
+	private OnClickListener mCellListener = new OnClickListener() {
+	    @Override
+	    public void onClick(View view) {
+	      Log.v(TAG, "Click event received from view " + view);
+	      showNumberPicker((SudokuFieldView) view, ((SudokuFieldView) view).getValue());
+	    }
+	};
+	
+	// show the number picker to edit the field value.
+	private void showNumberPicker(SudokuFieldView fieldView, int value){
+	     numberDialog.setTitle(R.string.numberPicker);
+	     numberDialog.setContentView(R.layout.number_picker);
+	     Button bOk = (Button) numberDialog.findViewById(R.id.button_ok);
+	     Button bClear = (Button) numberDialog.findViewById(R.id.button_clear);
+	     final NumberPicker np = (NumberPicker) numberDialog.findViewById(R.id.numberPicker1);
+	     np.setMaxValue(9);
+	     np.setMinValue(1);
+	     np.setWrapSelectorWheel(true);
+	     // set the number to the current value
+	     if(value > 0){
+	         np.setValue(value);
+	     }
+	     // send the selected value to the Sudoku Manager.
+	     bOk.setOnClickListener(new PickerListener(fieldView) {
+	          @Override
+	          public void onClick(View v) {
+	              sudokuManager.setValue(getRow(), getColumn(), np.getValue());
+	              numberDialog.dismiss();
+	           }    
+	     });
+	     bClear.setOnClickListener(new PickerListener(fieldView){
+	          @Override
+	          public void onClick(View v) {
+	              sudokuManager.setValue(getRow(), getColumn(), 0);
+	              numberDialog.dismiss();
+	           }    
+	     });
+	     numberDialog.show();
 	}
-
+	
+	// the base class for the callback. Can store the position of the original field.
+	abstract class PickerListener implements OnClickListener {
+	    private int row;
+	    private int column;	    
+	    
+	    public PickerListener(SudokuFieldView fieldView) {
+	        row = fieldView.getRow();
+	        column = fieldView.getColumn();
+	    }
+	    
+	    protected int getRow() {
+	        return row;
+	    }
+	    protected int getColumn(){
+	        return column;
+	    }
+	    
+	    
+	}
+	
 }

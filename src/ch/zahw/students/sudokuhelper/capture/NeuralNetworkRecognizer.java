@@ -20,13 +20,20 @@ public class NeuralNetworkRecognizer implements Recognizer {
     private static final String TAG = "SudokuHelper::NeuralNetworkRecognizer";
     private static final int ATTRIBUTES = 256; // numbers of pixels per sample
     private static final int LABELS = 10; // number of distinct labels
+    private static final double CONSIDER_GOOD = 20000000;
+    private static final int MIN_GOOD_HITS = 9;  // TODO: up this to 15
     
     private Context context;
     private CvANN_MLP nnetwork;
     // private int debug = 0;
     private Mat scaled;
+    private int countGood;
     
-    
+    /**
+     * The neural network needs to load its configuration from an xml file first.
+     * The xml file is stored in assets/param.xml.
+     * @param applicationContext
+     */
     public NeuralNetworkRecognizer(Context applicationContext) {
         this.context = applicationContext;
         this.scaled = new Mat(16,16, CvType.CV_8UC1);
@@ -49,7 +56,6 @@ public class NeuralNetworkRecognizer implements Recognizer {
         nnetwork.load(f.getAbsolutePath(), "DigitOCR");
     }
 
- 
     @Override
     public int[] recognize(Mat candidate) {
         Mat classOut = new MatOfDouble();
@@ -76,26 +82,35 @@ public class NeuralNetworkRecognizer implements Recognizer {
         if(maxIndex == 1) { 
             secondaryIndex = 7; 
         }
+        if(Math.abs(maxValue) < CONSIDER_GOOD){
+            countGood++;
+        }
         
         Log.v(TAG, "Found label: " + maxIndex + " (" + maxValue + ")" + 
                 " 2nd best: " + secondaryIndex + "(" + secondaryValue + ")");
-        
+       
         return new int[]{maxIndex, secondaryIndex};
     }
     
+
     @Override
-    public void regognize(List<FieldCandidate> candidates) {
+    public void regognize(List<FieldCandidate> candidates) throws NoSudokuFoundException {
+        countGood = 0;
         for(FieldCandidate candidate: candidates){
             candidate.setContent(recognize(candidate.getImage()));
+        }
+        Log.v(TAG, "Considering good hits: " + countGood);
+        if(countGood < MIN_GOOD_HITS){
+            throw new NoSudokuFoundException("Not enough good hits found");
         }
     }
 
     
     
     /**
-     * Preprocessing helper method.
+     * Pre-processing helper method.
      * @param candidate - input Mat, actual size.
-     * @return 1x256 Pixel Mat to be sent to the neural network.
+     * @return 1x256 Binary FP Mat to be sent to the neural network.
      */
     public Mat preprocess(Mat candidate){
         Mat reshaped = Mat.ones(1, ATTRIBUTES, CvType.CV_64F);

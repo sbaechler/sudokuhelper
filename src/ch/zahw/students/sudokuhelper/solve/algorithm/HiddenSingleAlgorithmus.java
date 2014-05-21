@@ -5,8 +5,8 @@ import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
 public class HiddenSingleAlgorithmus extends AAlgorithm {
 
-	public HiddenSingleAlgorithmus(int[][] sudokuArray) {
-		super(sudokuArray);
+	public HiddenSingleAlgorithmus(int [][] sudoku) {
+		super(sudoku);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class HiddenSingleAlgorithmus extends AAlgorithm {
 
 						// columncheck
 						if (findHiddenSingle(
-								sudoku.getColunSudokuFields(column), number,
+								sudoku.getColumnSudokuFields(column), number,
 								row)) {
 							removeNotAvailablenUmber(row, column, number);
 
@@ -53,7 +53,7 @@ public class HiddenSingleAlgorithmus extends AAlgorithm {
 						}
 
 						// quadratcheck
-						if (findHiddenSingle(sudoku.getSudokuQadrat(row),
+						if (findHiddenSingle(sudoku.getSudokuSquare(row),
 								number, column)) {
 
 							// Sudokufield im quadrat

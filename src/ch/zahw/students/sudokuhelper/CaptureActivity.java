@@ -25,14 +25,26 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+
+/**
+ * This activity digitizes the Sudoku and recognizes the numbers.
+ * If it is successfull it passes an array with the result back to the 
+ * main activity.
+ *
+ */
 public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     private static final String TAG = "SudokuHelper::CaptureActivity";
+    private static final int MAX_FRAME_SIZE = 1024;
     
     private CameraBridgeViewBase mOpenCvCameraView;
     private SudokuTracker sudokuTracker = null;
     private static DigitExtractor digitExtractor;
     private Recognizer recognizer;
     
+    /**
+     * Callback class that gets called when the native OpenCV libraries
+     * have loaded.
+     */
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -40,6 +52,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
                     Log.v(TAG, "OpenCV loaded successfully");
                     digitExtractor = new DigitExtractor();
                     recognizer = new NeuralNetworkRecognizer(getApplicationContext());
+                    mOpenCvCameraView.setMaxFrameSize(MAX_FRAME_SIZE, MAX_FRAME_SIZE);
                     mOpenCvCameraView.enableView();
                 } else {
                     super.onManagerConnected(status);
@@ -75,7 +88,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     }
 
     public void onDestroy() {
-        Log.d(TAG, "Capture Activity destroyed");
+        // Log.d(TAG, "Capture Activity destroyed");
         super.onDestroy();    
         sudokuTracker = null;
         if (mOpenCvCameraView != null)
@@ -89,11 +102,16 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
     }
 
     public void onCameraViewStopped() {
-        Log.d(TAG, "Camera view stopped");
+        // Log.d(TAG, "Camera view stopped");
     }
     
+    /**
+     * Serialize all the candidates to a string and return them to the caller
+     * activity.
+     * @param candidates - a list with all the found numbers.
+     */
     public void finish(List<FieldCandidate> candidates){
-        Log.d(TAG, "Capture Activity Finish method called");
+        Log.v(TAG, "Capture Activity Finish method called");
         String allCandidates = TextUtils.join(";", candidates);
         // Create intent to deliver some kind of result data
         Intent result = new Intent(this, MainActivity.class);
@@ -102,21 +120,31 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
         super.finish();
     }
 
+    /**
+     * This method gets called every time there is a preview frame coming
+     * from the camera view. 
+     * All the processing is initiated from within this method.
+     * The returned frame is passed to the view and
+     * displayed to the user.
+     */
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+        Log.v(TAG, "Got Camera Frame. Width: " + inputFrame.gray().cols());
         Mat mRgba = sudokuTracker.detect(inputFrame.gray());
+        
         if(sudokuTracker.hasFoundCandidate()){
             List<FieldCandidate> candidates;
-            // mOpenCvCameraView.disableView();
             Mat mStraight = sudokuTracker.getMStraight();
+            Mat transform = sudokuTracker.getInverseTransformMat();
             digitExtractor.setSource(mStraight);
             try {
-                candidates = digitExtractor.extractDigits();
+                candidates = digitExtractor.extractDigits(
+                        sudokuTracker.onlyRoi(mRgba), transform);
                 // update array in place.
                 recognizer.regognize(candidates);
                 finish(candidates);
             } catch (NoSudokuFoundException e) {
+                Log.v(TAG, e.getMessage());
                 sudokuTracker.setFoundCandidate(false);
-                // mOpenCvCameraView.enableView();
             }
         }
         return mRgba;

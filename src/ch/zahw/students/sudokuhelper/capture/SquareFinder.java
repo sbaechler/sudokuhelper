@@ -14,9 +14,10 @@ import org.opencv.core.Scalar;
 import android.util.Log;
 
 /**
- * Helper class that finds the Sudoku from a collection of lines.
+ * Helper class that finds the Sudoku in the frame from a collection of lines.
+ * It tries to find the edges of the Sudoku by comparing the ends of all lines.
+ * If multiple paralel lines end at a certain position then this must be an edge.
  * @author simon
- *
  */
 public class SquareFinder {
     private static final String TAG = "SudokuHelper::SquareFinder";
@@ -27,8 +28,6 @@ public class SquareFinder {
     private double[][] verticalLines;
     private int nextH = 0;
     private int nextV = 0;
-    private int width;
-    private int height;
     int centerX;
     int centerY;
     // CSS style array of lines: top, right, bottom, left
@@ -146,7 +145,6 @@ public class SquareFinder {
         // iterate through all the vertical lines
         int bestLeftHit = 0;
         int bestRightHit = 0;
-        double t = INTERSECT_TOLERANCE;
         for (int v=0; v<nextV; v++) {
             int leftHit = 0;
             int rightHit = 0;
@@ -158,9 +156,7 @@ public class SquareFinder {
             for (int h=0; h<nextH; h++){
                 double[] vec = horizontalLines[h];
                 double ax = vec[0],
-                       ay = vec[1],
-                       bx = vec[2],
-                       by = vec[3];
+                       bx = vec[2];
                 if(ax < bx) { // A is left of B
                     if ((vx1<=ax && ax<=vx2) || (vx1>=ax && ax>=vx2)){
                         // A is between the upper and lower edge point
@@ -199,7 +195,16 @@ public class SquareFinder {
         Log.v(TAG, "Best left hit: " + bestLeftHit + ", best right: " + bestRightHit);
     }
     
-    public List<Point> drawEdges(Mat mRgba) throws NoSudokuFoundException{
+    /**
+     * This method intersects the edge lines and calculates the corner points.
+     * It also draws the red edge lines and cyan corners into the passed Mat.
+     * 
+     * @param mRgba - The Mat to draw the lines on. This is not the Mat that is
+     *                used to find the edges.
+     * @return A List of 4 Point instances containing the corner points of the Sudoku.
+     * @throws NoSudokuFoundException
+     */
+    public List<Point> findCornerPoints(Mat mRgba) throws NoSudokuFoundException{
         // draw edge points
         findUpperAndLowerEdge();
         findLeftAndRightEdge();
@@ -255,9 +260,10 @@ public class SquareFinder {
     }
     
     /**
-     * This methods finds the corner points of the sudoku
-     * by finding the intersection points of the edge lines.
-     * It uses simple vector algebra: v1=P1+u(P2-P1) ∩ v2=P2+v(P4-P3) 
+     * This methods finds the intersection point of two lines.
+     * It uses simple vector algebra: v1=P1+u(P2-P1) ∩ v2=P2+v(P4-P3)
+     * @param v1, v2 - The lines passed as array containing the edge points.
+     * @return - A Point instance of the intersection point.
      */
     public Point findCornerPoint(double[] v1, double[] v2){
         // calculate the matrix A and vector b from the coordinates 

@@ -20,4 +20,6 @@
     <string name="sieben">7</string>
     <string name="acht">8</string>
     <string name="neun">9</string>
+    <string name="clear">löschen</string>
+    <string name="numberPicker">Zahl ändern</string>
 </resources>

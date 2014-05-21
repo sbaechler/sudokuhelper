@@ -6,7 +6,7 @@ import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
 public class NaiveAlgorithmus extends AAlgorithm {
 
-	public NaiveAlgorithmus(int[][] sudoku) {
+	public NaiveAlgorithmus(int [][] sudoku) {
 		super(sudoku);
 	}
 
@@ -54,7 +54,7 @@ public class NaiveAlgorithmus extends AAlgorithm {
 		for (int i = 0; i < sf.getAvailableNumbers().size(); i++) {
 			if (sf.isStartGap()) {
 				number = sf.getAvailableNumbers().get(i);
-				sf.setNumber(number);
+				sudoku.setValue(row, column, number);
 			}
 
 			if (row == 8 && column == 8) {

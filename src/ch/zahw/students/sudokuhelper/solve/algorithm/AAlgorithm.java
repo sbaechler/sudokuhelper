@@ -16,8 +16,8 @@ public abstract class AAlgorithm {
 	private Vector<SudokuField> solveOrder;
 	private boolean isSolved = false;
 
-	public AAlgorithm(int[][] sudokuArray) {
-		this.sudoku = new Sudoku(sudokuArray);
+	public AAlgorithm(int [][] sudoku) {
+		this.sudoku = new Sudoku(sudoku);
 		init();
 	}
 
@@ -121,7 +121,7 @@ public abstract class AAlgorithm {
 	protected void checkIsFounded(SudokuField sField, int row, int column) {
 		if (sField.getSizeOfAvailableNumbers() == 1) {
 			int number = sField.getAvailableNumbers().get(0);
-			sField.setNumber(sField.getAvailableNumbers().get(0));
+			sudoku.setValue(row, column, sField.getAvailableNumbers().get(0));
 			sField.setFounded(true);
 			solveOrder.add(sField);
 			removeNotAvailablenUmber(row, column, number);

@@ -45,7 +45,7 @@
             android:layout_marginRight="30dp"
             android:layout_weight="1"
             android:background="@drawable/simple_button"
-            android:onClick="doTest"
+            android:onClick="doCapture"
             android:text="@string/capture"
             android:textColor="#ffffff"
             android:textSize="15sp" />
