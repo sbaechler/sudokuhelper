@@ -1,7 +1,7 @@
 package ch.zahw.students.sudokuhelper.test;
 
+
 import android.test.ActivityTestCase;
-import android.util.Log;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 
@@ -14,17 +14,13 @@ public class SudokuSolveTest extends ActivityTestCase {
 	}
 
 	public void solveSudoku(int[][] toSolve, int[][] sudoku) {
-<<<<<<< HEAD
-		Sudoku solvSudoku = sudokuManager.solve(sudoku);
-=======
 	    sudokuManager.resetSudoku(sudoku);
-		Sudoku solvSudoku = sudokuManager.solveWithBetterApproach();
->>>>>>> manual-override
-		int[][] solvedSudoku = sudokuManager.getSudokuAsArray(solvSudoku);
+		Sudoku solvSudoku = sudokuManager.solve(toSolve);
+//		int[][] solvedSudoku = sudokuManager.getSudokuAsArray(solvSudoku);
 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				assertEquals(sudoku[i][j], solvedSudoku[i][j]);
+				assertEquals(sudoku[i][j], solvSudoku.getField(i, j));
 			}
 
 		}
@@ -32,17 +28,6 @@ public class SudokuSolveTest extends ActivityTestCase {
 	}
 
 	public void naiveSolveSudoku(int[][] toSolve, int[][] sudoku) {
-<<<<<<< HEAD
-		Sudoku solvSudoku2 = sudokuManager.solve(sudoku);
-		int[][] solvedSudoku2 = sudokuManager.getSudokuAsArray(solvSudoku2);
-
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				assertEquals(sudoku[i][j], solvedSudoku2[i][j]);
-			}
-
-		}
-=======
 //		Sudoku solvSudoku2 = sudokuManager.solveWithNaiveApproach(sudoku);
 //		int[][] solvedSudoku2 = sudokuManager.getSudokuAsArray(solvSudoku2);
 //
@@ -52,7 +37,6 @@ public class SudokuSolveTest extends ActivityTestCase {
 //			}
 //
 //		}
->>>>>>> manual-override
 
 	}
 
