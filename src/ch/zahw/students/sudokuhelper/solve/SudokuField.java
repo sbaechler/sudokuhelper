@@ -1,7 +1,8 @@
 package ch.zahw.students.sudokuhelper.solve;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Observable;
+import java.util.Set;
 
 
 /**
@@ -14,14 +15,16 @@ public class SudokuField extends Observable implements Field {
     // reagieren, z.B. mögliche Nummern selbständig löschen, oder einen Fehler werfen.
     // http://openbook.galileocomputing.de/javainsel/javainsel_10_002.html
     
-	private ArrayList<Integer> availableNumbers;  // HashSet
+	private Set<Integer> availableNumbers;  // HashSet
 	private int number;
 	private boolean startGap;
-	private boolean isFounded;
+	private boolean isFounded;  // number is not editable anymore
 	private boolean isValid;
 	private int row;
 	private int column;
-
+	private boolean isHiddenSingle = false;
+	private HiddenSingleEventListener listener = null; // This is the Sudoku
+	
 	public SudokuField(int row, int column) {
 	    this.row = row;
 	    this.column = column;
@@ -35,7 +38,7 @@ public class SudokuField extends Observable implements Field {
 	    this.number = 0;
 	    this.isFounded = false;
 	    this.startGap = false;
-	    this.availableNumbers = new ArrayList<Integer>();
+	    this.availableNumbers = new HashSet<Integer>();
 	    initAvailableNumbers();
 	}
 	
@@ -58,14 +61,18 @@ public class SudokuField extends Observable implements Field {
 		this.isValid = valid;
 		notifyObservers(new FieldValues());
 	}
+	
+	void setListener(HiddenSingleEventListener listener){
+	    this.listener = listener;  // This is the Sudoku
+	}
 
 	private boolean validate(int number){
-		// TODO validation logic
-		return number == 0 ||availableNumbers.size() < 1 || availableNumbers.contains(number);
+	    // TODO validation logic
+	    return number == 0 || availableNumbers.contains(number);
 	}
 
 	public boolean isValid(){
-		return isValid;
+	    return isValid;
 	}
 
 	public int getNumber() {
@@ -80,27 +87,33 @@ public class SudokuField extends Observable implements Field {
 	    }
 	}
 
-	public ArrayList<Integer> getAvailableNumbers() {
-		return availableNumbers;
+	public HashSet<Integer> getAvailableNumbers() {
+		return (HashSet<Integer>) availableNumbers;
 	}
 
+	@Deprecated
 	public int getSizeOfAvailableNumbers() {
 		return availableNumbers.size();
 	}
 
 	public void setFounded(boolean isFounded) {
 		this.isFounded = isFounded;
-		if(isFounded) {
-			clearAvailableNumbers();
-		} else {
-			// TODO
-		}
 	}
 
 	public boolean isFounded() {
 		return isFounded;
 	}
+	
+	public boolean isHiddenSingle(){
+	    return isHiddenSingle;
+	}
 
+	// lock the preset field. This method is called on solve.
+	void lock(){
+	    isFounded = number > 0;
+	    startGap = number == 0;
+	}
+	
 	public void setStartGap(boolean startGap) {
 		this.startGap = startGap;
 	}
@@ -116,12 +129,42 @@ public class SudokuField extends Observable implements Field {
 	public int getColumn() {
 		return column;
 	}
-
-	public void clearAvailableNumbers() {
-		availableNumbers.clear();
-		availableNumbers.add(0);
+	
+	void removeAvailableNumber(int number){
+	    availableNumbers.remove(number);
+	    if(availableNumbers.size() == 1){
+	        // hidden single found! Notify Sudoku.
+	        if(this.listener != null){
+	            this.listener.hiddenSingleFound(new HiddenSingleEvent(this));
+	        }
+	        this.isHiddenSingle = true;
+	    } else if (availableNumbers.size() == 0){
+	        isFounded = true;
+	        this.isHiddenSingle = false;
+	    } // TODO: if reverse is possible - set this to true on else.
 	}
 
+	/*
+	 * Returns the next allowed number (for the solve algorithms)
+	 * or 0 if the number cannot be changed.
+	 */
+	public int getNextAllowedNumber(){
+	    return isFounded ? 0 : availableNumbers.iterator().next();
+	}
+	
+	/**
+	 * Checks if the given number would be allowed in the field
+	 * @param number - the number candidate
+	 * @return true or false.
+	 * @throws IllegalStateException if the allowed numbers has not been filled out yet.
+	 */
+	public boolean isNumberAllowed(int candidate){
+	    if(availableNumbers.isEmpty()){
+	        throw new IllegalStateException("Allowed Numbers has not been filled out yet");
+	    }
+	    return candidate==0 ? true : availableNumbers.contains(candidate);
+	}
+	
 	
 	/**
 	 * This class can be passed to the listener classes.
@@ -148,7 +191,6 @@ public class SudokuField extends Observable implements Field {
 	    public boolean isValid(){
 	    	return isValid;
 	    }
-	            
 	}
 	
 }

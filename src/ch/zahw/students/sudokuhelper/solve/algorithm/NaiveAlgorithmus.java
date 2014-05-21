@@ -6,6 +6,11 @@ import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
 public class NaiveAlgorithmus extends AAlgorithm {
 
+	public NaiveAlgorithmus(Sudoku sudoku) {
+		super(sudoku);
+	}
+
+	
 	public NaiveAlgorithmus(int [][] sudoku) {
 		super(sudoku);
 	}
@@ -22,22 +27,22 @@ public class NaiveAlgorithmus extends AAlgorithm {
 		SudokuField sField;
 		int number;
 
-		for (int row = 0; row < 9; row++) {
-			for (int column = 0; column < 9; column++) {
-				sField = sudoku.getField(row, column);
-				for (int k = 0; k < sField.getSizeOfAvailableNumbers(); k++) {
-
-					number = sField.getAvailableNumbers().get(k);
-
-					if (sField.isFounded() == false
-							&& checkIfNumberShouldBeRemoved(row, column, number)) {
-						int index = sField.getAvailableNumbers()
-								.indexOf(number);
-						sField.getAvailableNumbers().remove(index);
-					}
-				}
-			}
-		}
+//		for (int row = 0; row < 9; row++) {
+//			for (int column = 0; column < 9; column++) {
+//				sField = sudoku.getField(row, column);
+//				for (int k = 0; k < sField.getSizeOfAvailableNumbers(); k++) {
+//
+//					number = sField.getAvailableNumbers().get(k);
+//
+//					if (sField.isFounded() == false
+//							&& checkIfNumberShouldBeRemoved(row, column, number)) {
+//						int index = sField.getAvailableNumbers()
+//								.indexOf(number);
+//						sField.getAvailableNumbers().remove(index);
+//					}
+//				}
+//			}
+//		}
 
 		while (!checkIfSolvedAdvaced()) {
 			naiveApproach(0, 0);
@@ -51,26 +56,26 @@ public class NaiveAlgorithmus extends AAlgorithm {
 		SudokuField sf = sudoku.getField(row, column);
 		int number = 0;
 
-		for (int i = 0; i < sf.getAvailableNumbers().size(); i++) {
-			if (sf.isStartGap()) {
-				number = sf.getAvailableNumbers().get(i);
-				sudoku.setValue(row, column, number);
-			}
-
-			if (row == 8 && column == 8) {
-				if (checkIfSolvedAdvaced()) {
-					return true;
-				}
-			} else {
-				if (column == 8) {
-					column = -1;
-					row++;
-				}
-
-				if (naiveApproach(row, column + 1)) {
-					return true;
-				}
-			}
+//		for (int i = 0; i < sf.getAvailableNumbers().size(); i++) {
+//			if (sf.isStartGap()) {
+//				number = sf.getAvailableNumbers().get(i);
+//				sf.setNumber(number);
+//			}
+//
+//			if (row == 8 && column == 8) {
+//				if (checkIfSolvedAdvaced()) {
+//					return true;
+//				}
+//			} else {
+//				if (column == 8) {
+//					column = -1;
+//					row++;
+//				}
+//
+//				if (naiveApproach(row, column + 1)) {
+//					return true;
+//				}
+//			}
 
 			// if (column == 8) {
 			// if (row == 8) {
@@ -87,7 +92,7 @@ public class NaiveAlgorithmus extends AAlgorithm {
 			// return true;
 			// }
 			// }
-		}
+//		}
 
 		return false;
 	}

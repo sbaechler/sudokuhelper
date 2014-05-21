@@ -73,15 +73,33 @@ public class SudokuManager {
 	}
 
 	/**
-	 * Sets the values for an existing Sudoku.
-	 * 
-	 * @param candidates
-	 *            - 2-dimensional array of numbers.
-	 */
-	public void resetSudoku(int[][] candidates) {
-		sudoku.setValues(candidates);
+        * Sets the values for an existing Sudoku.
+        * @param candidates - 2-dimensional array of numbers.
+        */
+	public void resetSudoku(int[][] candidates){
+	    sudoku.setValues(candidates);
+	}
+	
+	// TODO: use sudoku.lock() as first argument in solve()
+	
+	public Sudoku solveWithNaiveApproach() {
+		// eine zahl möglich -> sofort ausprobieren (rekursiv)
+		naiveAlgorithm = new NaiveAlgorithmus(sudoku);
+		Sudoku solvedSudoku = naiveAlgorithm.solve();
+		this.solveOrder = naiveAlgorithm.getSolveOrder();
+		this.indexNextSolveOrder = -1;
+
+		return solvedSudoku;
 	}
 
+	public Sudoku solveWithBetterApproach() {
+		Sudoku solvedSudoku = nakedSingle.solve();
+		this.solveOrder = nakedSingle.getSolveOrder();
+		this.indexNextSolveOrder = -1;
+		
+		return solvedSudoku;
+	}
+	
 	public int[][] getArrSud(int[][] arrSud) {
 		return arrSud;
 	}

@@ -9,6 +9,14 @@ public class SimpleAlgorithm extends AAlgorithm {
 		super(sudoku);
 	}
 
+	
+	
+	
+	// Siehe Mail
+	
+	
+	
+	
 	@Override
 	public Sudoku solve() {
 
@@ -17,35 +25,35 @@ public class SimpleAlgorithm extends AAlgorithm {
 		// löschen)
 		SudokuField sField;
 		int number;
-
-		while (!checkSimplySolved()) {
-			for (int row = 0; row < 9; row++) {
-				for (int column = 0; column < 9; column++) {
-
-					sField = sudoku.getField(row, column);
-
-					if (!sField.isFounded()) {
-						for (int k = 0; k < sField.getSizeOfAvailableNumbers(); k++) {
-
-							number = sField.getAvailableNumbers().get(k);
-
-							if (checkIfNumberShouldBeRemoved(row, column,
-									number)) {
-								int index = sField.getAvailableNumbers()
-										.indexOf(number);
-								sField.getAvailableNumbers().remove(index);
-								k--;
-							}
-
-							checkIsFounded(sField, row, column);
-						}
-
-					}
-
-				}
-			}
-
-		}
+//
+//		while (!checkSimplySolved()) {
+//			for (int row = 0; row < 9; row++) {
+//				for (int column = 0; column < 9; column++) {
+//
+//					sField = sudoku.getField(row, column);
+//
+//					if (!sField.isFounded()) {
+//						for (int k = 0; k < sField.getSizeOfAvailableNumbers(); k++) {
+//
+//							number = sField.getAvailableNumbers().get(k);
+//
+//							if (checkIfNumberShouldBeRemoved(row, column,
+//									number)) {
+//								int index = sField.getAvailableNumbers()
+//										.indexOf(number);
+//								sField.getAvailableNumbers().remove(index);
+//								k--;
+//							}
+//
+//							checkIsFounded(sField, row, column);
+//						}
+//
+//					}
+//
+//				}
+//			}
+//
+//		}
 
 		return sudoku;
 	}

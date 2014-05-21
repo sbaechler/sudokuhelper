@@ -2,8 +2,6 @@ package ch.zahw.students.sudokuhelper.solve.algorithm;
 
 import java.util.Vector;
 
-import android.util.Log;
-
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
@@ -16,6 +14,11 @@ public abstract class AAlgorithm {
 	private Vector<SudokuField> solveOrder;
 	private boolean isSolved = false;
 
+	public AAlgorithm(Sudoku sudoku) {
+		this.sudoku = sudoku;
+		init();
+	}
+	
 	public AAlgorithm(int [][] sudoku) {
 		this.sudoku = new Sudoku(sudoku);
 		init();
@@ -30,65 +33,14 @@ public abstract class AAlgorithm {
 		this.solveOrder = new Vector<SudokuField>();
 	}
 
-	/**
-	 * Hier wird die gefundene Zahl aus der Zeile, Spalte und im Quadrat
-	 * entfernt sodass die betreffende Felder diese Zahl nicht mehr zur
-	 * Verfügung haben
-	 */
-	protected void removeNotAvailablenUmber(int row, int column, int number) {
 
-		// Zahl in der gleichen Zeile entfernen
-		for (int i = 0; i < 9; i++) {
-			if (!sudoku.getField(row, i).isFounded()) {
-				int index = sudoku.getField(row, i).getAvailableNumbers()
-						.indexOf(number);
-
-				if (index != -1) {
-					sudoku.getField(row, i).getAvailableNumbers().remove(index);
-				}
-			}
-		}
-
-		// Zahl in der gleichen Spalte entfernen
-		for (int i = 0; i < 9; i++) {
-			if (!sudoku.getField(i, column).isFounded()) {
-				int index = sudoku.getField(i, column).getAvailableNumbers()
-						.indexOf(number);
-
-				if (index != -1) {
-					sudoku.getField(i, column).getAvailableNumbers()
-							.remove(index);
-				}
-			}
-		}
-
-		// Zahl im Quadrat entfernen
-		// Quadrat: es gibt 3 * 3 Quadrate
-		int qy = (row / 3) * 3;
-		int qx = (column / 3) * 3;
-
-		for (int i = qy; i < qy + 3; i++) {
-			for (int j = qx; j < qx + 3; j++) {
-				if (!sudoku.getField(i, j).isFounded()) {
-					int index = sudoku.getField(i, j).getAvailableNumbers()
-							.indexOf(number);
-
-					if (index != -1) {
-						sudoku.getField(i, j).getAvailableNumbers()
-								.remove(index);
-					}
-				}
-			}
-		}
-
-	}
-
+	@Deprecated
 	protected boolean checkIfNumberShouldBeRemoved(int row, int column,
 			int number) {
 		// Wird überprüft ob die Zahl entfernt werden soll falls die Zahl schon
 		// in der gleiche Zeile vorkommt
 		for (int i = 0; i < 9; i++) {
-			if (sudoku.getField(row, i).getNumber() == number) {
+			if (sudoku.getNumber(row, i) == number) {
 				return true;
 			}
 		}
@@ -118,15 +70,15 @@ public abstract class AAlgorithm {
 		return false;
 	}
 
-	protected void checkIsFounded(SudokuField sField, int row, int column) {
-		if (sField.getSizeOfAvailableNumbers() == 1) {
-			int number = sField.getAvailableNumbers().get(0);
-			sudoku.setValue(row, column, sField.getAvailableNumbers().get(0));
-			sField.setFounded(true);
-			solveOrder.add(sField);
-			removeNotAvailablenUmber(row, column, number);
-		}
-	}
+//	protected void checkIsFounded(SudokuField sField, int row, int column) {
+//		if (sField.getSizeOfAvailableNumbers() == 1) {
+//			int number = sField.getAvailableNumbers().get(0);
+//			sField.setNumber(sField.getAvailableNumbers().get(0));
+//			sField.setFounded(true);
+//			solveOrder.add(sField);
+//			removeNotAvailablenUmber(row, column, number);
+//		}
+//	}
 
 	protected boolean rowAndColcheck() {
 		int numberRow = 0;
@@ -195,6 +147,7 @@ public abstract class AAlgorithm {
 		return true;
 	}
 
+	@Deprecated
 	protected boolean checkSimplySolved() {
 		// Evlt eine bessere Überprüfung schreiben (oder nur für bereits
 		// angefangene Sudokus) überprüfen ob wirklich 1-9 einmal vorkommen
