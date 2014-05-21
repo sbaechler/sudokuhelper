@@ -4,18 +4,17 @@ package ch.zahw.students.sudokuhelper.test;
 import java.io.IOException;
 import java.util.List;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.highgui.Highgui;
+
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 import ch.zahw.students.sudokuhelper.capture.DigitExtractor;
 import ch.zahw.students.sudokuhelper.capture.FieldCandidate;
 import ch.zahw.students.sudokuhelper.capture.NeuralNetworkRecognizer;
 import ch.zahw.students.sudokuhelper.capture.NoSudokuFoundException;
 import ch.zahw.students.sudokuhelper.capture.SquareFinder;
-
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.highgui.Highgui;
 
 // org.opencv.test is not in the release version yet as of 2.4.8.
 

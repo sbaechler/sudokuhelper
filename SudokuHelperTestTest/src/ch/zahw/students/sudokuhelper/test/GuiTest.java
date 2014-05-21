@@ -1,17 +1,12 @@
 package ch.zahw.students.sudokuhelper.test;
 
 
-import ch.zahw.students.sudokuhelper.MainActivity;
-import ch.zahw.students.sudokuhelper.MainHelper;
-import ch.zahw.students.sudokuhelper.solve.Sudoku;
-import android.annotation.TargetApi;
 import android.app.Instrumentation;
-import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
-import android.util.Log;
 import android.widget.TextView;
-import android.widget.NumberPicker;
+import ch.zahw.students.sudokuhelper.MainActivity;
+import ch.zahw.students.sudokuhelper.MainHelper;
 
 public class GuiTest extends ActivityInstrumentationTestCase2<MainActivity> {
     
