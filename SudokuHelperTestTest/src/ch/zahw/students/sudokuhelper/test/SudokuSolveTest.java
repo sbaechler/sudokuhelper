@@ -66,6 +66,13 @@ public class SudokuSolveTest extends ActivityTestCase {
 	    referenceRow = new int[]{0,0,0,0,0,0,0,0,0};
 	    sudokuRow = sudoku.getRowValues(1);
 	    assertTrue("The second row is set correctly", Arrays.equals(referenceRow, sudokuRow));
+	    
+	    // test the fields
+	    // all fields are valid
+	    
+	    // all fields with numbers are founded
+	    
+	    
 	}
 
 }

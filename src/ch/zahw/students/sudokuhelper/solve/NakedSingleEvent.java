@@ -2,10 +2,10 @@ package ch.zahw.students.sudokuhelper.solve;
 
 import java.util.EventObject;
 
-public class HiddenSingleEvent extends EventObject {
+public class NakedSingleEvent extends EventObject {
     SudokuField field;
 
-    public HiddenSingleEvent(Object source) {
+    public NakedSingleEvent(Object source) {
         super(source);
         field = (SudokuField) source;
     }

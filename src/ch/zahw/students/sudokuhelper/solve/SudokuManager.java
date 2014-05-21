@@ -3,7 +3,7 @@ package ch.zahw.students.sudokuhelper.solve;
 import java.util.Vector;
 
 import ch.zahw.students.sudokuhelper.solve.algorithm.AAlgorithm;
-import ch.zahw.students.sudokuhelper.solve.algorithm.HiddenSingleAlgorithmus;
+import ch.zahw.students.sudokuhelper.solve.algorithm.HiddenSingleAlgorithm;
 import ch.zahw.students.sudokuhelper.solve.algorithm.NaiveAlgorithmus;
 import ch.zahw.students.sudokuhelper.solve.algorithm.SimpleAlgorithm;
 
@@ -12,7 +12,7 @@ public class SudokuManager {
 	private Sudoku sudoku;
 
 	private NaiveAlgorithmus naiveAlgorithm;
-	private HiddenSingleAlgorithmus hiddenSingle;
+	private HiddenSingleAlgorithm hiddenSingle;
 	private SimpleAlgorithm nakedSingle;
 
 	private Vector<SudokuField> solveOrder;
@@ -21,7 +21,7 @@ public class SudokuManager {
 
 	public Sudoku solve(int[][] sudokuArray) {
 		naiveAlgorithm = new NaiveAlgorithmus(sudokuArray);
-		hiddenSingle = new HiddenSingleAlgorithmus(sudokuArray);
+		hiddenSingle = new HiddenSingleAlgorithm(sudokuArray);
 		nakedSingle = new SimpleAlgorithm(sudokuArray);
 
 		Sudoku solvedSudokuNakedSingle;

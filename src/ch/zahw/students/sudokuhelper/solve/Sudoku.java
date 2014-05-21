@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Sudoku implements Observer, HiddenSingleEventListener {
+public class Sudoku implements Observer, NakedSingleEventListener {
     
     private static final String TAG = "SudokuHelper::Sudoku";
     private SudokuField[] fields;
@@ -67,6 +67,7 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
                 setValue(i, j, candidates[i][j]);
             }
         }
+        // TODO: validate Sudoku
     }
     
     // call this method on solve.
@@ -90,7 +91,7 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
      */
     public void setValue(int row, int column, int value) {
         SudokuField field = fields[(row*9)+column];
-        if (value != 0) {  // a number
+        if (value > 0) {  // a number
             // decrease the empty field count
             if (field.getNumber() > 0) {
                 emptyFields -= 1;
@@ -261,7 +262,7 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
      * number.
      */
     @Override
-    public void hiddenSingleFound(HiddenSingleEvent e) {
+    public void hiddenSingleFound(NakedSingleEvent e) {
         // setValue(e.getRow(), e.getColumn(), e.getNumber());
     }
     

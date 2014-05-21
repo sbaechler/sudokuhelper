@@ -5,9 +5,9 @@ import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
 // Dieser Zustand wird vom Sudoku selbst erkannt.
 @Deprecated
-public class HiddenSingleAlgorithmus extends AAlgorithm {
+public class HiddenSingleAlgorithm extends AAlgorithm {
 
-	public HiddenSingleAlgorithmus(int [][] sudoku) {
+	public HiddenSingleAlgorithm(int [][] sudoku) {
 		super(sudoku);
 	}
 

@@ -59,13 +59,16 @@ public class SudokuFieldView extends TextView implements Observer {
     @Override
     public void update(Observable field, Object value) {
         setValue(((Field) value).getNumber());
-        if(!((Field) value).isValid()){
-            setBackgroundColor(Color.RED);
-        } else if (((Field) value).isFounded()){
-            setBackgroundColor(Color.WHITE);
-        } else {
-            setBackgroundColor(Color.GREEN);
+        if(((Field) value).getNumber() > 0) {
+            if(!((Field) value).isValid()){
+                setBackgroundColor(Color.RED);
+            } else if (((Field) value).isFounded()){
+                setBackgroundColor(Color.WHITE);
+            } else {
+                setBackgroundColor(Color.GREEN);
+            }
         }
+
     }
    
 }

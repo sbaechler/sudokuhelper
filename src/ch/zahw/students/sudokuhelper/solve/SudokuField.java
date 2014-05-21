@@ -23,7 +23,7 @@ public class SudokuField extends Observable implements Field {
 	private int row;
 	private int column;
 	private boolean isHiddenSingle = false;
-	private HiddenSingleEventListener listener = null; // This is the Sudoku
+	private NakedSingleEventListener listener = null; // This is the Sudoku
 	
 	public SudokuField(int row, int column) {
 	    this.row = row;
@@ -62,7 +62,7 @@ public class SudokuField extends Observable implements Field {
 		notifyObservers(new FieldValues());
 	}
 	
-	void setListener(HiddenSingleEventListener listener){
+	void setListener(NakedSingleEventListener listener){
 	    this.listener = listener;  // This is the Sudoku
 	}
 
@@ -135,7 +135,7 @@ public class SudokuField extends Observable implements Field {
 	    if(availableNumbers.size() == 1){
 	        // hidden single found! Notify Sudoku.
 	        if(this.listener != null){
-	            this.listener.hiddenSingleFound(new HiddenSingleEvent(this));
+	            this.listener.hiddenSingleFound(new NakedSingleEvent(this));
 	        }
 	        this.isHiddenSingle = true;
 	    } else if (availableNumbers.size() == 0){
@@ -161,8 +161,10 @@ public class SudokuField extends Observable implements Field {
 	public boolean isNumberAllowed(int candidate){
 	    if(availableNumbers.isEmpty()){
 	        throw new IllegalStateException("Allowed Numbers has not been filled out yet");
+	    } else if (candidate == 0){
+	        throw new IllegalArgumentException("0 should not be tested (Field " + row + ", " + column + ")");
 	    }
-	    return candidate==0 ? true : availableNumbers.contains(candidate);
+	    return availableNumbers.contains(candidate);
 	}
 	
 	
