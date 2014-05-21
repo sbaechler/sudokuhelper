@@ -1,77 +1,34 @@
 package ch.zahw.students.sudokuhelper.test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import android.util.Log;
 
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 
 public class SudokuParser {
-
+        private static final String TAG = "SudokuHelperTest::SudokuParser";
 	private Sudoku toSolve;
 	private Sudoku solutionSudoku;
 
-	public Sudoku read(File file) {
-		System.out.println(file);
-		if (!file.exists() || !file.isFile()) {
-			return null;
-		}
+	
+// No System.out!
+	
+	
+//	public void print(Sudoku solvedSudoku) {
+//		printSudoku(solvedSudoku);
+//		printSudoku(solutionSudoku);
+//	}
 
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-
-			toSolve = createSudoku(reader);
-
-			if (reader.readLine().equals("**********************")) {
-				// keine lösung vorhanden
-				return null;
-			}
-
-			solutionSudoku = createSudoku(reader);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return toSolve;
-	}
-
-	private Sudoku createSudoku(BufferedReader reader) throws IOException {
-		Sudoku sudoku = new Sudoku();
-		String[] canditates;
-		String line = reader.readLine();
-
-		for (int row = 0; row < 9; row++) {
-			line = reader.readLine();
-			canditates = line.split(",");
-
-			for (int column = 0; column < 9; column++) {
-				sudoku.setValue(row, column,
-						Integer.parseInt(canditates[column]));
-			}
-
-		}
-
-		return sudoku;
-	}
-
-	public void print(Sudoku solvedSudoku) {
-		printSudoku(solvedSudoku);
-		printSudoku(solutionSudoku);
-	}
-
-	private void printSudoku(Sudoku sudoku) {
-		System.out.print("-----------------------------------");
-		for (int row = 0; row < 9; row++) {
-
-			for (int column = 0; column < 9; column++) {
-				System.out.print(solutionSudoku.getField(row, column));
-			}
-
-		}
-		System.out.print("-----------------------------------");
-	}
+//	private void printSudoku(Sudoku sudoku) {
+//		System.out.print("-----------------------------------");
+//		for (int row = 0; row < 9; row++) {
+//
+//			for (int column = 0; column < 9; column++) {
+//				System.out.print(solutionSudoku.getField(row, column));
+//			}
+//
+//		}
+//		System.out.print("-----------------------------------");
+//	}
 
 	public Sudoku getSolutionSudoku() {
 		return solutionSudoku;
@@ -81,25 +38,30 @@ public class SudokuParser {
 		return toSolve;
 	}
 
-	public Sudoku parseString(String sudokuString) {
+	/**
+	 * Converts a Sudoku saved as a String into an int array.
+	 * @param sudokuString - The cells are separated by comma, lines are separated by ;.
+	 * @return candidates array.
+	 */
+	public int[][] parseString(String sudokuString) {
 
-		String[] rows = sudokuString.split("\n");
+		String[] rows = sudokuString.split(";");
 		String row = null;
-		int[][] sudokuint = new int[9][9];
+		int[][] candidates = new int[9][9];
 
-		String value = null;
+		String[] value = null;
 
 		for (int i = 0; i < 9; i++) {
-
 			row = rows[i];
 			row = row.trim();
+			value = row.split(",");
 
 			for (int j = 0; j < 9; j++) {
-				sudokuint[i][j] = Integer.parseInt(value);
+			    candidates[i][j] = Integer.parseInt(value[j]);
 			}
 
 		}
 
-		return new Sudoku(sudokuint);
+		return candidates;
 	}
 }

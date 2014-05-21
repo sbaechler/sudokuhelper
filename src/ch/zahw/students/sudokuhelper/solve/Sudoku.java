@@ -1,15 +1,17 @@
 package ch.zahw.students.sudokuhelper.solve;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 
 public class Sudoku implements Observer, HiddenSingleEventListener {
-
+    
+    private static final String TAG = "SudokuHelper::Sudoku";
     private SudokuField[] fields;
-    private Set<SudokuField> invalidFields;
+    private HashSet<SudokuField> invalidFields;
     private int emptyFields;
+    private boolean isLocked = false;
 
     /**
      * The constructor for a new, empty Sudoku
@@ -33,6 +35,9 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
         return fields;
     }
 
+    /**
+     * Clears the sudoku and resets the fields so all numbers are allowed again.
+     */
     private void reset() {
         int index;
         for (int i = 0; i < 9; i++) {
@@ -69,6 +74,7 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
         for (int i = 0; i < 81; i++) {
             fields[i].lock();
         }
+        isLocked = true;
     }
 
     public int getNumber(int row, int column){
@@ -101,6 +107,7 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
         // TODO: restore all referenced fields for possible values
     }
 
+    @Deprecated
     public void setFounded(int row, int column, Boolean value){
         fields[(row*9)+column].setFounded(value);
     }
@@ -115,6 +122,11 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
         return sf;
     }
 
+    /**
+     * Returns one row of the Sudoku as Fields
+     * @param row - row number
+     * @return Array of SudokuFields of the length 9.
+     */
     public SudokuField[] getRowSudokuFields(int row) {
         SudokuField[] sf = new SudokuField[9];
 
@@ -122,6 +134,14 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
             sf[i] = fields[row*9+i];
         }
         return sf;
+    }
+    
+    public int[] getRowValues(int row){
+        int[] values = new int[9];
+        for (int i=0; i<9; i++){
+            values[i] = fields[row*9+i].getNumber();
+        }
+        return values;
     }
 
     /**
@@ -176,6 +196,12 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
     public Boolean isValid() {
         return invalidFields.size() == 0;
     }
+    
+    private void removeInvalidField(SudokuField field){
+        if (field.isValid()){
+            invalidFields.remove((SudokuField) field);
+        }
+    }
 
     /**
      * Hier wird die gefundene Zahl aus der Zeile, Spalte und im Quadrat
@@ -194,6 +220,27 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
             squareArray[i].removeAvailableNumber(number);
         }
     }
+    
+    /**
+     * Two sudokus are equal if their values are equal.
+     */
+    @Override
+    public boolean equals(Object o){
+        if ( o == null ) return false;
+        if ( o == this ) return true;
+        if ( ! o.getClass().equals(getClass()) ) return false;
+        return Arrays.equals(this.getFields(), ((Sudoku) o).getFields());    
+    }
+    
+    /**
+     * The hashCode is calculated from the number array, so it is slow.
+     * Don't put a Sudoku in a Hashed Collection.
+     */
+    @Override
+    public int hashCode()
+    {
+      return Arrays.hashCode(this.getFields());
+    }
 
     /**
      * Callback from the field class on update.
@@ -202,7 +249,7 @@ public class Sudoku implements Observer, HiddenSingleEventListener {
     @Override
     public void update(Observable field, Object value) {
         if(((Field) value).isValid()){
-            invalidFields.remove((SudokuField) field);
+            removeInvalidField((SudokuField) field);
         } else {
             invalidFields.add((SudokuField) field);
         }

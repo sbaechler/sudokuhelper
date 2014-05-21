@@ -4,10 +4,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.widget.TextView;
 
 public class SudokuFieldView extends TextView implements Observer {
     
+    private static final String TAG = "SudokuHelper::Sudoku";
     private int row;
     private int column;
 
@@ -57,7 +59,13 @@ public class SudokuFieldView extends TextView implements Observer {
     @Override
     public void update(Observable field, Object value) {
         setValue(((Field) value).getNumber());
-        // TODO: do something with isFounded and isStartGap
+        if(!((Field) value).isValid()){
+            setBackgroundColor(Color.RED);
+        } else if (((Field) value).isFounded()){
+            setBackgroundColor(Color.WHITE);
+        } else {
+            setBackgroundColor(Color.GREEN);
+        }
     }
    
 }
