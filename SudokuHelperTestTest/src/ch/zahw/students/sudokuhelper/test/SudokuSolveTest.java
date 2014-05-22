@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.test.ActivityTestCase;
 import android.util.Log;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
+import ch.zahw.students.sudokuhelper.solve.SudokuField;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 
 public class SudokuSolveTest extends ActivityTestCase {
@@ -35,6 +36,9 @@ public class SudokuSolveTest extends ActivityTestCase {
 		assertTrue(sudoku.isValid());
 		assertFalse(sudoku.isSolved());
 		assertEquals(sudoku, sudoku);
+		// Two Sudokus are equal if their nubers are equal
+		Sudoku sudoku2 = new Sudoku(candidates);
+		assertTrue(sudoku.equals(sudoku2));
 		int[] referenceRow = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		int[] sudokuRow = sudoku.getRowValues(0);
 		assertTrue("The first row is set correctly",
@@ -45,6 +49,12 @@ public class SudokuSolveTest extends ActivityTestCase {
 				Arrays.equals(referenceRow, sudokuRow));
 
 		// test the fields
+		SudokuField firstField = sudoku.getField(0,0);
+		assertTrue(firstField.isValid());
+		assertTrue(firstField.isFounded());
+		assertFalse(firstField.isStartGap());
+		
+		
 		// all fields are valid
 
 		// all fields with numbers are founded

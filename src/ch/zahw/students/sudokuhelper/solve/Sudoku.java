@@ -88,6 +88,16 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	public int getNumber(int row, int column) {
 		return getField(row, column).getNumber();
 	}
+	
+	public int[][] getTable(){
+	    int[][] sudokuTable = new int[9][9];
+	    for(int i=0; i<9; i++){
+	        for(int j=0; j<9; j++){
+	            sudokuTable[i][j] = getField(i,j).getNumber();
+	        }
+	    }
+	    return sudokuTable;
+	}
 
 	/**
 	 * Sets the value of a single field.
@@ -260,7 +270,7 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 			return true;
 		if (!o.getClass().equals(getClass()))
 			return false;
-		return Arrays.equals(this.getFields(), ((Sudoku) o).getFields());
+		return Arrays.deepEquals(this.getTable(), ((Sudoku) o).getTable());
 	}
 
 	/**
@@ -269,7 +279,7 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	 */
 	@Override
 	public int hashCode() {
-		return Arrays.hashCode(this.getFields());
+		return Arrays.deepHashCode(this.getTable());
 	}
 
 	/**
