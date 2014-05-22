@@ -1,20 +1,25 @@
 package ch.zahw.students.sudokuhelper.solve.algorithm;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import android.util.Log;
+import ch.zahw.students.sudokuhelper.solve.NakedSingleEvent;
+import ch.zahw.students.sudokuhelper.solve.NakedSingleEventListener;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
-// Dieser Zustand wird vom Sudoku selbst erkannt.
-@Deprecated
-public class HiddenSingleAlgorithm extends AAlgorithm {
+public class HiddenSingleAlgorithm extends AAlgorithm  {
+	private static final String TAG = "SudokuHelper::HiddenSingleAlgorithm";
+	private boolean startAgain = false;
 
-	public HiddenSingleAlgorithm(int [][] sudoku) {
+	public HiddenSingleAlgorithm(int[][] sudoku) {
 		super(sudoku);
 	}
-	
+
 	public HiddenSingleAlgorithm(Sudoku sudoku) {
 		super(sudoku);
 	}
-
 
 	@Override
 	public Sudoku solve() {
@@ -35,7 +40,7 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
 				if (sf.isFounded() == false) {
 
 					// über alle mögliche Zahlen iterieren
-					for (int number: sf.getAvailableNumbers()) {
+					for (int number : sf.getAvailableNumbers()) {
 
 						// rowcheck
 						if (findHiddenSingle(sudoku.getRowSudokuFields(row),
@@ -52,9 +57,9 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
 						if (findHiddenSingle(
 								sudoku.getColumnSudokuFields(column), number,
 								sf)) {
-                                                    sudoku.setValue(row, column, number);
-                                                    sf.setFounded(true);
-                                                    
+							sudoku.setValue(row, column, number);
+							sf.setFounded(true);
+
 							// von vorne anfangen
 							continue start;
 						}
@@ -63,10 +68,15 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
 						if (findHiddenSingle(sudoku.getSudokuSquare(row),
 								number, sf)) {
 
-                                                        sudoku.setValue(row, column, number);
-                                                        sf.setFounded(true);
-                                                        
+							sudoku.setValue(row, column, number);
+							sf.setFounded(true);
+
 							// von vorne anfangen
+							continue start;
+						}
+
+						if (startAgain) {
+							startAgain = false;
 							continue start;
 						}
 					}
@@ -85,8 +95,8 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
 	 *            die zu untersuchende SudokuFelder
 	 * @param number
 	 *            Diese Zahl wird überprüft ob es ein hidden single ist
-	 * @param index
-	 *            Der Index welche die untersuchende Zahl besitzt
+	 * @param field
+	 *            Das Feld welche die untersuchende Zahl besitzt
 	 * @return true -> hidden single, false -> kein hidden single
 	 */
 	private boolean findHiddenSingle(SudokuField[] nineFields, int number,
@@ -94,13 +104,11 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
 		SudokuField sField;
 
 		for (int i = 0; i < nineFields.length; i++) {
-		    sField = nineFields[i];
-		    
-		    if (sField == field) {
+			sField = nineFields[i];
+
+			if (sField == field) {
 				continue;
 			}
-
-			
 
 			// Falls ein anderes Sudokufeld die gleiche Zahl als mögliche Zahl
 			// hat, wird false zurückgegeben da es kein hidden single ist
@@ -110,7 +118,14 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
 			}
 		}
 
+		Log.v(TAG, "HiddenSingleFound: row = " + field.getRow() + ", column = "
+				+ field.getColumn() + "->" + number);
 		return true;
+	}
+
+	public void startAgain() {
+		startAgain = true;
+		Log.v(TAG, "nakedSingelFound: startAgain");
 	}
 
 }

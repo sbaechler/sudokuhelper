@@ -50,16 +50,6 @@ public class MainHelper {
 		return sudokuManager.getSudoku();
 	}
 
-	// Diese Methode wird nach dem Capture und dem startSudoku ausgeführt um
-	// 1. zu überprüfen ob das Sudoku valid ist bzw. die Zahlen richtig
-	// eingelesen wurden
-	// 2. nur einmal das Sudoku zu lösen
-
-	private void internSolve() {
-		if (!isSudokuSolved()) {
-			sudokuManager.solve();
-		}
-	}
 
 	/**
 	 * Re-render the whole Sudoku
@@ -262,7 +252,14 @@ public class MainHelper {
 
 	public void solve(View view) {
 		Log.v(TAG, "Solve");
-		internSolve();
+
+		// nur einmal das Sudoku zu lösen
+		if (!isSudokuSolved()) {
+			sudokuManager.solve();
+		}
+		
+		// Das Sudoku kann von der Step Funktion schon gelöst worden sein.
+		// Deswegen wird das Sudoku die gelösten Felder angezeigt
 		fillSolvedNumber(getSudoku());
 	}
 

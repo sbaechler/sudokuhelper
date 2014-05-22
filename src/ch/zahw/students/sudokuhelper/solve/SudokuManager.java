@@ -2,59 +2,60 @@ package ch.zahw.students.sudokuhelper.solve;
 
 import java.util.Vector;
 
-import ch.zahw.students.sudokuhelper.solve.algorithm.AAlgorithm;
+import android.util.Log;
+
 import ch.zahw.students.sudokuhelper.solve.algorithm.HiddenSingleAlgorithm;
 import ch.zahw.students.sudokuhelper.solve.algorithm.NaiveAlgorithmus;
-import ch.zahw.students.sudokuhelper.solve.algorithm.SimpleAlgorithm;
 
 public class SudokuManager {
 
+    private static final String TAG = "SudokuHelper::SudokuManager";
 	private Sudoku sudoku;
 
 	private NaiveAlgorithmus naiveAlgorithm;
 	private HiddenSingleAlgorithm hiddenSingle;
-	private SimpleAlgorithm nakedSingle;
 
+	// TODO solve order for step funktion
 	private Vector<SudokuField> solveOrder;
 	private int indexNextSolveOrder;
 	private boolean isSolved = false;
 
+	// TODO: use sudoku.lock() as first argument in solve()
 	public Sudoku solve() {
+		sudoku.lockSudoku();
 		naiveAlgorithm = new NaiveAlgorithmus(sudoku);
 		hiddenSingle = new HiddenSingleAlgorithm(sudoku);
-		nakedSingle = new SimpleAlgorithm(sudoku);
+		sudoku.setHiddenSingleListener(hiddenSingle);
+		sudoku = hiddenSingle.solve();
 
-		Sudoku solvedSudokuNakedSingle;
-		Sudoku solvedSudokuHiddenSingle;
-
-		while (true) {
+//		while (true) {
 			// solve with naked singles
-			solvedSudokuNakedSingle = nakedSingle.solve();
+//			solvedSudokuNakedSingle = nakedSingle.solve();
 
-			if (nakedSingle.isSolved()) {
-				// GELÖST !
-				isSolved = true;
-				break;
-			} else {
-				// sovle with hidden singles
-				solvedSudokuHiddenSingle = hiddenSingle.solve();
+//			if (nakedSingle.isSolved()) {
+//				// GELÖST !
+//				isSolved = true;
+//				break;
+//			} else {
+//				// sovle with hidden singles
+//				solvedSudokuHiddenSingle = hiddenSingle.solve();
+//
+//				if (!solvedSudokuNakedSingle.equals(solvedSudokuHiddenSingle)) {
+//					// wieder naked single
+//					continue;
+//				} else {
+//					// ja: naiv
+//					naiveAlgorithm.solve();
+//				}
+//				// nein: abruch
+//				isSolved = false;
+//				break;
+//			}
+//		}
 
-				if (!solvedSudokuNakedSingle.equals(solvedSudokuHiddenSingle)) {
-					// wieder naked single
-					continue;
-				} else {
-					// ja: naiv
-					naiveAlgorithm.solve();
-				}
-				// nein: abruch
-				isSolved = false;
-				break;
-			}
-		}
+//		this.solveOrder = naiveAlgorithm.getSolveOrder();
 
-		this.solveOrder = naiveAlgorithm.getSolveOrder();
-
-		return hiddenSingle.getSudoku();
+		return sudoku;
 	}
 
 	// creates a new, empty Sudoku
@@ -80,26 +81,6 @@ public class SudokuManager {
 	 */
 	public void resetSudoku(int[][] candidates) {
 		sudoku.setValues(candidates);
-	}
-
-	// TODO: use sudoku.lock() as first argument in solve()
-
-	public Sudoku solveWithNaiveApproach() {
-		// eine zahl möglich -> sofort ausprobieren (rekursiv)
-		naiveAlgorithm = new NaiveAlgorithmus(sudoku);
-		Sudoku solvedSudoku = naiveAlgorithm.solve();
-		this.solveOrder = naiveAlgorithm.getSolveOrder();
-		this.indexNextSolveOrder = -1;
-
-		return solvedSudoku;
-	}
-
-	public Sudoku solveWithBetterApproach() {
-		Sudoku solvedSudoku = nakedSingle.solve();
-		this.solveOrder = nakedSingle.getSolveOrder();
-		this.indexNextSolveOrder = -1;
-
-		return solvedSudoku;
 	}
 
 	public int[][] getArrSud(int[][] arrSud) {
@@ -137,28 +118,19 @@ public class SudokuManager {
 	}
 
 	public void print() {
-		int[][] sud = getSudokuAsArray(sudoku);
+	
 		for (int i = 0; i < 9; i++) {
-			System.out.print("\n-------------------\n|");
+			 Log.v(TAG, "\n-------------------\n|");
+			int[] row = sudoku.getRowValues(i);
+			
 			for (int j = 0; j < 9; j++) {
-				System.out.print(sud[i][j] + "|");
+				 Log.v(TAG, row[j] + "|");
 			}
 
 		}
-		System.out.println("\n-------------------");
+		 Log.v(TAG, "\n-------------------");
 	}
 
-	@Deprecated
-	public int[][] getSudokuAsArray(Sudoku toArray) {
-		int[][] arrSud = new int[9][9];
-
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				arrSud[i][j] = toArray.getField(i, j).getNumber();
-			}
-		}
-		return arrSud;
-	}
 
 	public SudokuField getPreviousSolveOrder() {
 
@@ -173,6 +145,10 @@ public class SudokuManager {
 
 	public boolean isSolved() {
 		return isSolved;
+	}
+	
+	public void setSudoku(Sudoku sudoku) {
+		this.sudoku = sudoku;
 	}
 
 }

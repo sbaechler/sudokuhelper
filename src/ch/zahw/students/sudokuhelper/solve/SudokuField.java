@@ -22,7 +22,7 @@ public class SudokuField extends Observable implements Field {
 	private boolean isValid;
 	private int row;
 	private int column;
-	private boolean isHiddenSingle = false;
+	private boolean isNakedSingle = false;
 	private NakedSingleEventListener listener = null; // This is the Sudoku
 	
 	public SudokuField(int row, int column) {
@@ -105,7 +105,7 @@ public class SudokuField extends Observable implements Field {
 	}
 	
 	public boolean isHiddenSingle(){
-	    return isHiddenSingle;
+	    return isNakedSingle;
 	}
 
 	// lock the preset field. This method is called on solve.
@@ -133,14 +133,15 @@ public class SudokuField extends Observable implements Field {
 	void removeAvailableNumber(int number){
 	    availableNumbers.remove(number);
 	    if(availableNumbers.size() == 1){
-	        // hidden single found! Notify Sudoku.
+	        // naked single found! Notify Sudoku.
 	        if(this.listener != null){
-	            this.listener.hiddenSingleFound(new NakedSingleEvent(this));
+	            this.listener.nakedSingelFound(new NakedSingleEvent(this));
+	            this.listener.nakedSingelFound(new NakedSingleEvent(this));
 	        }
-	        this.isHiddenSingle = true;
+	        this.isNakedSingle = true;
 	    } else if (availableNumbers.size() == 0){
 	        isFounded = true;
-	        this.isHiddenSingle = false;
+	        this.isNakedSingle = false;
 	    } // TODO: if reverse is possible - set this to true on else.
 	}
 
