@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.util.Log;
+
 public class Sudoku implements Observer, NakedSingleEventListener {
     
     private static final String TAG = "SudokuHelper::Sudoku";

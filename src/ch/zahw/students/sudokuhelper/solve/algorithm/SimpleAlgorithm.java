@@ -9,8 +9,11 @@ public class SimpleAlgorithm extends AAlgorithm {
 		super(sudoku);
 	}
 
-	
-	
+
+	public SimpleAlgorithm(Sudoku sudoku) {
+		super(sudoku);
+	}
+
 	
 	// Siehe Mail
 	

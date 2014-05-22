@@ -10,6 +10,11 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
 	public HiddenSingleAlgorithm(int [][] sudoku) {
 		super(sudoku);
 	}
+	
+	public HiddenSingleAlgorithm(Sudoku sudoku) {
+		super(sudoku);
+	}
+
 
 	@Override
 	public Sudoku solve() {

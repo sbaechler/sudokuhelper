@@ -19,10 +19,10 @@ public class SudokuManager {
 	private int indexNextSolveOrder;
 	private boolean isSolved = false;
 
-	public Sudoku solve(int[][] sudokuArray) {
-		naiveAlgorithm = new NaiveAlgorithmus(sudokuArray);
-		hiddenSingle = new HiddenSingleAlgorithm(sudokuArray);
-		nakedSingle = new SimpleAlgorithm(sudokuArray);
+	public Sudoku solve() {
+		naiveAlgorithm = new NaiveAlgorithmus(sudoku);
+		hiddenSingle = new HiddenSingleAlgorithm(sudoku);
+		nakedSingle = new SimpleAlgorithm(sudoku);
 
 		Sudoku solvedSudokuNakedSingle;
 		Sudoku solvedSudokuHiddenSingle;
@@ -73,15 +73,17 @@ public class SudokuManager {
 	}
 
 	/**
-        * Sets the values for an existing Sudoku.
-        * @param candidates - 2-dimensional array of numbers.
-        */
-	public void resetSudoku(int[][] candidates){
-	    sudoku.setValues(candidates);
+	 * Sets the values for an existing Sudoku.
+	 * 
+	 * @param candidates
+	 *            - 2-dimensional array of numbers.
+	 */
+	public void resetSudoku(int[][] candidates) {
+		sudoku.setValues(candidates);
 	}
-	
+
 	// TODO: use sudoku.lock() as first argument in solve()
-	
+
 	public Sudoku solveWithNaiveApproach() {
 		// eine zahl möglich -> sofort ausprobieren (rekursiv)
 		naiveAlgorithm = new NaiveAlgorithmus(sudoku);
@@ -96,10 +98,10 @@ public class SudokuManager {
 		Sudoku solvedSudoku = nakedSingle.solve();
 		this.solveOrder = nakedSingle.getSolveOrder();
 		this.indexNextSolveOrder = -1;
-		
+
 		return solvedSudoku;
 	}
-	
+
 	public int[][] getArrSud(int[][] arrSud) {
 		return arrSud;
 	}
@@ -167,59 +169,6 @@ public class SudokuManager {
 		}
 
 		return solveOrder.get(prev);
-	}
-
-	// ***************************************** TODO wieder löschen
-	public int[][] createSudokuSimply() {
-		int[][] toFillSudoku = new int[9][9];
-
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				// first: row, second: column
-				toFillSudoku[i][j] = 0;
-			}
-
-		}
-
-		toFillSudoku[0][0] = 8;
-		toFillSudoku[0][1] = 1;
-		toFillSudoku[0][2] = 2;
-		toFillSudoku[0][7] = 9;
-
-		toFillSudoku[1][0] = 5;
-		toFillSudoku[1][2] = 3;
-		toFillSudoku[1][4] = 2;
-		toFillSudoku[1][6] = 1;
-
-		toFillSudoku[2][3] = 1;
-		toFillSudoku[2][4] = 5;
-		toFillSudoku[2][8] = 6;
-
-		toFillSudoku[3][3] = 2;
-		toFillSudoku[3][4] = 4;
-		toFillSudoku[3][7] = 1;
-		toFillSudoku[3][8] = 5;
-
-		toFillSudoku[4][2] = 7;
-		toFillSudoku[4][3] = 5;
-		toFillSudoku[4][7] = 2;
-
-		toFillSudoku[5][1] = 8;
-		toFillSudoku[5][3] = 3;
-		toFillSudoku[5][7] = 4;
-
-		toFillSudoku[6][0] = 9;
-		toFillSudoku[6][5] = 4;
-
-		toFillSudoku[7][2] = 1;
-		toFillSudoku[7][6] = 7;
-		toFillSudoku[7][8] = 9;
-
-		toFillSudoku[8][0] = 3;
-		toFillSudoku[8][1] = 5;
-		toFillSudoku[8][2] = 8;
-
-		return toFillSudoku;
 	}
 
 	public boolean isSolved() {
