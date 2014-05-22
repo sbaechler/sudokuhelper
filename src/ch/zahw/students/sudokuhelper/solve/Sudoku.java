@@ -266,5 +266,4 @@ public class Sudoku implements Observer, NakedSingleEventListener {
         // setValue(e.getRow(), e.getColumn(), e.getNumber());
     }
     
-    
 }
