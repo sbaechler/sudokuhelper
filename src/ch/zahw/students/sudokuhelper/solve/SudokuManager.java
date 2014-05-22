@@ -25,7 +25,7 @@ public class SudokuManager {
 		sudoku.lockSudoku();
 		naiveAlgorithm = new NaiveAlgorithmus(sudoku);
 		hiddenSingle = new HiddenSingleAlgorithm(sudoku);
-		sudoku.setHiddenSingleListener(hiddenSingle);
+		// sudoku.setHiddenSingleListener(hiddenSingle);
 		sudoku = hiddenSingle.solve();
 
 //		while (true) {
@@ -102,8 +102,12 @@ public class SudokuManager {
 	public void setValue(int row, int column, int value) {
 		sudoku.setValue(row, column, value);
 	}
-
-	public Vector<SudokuField> getSolveOrder() {
+	
+        public void manuallyOverrideValue(int row, int column, int value) {
+            sudoku.manuallyOverrideValue(row, column, value);
+        }
+	
+        public Vector<SudokuField> getSolveOrder() {
 		return naiveAlgorithm.getSolveOrder();
 	}
 

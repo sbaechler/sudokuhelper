@@ -16,7 +16,7 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	private HashSet<SudokuField> invalidFields;
 	private int emptyFields;
 	private boolean isLocked = false;
-	private HiddenSingleAlgorithm hiddenSingle;
+//	private HiddenSingleAlgorithm hiddenSingle;  // Der hat hier nichts zu suchen. (Kopplung)
 	
 	/**
 	 * The constructor for a new, empty Sudoku
@@ -111,34 +111,41 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	 */
 	public void setValue(int row, int column, int value) {
 		SudokuField field = fields[(row * 9) + column];
-		
+		int oldValue = field.getNumber();
+		field.setNumber(value);
 		if (value > 0) { // a number
 			// decrease the empty field count
-			if (field.getNumber() > 0) {
-				emptyFields -= 1;
+			if (oldValue > 0) {
+			    emptyFields -= 1;
 			}
 			
-			if (field.isNumberAllowed(value)) {
-				removeAvailableNumbersOnOtherFields(row, column, value);
+			if (field.isValid()) {
+			    removeAvailableNumbersOnOtherFields(row, column, value, field);
 			}
-			
-			field.setFounded(true);
-			
+					
 		} else { // empty
 			
-			if (field.getNumber() > 0) {
+			if (oldValue > 0) {
 				emptyFields += 1;
 			}
 			
-		}
-		
-		
+		}		
 		Log.v(TAG, "setValue: row = " + row + ", column = "
-				+ column+ "->" +value+"-"+field.isFounded());
-
-		
-		field.setNumber(value);
-		// TODO: restore all referenced fields for possible values
+				+ column+ "->" +value+"-"+field.isFounded());		
+	}
+	
+	/**
+	 * Allows the user to correct a badly recognized number
+	 * @param row
+	 * @param column
+	 * @param value
+	 */
+	public void manuallyOverrideValue(int row, int column, int value) {
+	    SudokuField field = fields[(row * 9) + column];
+	    int oldValue = getNumber(row, column);
+	    setValue(row, column, 0);
+	    addAvailableNumbersOnOtherFields(row, column, oldValue, field);
+	    setValue(row, column, value);
 	}
 
 	@Deprecated
@@ -246,18 +253,35 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	 * Verfügung haben
 	 */
 	private void removeAvailableNumbersOnOtherFields(int row, int column,
-			int number) {
+			int number, SudokuField current) {
 
 		SudokuField[] rowArray = getRowSudokuFields(row);
 		SudokuField[] columnArray = getColumnSudokuFields(column);
 		SudokuField[] squareArray = getSudokuSquare(row, column);
 
 		for (int i = 0; i < 9; i++) {
-			rowArray[i].removeAvailableNumber(number);
-			columnArray[i].removeAvailableNumber(number);
-			squareArray[i].removeAvailableNumber(number);
+			rowArray[i].removeAvailableNumber(number, current);
+			columnArray[i].removeAvailableNumber(number, current);
+			squareArray[i].removeAvailableNumber(number, current);
 		}
 	}
+	 /**
+         * Re-adds a number to the set of available numbers (after manual override)
+         */
+        private void addAvailableNumbersOnOtherFields(int row, int column,
+                        int number, SudokuField current) {
+
+                SudokuField[] rowArray = getRowSudokuFields(row);
+                SudokuField[] columnArray = getColumnSudokuFields(column);
+                SudokuField[] squareArray = getSudokuSquare(row, column);
+
+                for (int i = 0; i < 9; i++) {
+                        rowArray[i].addAvailableNumber(number, current);
+                        columnArray[i].addAvailableNumber(number, current);
+                        squareArray[i].addAvailableNumber(number, current);
+                }
+        }
+	
 
 	/**
 	 * Two sudokus are equal if their values are equal.
@@ -302,18 +326,20 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	 * 1. An event is sent to the Sudoku to enter this number.
 	 */
 	@Override
-	public void nakedSingelFound(NakedSingleEvent e) {
-		Log.v(TAG, "nakedSingelFound: row = " + e.getRow() + ", column = "
-				+ e.getColumn() + "->" + e.getNumber());
-		setValue(e.getRow(), e.getColumn(), e.getNumber());
+	public void nakedSingleFound(NakedSingleEvent e) {
+//		Log.v(TAG, "nakedSingelFound: row = " + e.getRow() + ", column = "
+//				+ e.getColumn() + "->" + e.getNumber());
+		// setValue(e.getRow(), e.getColumn(), e.getNumber());
 		
-		if(hiddenSingle!=null){
-			hiddenSingle.startAgain();
-		}
+// Diese Methode darf nicht von hier aus aufgerufen werden. (Stackoverflow)
+		
+//		if(hiddenSingle!=null){
+//			hiddenSingle.startAgain();
+//		}
 	}
 
 	
-	public void setHiddenSingleListener(HiddenSingleAlgorithm hiddenSingle){
-		this.hiddenSingle = hiddenSingle;
-	}
+//	public void setHiddenSingleListener(HiddenSingleAlgorithm hiddenSingle){
+//		this.hiddenSingle = hiddenSingle;
+//	}
 }

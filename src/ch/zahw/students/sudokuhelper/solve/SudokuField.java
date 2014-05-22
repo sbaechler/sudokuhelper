@@ -130,19 +130,36 @@ public class SudokuField extends Observable implements Field {
 		return column;
 	}
 	
-	void removeAvailableNumber(int number){
-	    availableNumbers.remove(number);
-	    if(availableNumbers.size() == 1){
-	        // naked single found! Notify Sudoku.
-	        if(this.listener != null){
-	            this.listener.nakedSingelFound(new NakedSingleEvent(this));
-	            this.listener.nakedSingelFound(new NakedSingleEvent(this));
+	/**
+	 * Removes a number from the list of available numbers unless
+	 * the passed reference field is the actual field.
+	 * @param number - the number to remove
+	 * @param reference - the field to skip.
+	 */
+	void removeAvailableNumber(int number, SudokuField skip){
+	    if(skip != this){
+	        availableNumbers.remove(number);
+	        if(availableNumbers.size() == 1){
+	            // naked single found! Notify Sudoku.
+	            if(this.listener != null){
+	                this.listener.nakedSingleFound(new NakedSingleEvent(this));
+	            }
+	                this.isNakedSingle = true;
+	            } else if (availableNumbers.size() == 0){
+	                isFounded = true;
+	                this.isNakedSingle = false;
+	            } // TODO: if reverse is possible - set this to true on else.
+	    }
+	}
+	
+	void addAvailableNumber(int number, SudokuField skip){
+	    if(skip != this){
+	        availableNumbers.add(number);
+	        if(this.isValid != validate(number)){
+	            setIsValid(validate(number));
 	        }
-	        this.isNakedSingle = true;
-	    } else if (availableNumbers.size() == 0){
-	        isFounded = true;
-	        this.isNakedSingle = false;
-	    } // TODO: if reverse is possible - set this to true on else.
+	        
+	    }
 	}
 
 	/*

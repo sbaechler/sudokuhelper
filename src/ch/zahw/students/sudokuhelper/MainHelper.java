@@ -369,14 +369,14 @@ public class MainHelper {
 		bOk.setOnClickListener(new PickerListener(fieldView) {
 			@Override
 			public void onClick(View v) {
-				sudokuManager.setValue(getRow(), getColumn(), np.getValue());
+				sudokuManager.manuallyOverrideValue(getRow(), getColumn(), np.getValue());
 				numberDialog.dismiss();
 			}
 		});
 		bClear.setOnClickListener(new PickerListener(fieldView) {
 			@Override
 			public void onClick(View v) {
-				sudokuManager.setValue(getRow(), getColumn(), 0);
+				sudokuManager.manuallyOverrideValue(getRow(), getColumn(), 0);
 				numberDialog.dismiss();
 			}
 		});
