@@ -1,11 +1,11 @@
 package ch.zahw.students.sudokuhelper.solve;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
-import ch.zahw.students.sudokuhelper.solve.algorithm.HiddenSingleAlgorithm;
 
 import android.util.Log;
 
@@ -16,24 +16,25 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	private HashSet<SudokuField> invalidFields;
 	private int emptyFields;
 	private boolean isLocked = false;
-	private HiddenSingleAlgorithm hiddenSingle;
+	private List<NakedSingleEventListener> nakedSingleListeners;
 	
 	/**
 	 * The constructor for a new, empty Sudoku
 	 */
 	public Sudoku() {
-		fields = new SudokuField[81];
-		reset();
+	    fields = new SudokuField[81];
+            nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
+	    reset();
 	}
 
 	/**
 	 * The constructor for a new Sudoku with given numbers.
 	 * 
-	 * @param candidates
-	 *            - 2-dimensional array of numbers.
+	 * @param candidates - 2-dimensional array of numbers.
 	 */
 	public Sudoku(int[][] candidates) {
 		fields = new SudokuField[81];
+	        nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
 		setValues(candidates);
 	}
 
@@ -61,22 +62,6 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 		emptyFields = 81;
 	}
 
-	/**
-	 * Sets the values for an existing Sudoku.
-	 * 
-	 * @param candidates
-	 *            - 2-dimensional array of numbers.
-	 */
-	public void setValues(int[][] candidates) {
-		reset();
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				setValue(i, j, candidates[i][j]);
-			}
-		}
-		// TODO: validate Sudoku
-	}
-
 	// call this method on solve.
 	public void lockSudoku() {
 		for (int i = 0; i < 81; i++) {
@@ -88,7 +73,32 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	public int getNumber(int row, int column) {
 		return getField(row, column).getNumber();
 	}
+	
+	public int[][] getTable(){
+	    int[][] sudokuTable = new int[9][9];
+	    for(int i=0; i<9; i++){
+	        for(int j=0; j<9; j++){
+	            sudokuTable[i][j] = getField(i,j).getNumber();
+	        }
+	    }
+	    return sudokuTable;
+	}
 
+
+	/**
+        * Sets the values for an existing Sudoku.
+        * @param candidates - 2-dimensional array of numbers.
+        */
+        public void setValues(int[][] candidates) {
+                reset();
+                for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++) {
+                                setValue(i, j, candidates[i][j]);
+                        }
+                }
+                // TODO: validate Sudoku
+        }
+	
 	/**
 	 * Sets the value of a single field.
 	 * 
@@ -101,34 +111,44 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	 */
 	public void setValue(int row, int column, int value) {
 		SudokuField field = fields[(row * 9) + column];
-		
+		int oldValue = field.getNumber();
+		field.setNumber(value);
 		if (value > 0) { // a number
 			// decrease the empty field count
-			if (field.getNumber() > 0) {
-				emptyFields -= 1;
+			if (oldValue > 0) {
+			    emptyFields -= 1;
 			}
 			
-			if (field.isNumberAllowed(value)) {
-				removeAvailableNumbersOnOtherFields(row, column, value);
+			if (field.isValid()) {
+			    removeAvailableNumbersOnOtherFields(row, column, value, field);
 			}
-			// TODO evtl wieder entfernen, da ansonsten der user die zahlen nicht mehr ändern kann
+			
+			// TODO  evtl wieder entfernen, da der user die zahlen nicht mehr ändern kann
 			field.setFounded(true);
 			
 		} else { // empty
 			
-			if (field.getNumber() > 0) {
+			if (oldValue > 0) {
 				emptyFields += 1;
 			}
 			
-		}
-		
-		
-		Log.v(TAG, "setValue: row = " + row + ", column = "
-				+ column+ "->" +value+"-"+field.isFounded());
-
-		
-		field.setNumber(value);
-		// TODO: restore all referenced fields for possible values
+		}		
+		Log.v(TAG, "setValue: " + row + ", "
+				+ column+ " -> " +value+" Valid:"+field.isValid());		
+	}
+	
+	/**
+	 * Allows the user to correct a badly recognized number
+	 * @param row
+	 * @param column
+	 * @param value
+	 */
+	public void manuallyOverrideValue(int row, int column, int value) {
+	    SudokuField field = fields[(row * 9) + column];
+	    int oldValue = getNumber(row, column);
+	    setValue(row, column, 0);
+	    addAvailableNumbersOnOtherFields(row, column, oldValue, field);
+	    setValue(row, column, value);
 	}
 
 	@Deprecated
@@ -237,18 +257,35 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	 * Verfügung haben
 	 */
 	private void removeAvailableNumbersOnOtherFields(int row, int column,
-			int number) {
+			int number, SudokuField current) {
 
 		SudokuField[] rowArray = getRowSudokuFields(row);
 		SudokuField[] columnArray = getColumnSudokuFields(column);
 		SudokuField[] squareArray = getSudokuSquare(row, column);
 
 		for (int i = 0; i < 9; i++) {
-			rowArray[i].removeAvailableNumber(number);
-			columnArray[i].removeAvailableNumber(number);
-			squareArray[i].removeAvailableNumber(number);
+			rowArray[i].removeAvailableNumber(number, current);
+			columnArray[i].removeAvailableNumber(number, current);
+			squareArray[i].removeAvailableNumber(number, current);
 		}
 	}
+	 /**
+         * Re-adds a number to the set of available numbers (after manual override)
+         */
+        private void addAvailableNumbersOnOtherFields(int row, int column,
+                        int number, SudokuField current) {
+
+                SudokuField[] rowArray = getRowSudokuFields(row);
+                SudokuField[] columnArray = getColumnSudokuFields(column);
+                SudokuField[] squareArray = getSudokuSquare(row, column);
+
+                for (int i = 0; i < 9; i++) {
+                        rowArray[i].addAvailableNumber(number, current);
+                        columnArray[i].addAvailableNumber(number, current);
+                        squareArray[i].addAvailableNumber(number, current);
+                }
+        }
+	
 
 	/**
 	 * Two sudokus are equal if their values are equal.
@@ -261,7 +298,7 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 			return true;
 		if (!o.getClass().equals(getClass()))
 			return false;
-		return Arrays.equals(this.getFields(), ((Sudoku) o).getFields());
+		return Arrays.deepEquals(this.getTable(), ((Sudoku) o).getTable());
 	}
 
 	/**
@@ -270,7 +307,7 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	 */
 	@Override
 	public int hashCode() {
-		return Arrays.hashCode(this.getFields());
+		return Arrays.deepHashCode(this.getTable());
 	}
 
 	/**
@@ -289,23 +326,29 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	}
 
 	/**
+	 * Adds a listener (a solve algorithm) to listen to the naked single found event.
+	 * @param listener - A solve algorithm
+	 */
+	public void addNakedSingleEventListener(NakedSingleEventListener listener){
+	    this.nakedSingleListeners.add(listener);
+	}
+	
+	
+	/**
 	 * Callback sent from a cell if the count of allowed numbers reaches exactly
 	 * 1. An event is sent to the Sudoku to enter this number.
 	 */
 	@Override
-	public void nakedSingelFound(NakedSingleEvent e) {
-		Log.v(TAG, "nakedSingelFound: row = " + e.getRow() + ", column = "
-				+ e.getColumn() + "->" + e.getNumber());
-		setValue(e.getRow(), e.getColumn(), e.getNumber());
+	public void nakedSingleFound(NakedSingleEvent e) {
+		Log.v(TAG, "nakedSingleFound: row = " + e.getRow() + ", column = "
+				+ e.getColumn() + "->" + e.getCandidate());
 	
-		if(hiddenSingle!=null){
-			hiddenSingle.startAgain();
-		}
+		setValue(e.getRow(), e.getColumn(), e.getCandidate());
+		
+		// pass it to the solve algorithm and have them deal with it.
+//		for(NakedSingleEventListener listener : nakedSingleListeners) {
+//		    listener.nakedSingleFound(e);
+//		}
 	}
 
-	
-	public void setHiddenSingleListener(HiddenSingleAlgorithm hiddenSingle){
-		this.hiddenSingle = hiddenSingle;
-	}
-	
 }

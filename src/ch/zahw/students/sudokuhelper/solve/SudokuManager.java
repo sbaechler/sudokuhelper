@@ -18,14 +18,12 @@ public class SudokuManager {
 	// TODO solve order for step funktion
 	private Vector<SudokuField> solveOrder;
 	private int indexNextSolveOrder;
-	private boolean isSolved = false;
 
 	// TODO: use sudoku.lock() as first argument in solve()
 	public Sudoku solve() {
 		sudoku.lockSudoku();
 		hiddenSingle = new HiddenSingleAlgorithm(sudoku);
-		
-		sudoku.setHiddenSingleListener(hiddenSingle);
+		// sudoku.setHiddenSingleListener(hiddenSingle);
 		sudoku = hiddenSingle.solve();
 
 //		while (true) {
@@ -102,8 +100,12 @@ public class SudokuManager {
 	public void setValue(int row, int column, int value) {
 		sudoku.setValue(row, column, value);
 	}
-
-	public Vector<SudokuField> getSolveOrder() {
+	
+        public void manuallyOverrideValue(int row, int column, int value) {
+            sudoku.manuallyOverrideValue(row, column, value);
+        }
+	
+        public Vector<SudokuField> getSolveOrder() {
 		return naiveAlgorithm.getSolveOrder();
 	}
 
@@ -144,7 +146,7 @@ public class SudokuManager {
 	}
 
 	public boolean isSolved() {
-		return isSolved;
+		return sudoku.isSolved();
 	}
 	
 	public void setSudoku(Sudoku sudoku) {
