@@ -119,7 +119,10 @@ public class Sudoku implements NakedSingleEventListener {
 			if (field.isValid()) {
 			    removeAvailableNumbersOnOtherFields(row, column, value, field);
 			}
-					
+			
+			// TODO  evtl wieder entfernen, da der user die zahlen nicht mehr ändern kann
+			field.setFounded(true);
+			
 		} else { // empty
 			
 			if (oldValue > 0) {
@@ -217,6 +220,7 @@ public class Sudoku implements NakedSingleEventListener {
 		int startRow = (row / 3) * 3;
 		int startColumn = (column / 3) * 3;
 		int sfIndex = 0;
+		
 		for (int sr = startRow; sr < startRow + 3; sr++) {
 			for (int sc = startColumn; sc < startColumn + 3; sc++) {
 				sf[sfIndex] = fields[(sr * 9) + sc];
@@ -353,6 +357,9 @@ public class Sudoku implements NakedSingleEventListener {
 	public void nakedSingleFound(NakedSingleEvent e) {
 		Log.v(TAG, "nakedSingleFound: row = " + e.getRow() + ", column = "
 				+ e.getColumn() + "->" + e.getCandidate());
+	
+		setValue(e.getRow(), e.getColumn(), e.getCandidate());
+		
 		// pass it to the solve algorithm and have them deal with it.
 //		for(NakedSingleEventListener listener : nakedSingleListeners) {
 //		    listener.nakedSingleFound(e);

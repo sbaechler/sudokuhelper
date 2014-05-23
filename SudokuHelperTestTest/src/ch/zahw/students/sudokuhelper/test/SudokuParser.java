@@ -1,35 +1,12 @@
 package ch.zahw.students.sudokuhelper.test;
 
-import android.util.Log;
-
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 
 public class SudokuParser {
-        private static final String TAG = "SudokuHelperTest::SudokuParser";
 	private Sudoku toSolve;
 	private Sudoku solutionSudoku;
 
 	
-// No System.out!
-	
-	
-//	public void print(Sudoku solvedSudoku) {
-//		printSudoku(solvedSudoku);
-//		printSudoku(solutionSudoku);
-//	}
-
-//	private void printSudoku(Sudoku sudoku) {
-//		System.out.print("-----------------------------------");
-//		for (int row = 0; row < 9; row++) {
-//
-//			for (int column = 0; column < 9; column++) {
-//				System.out.print(solutionSudoku.getField(row, column));
-//			}
-//
-//		}
-//		System.out.print("-----------------------------------");
-//	}
-
 	public Sudoku getSolutionSudoku() {
 		return solutionSudoku;
 	}
