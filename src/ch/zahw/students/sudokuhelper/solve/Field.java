@@ -8,4 +8,5 @@ public interface Field {
     boolean isStartGap();
 
     boolean isValid();
+
 }

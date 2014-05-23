@@ -9,11 +9,10 @@ import java.util.Observer;
 
 import android.util.Log;
 
-public class Sudoku implements Observer, NakedSingleEventListener {
+public class Sudoku implements NakedSingleEventListener {
 
 	private static final String TAG = "SudokuHelper::Sudoku";
 	private SudokuField[] fields;
-	private HashSet<SudokuField> invalidFields;
 	private int emptyFields;
 	private boolean isLocked = false;
 	private List<NakedSingleEventListener> nakedSingleListeners;
@@ -54,11 +53,9 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 					fields[index].reset();
 				} else {
 					fields[index] = new SudokuField(i, j);
-					fields[index].setListener(this);
 				}
 			}
 		}
-		invalidFields = new HashSet<SudokuField>();
 		emptyFields = 81;
 	}
 
@@ -191,9 +188,8 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	}
 
 	/**
-	 * 
-	 * @param index
-	 *            - geht von 0 bis 8
+	 * Returns the 3x3 square
+	 * @param index - geht von 0 bis 8
 	 * @return
 	 */
 	public SudokuField[] getSudokuSquare(int index) {
@@ -213,6 +209,12 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 		return sf;
 	}
 
+	/**
+	 * Returns the 3x3 square the field is part of
+	 * @param row
+	 * @param column
+	 * @return - an Array of SudokuFields.
+	 */
 	public SudokuField[] getSudokuSquare(int row, int column) {
 		SudokuField[] sf = new SudokuField[9];
 		int startRow = (row / 3) * 3;
@@ -237,20 +239,47 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	 * 
 	 * @return true or false.
 	 */
-	public Boolean isSolved() {
-		return isValid() && emptyFields <= 0;
+	public boolean isSolved() {
+		return emptyFields == 0 && isValid();
+	}
+	
+	private List<SudokuField> getInvalidFields(){
+	    SudokuField[] fields = getFields();
+	    List<SudokuField> invalidFields = new ArrayList<SudokuField>();    
+	    for (int i=0; i<81; i++){
+	        if (!fields[i].isValid()){
+	            invalidFields.add(fields[i]);
+	        }
+	    }
+	    return invalidFields;
 	}
 
-	public Boolean isValid() {
-		return invalidFields.size() == 0;
+	public boolean isValid() {
+	    SudokuField[] fields = getFields();
+	    for (int i=0; i<81; i++){
+	        if (!fields[i].isValid()) return false;
+	    }
+	    return true;
 	}
 
-	private void removeInvalidField(SudokuField field) {
-		if (field.isValid()) {
-			invalidFields.remove((SudokuField) field);
-		}
-	}
 
+	/**
+	 * Checks all invalid fields if the second candidates are better.
+	 * @param candidates
+	 */
+	void trySecondaryCandidates(int[][] candidates){
+	    for(SudokuField field : getInvalidFields()){
+	        Log.v(TAG, "Trying secondary candidate for field" + field);
+	        int candidate = candidates[field.getRow()][field.getColumn()];
+	        if(candidate > 0 && field.isNumberAllowed(candidate)){
+	            Log.v(TAG, "Setting secondary candidate for field" + field + ": " + candidate);
+	            setValue(field.getRow(), field.getColumn(), candidate);
+	        }
+	    }
+	}
+	
+	
+	
 	/**
 	 * Hier wird die gefundene Zahl aus der Zeile, Spalte und im Quadrat
 	 * entfernt sodass die betreffende Felder diese Zahl nicht mehr zur
@@ -310,20 +339,6 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 		return Arrays.deepHashCode(this.getTable());
 	}
 
-	/**
-	 * Callback from the field class on update. Sets adds the field to invalid
-	 * fields if they are valid
-	 */
-	@Override
-	public void update(Observable field, Object value) {
-		SudokuField sf = (SudokuField) field;
-		
-		if (((Field) value).isValid()) {
-			removeInvalidField((SudokuField) field);
-		} else {
-			invalidFields.add((SudokuField) field);
-		}
-	}
 
 	/**
 	 * Adds a listener (a solve algorithm) to listen to the naked single found event.

@@ -80,6 +80,10 @@ public class SudokuManager {
 	public void resetSudoku(int[][] candidates) {
 		sudoku.setValues(candidates);
 	}
+	
+	public void trySecondaryCandidates(int[][] candidates){
+	    sudoku.trySecondaryCandidates(candidates);
+	}
 
 	public int[][] getArrSud(int[][] arrSud) {
 		return arrSud;

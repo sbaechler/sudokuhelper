@@ -230,4 +230,14 @@ public class SudokuField extends Observable implements Field {
         }
     }
 
+    @Override
+    public String toString() {
+        String value = "[" + row + ", " + column + "] : " + number;
+        if (isValid)
+            value = value + " V";
+        if (isFounded)
+            value = value + " F";
+        return value;
+    }
+
 }
