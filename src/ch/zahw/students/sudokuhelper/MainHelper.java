@@ -51,15 +51,6 @@ public class MainHelper {
 	}
 
 
-	/**
-	 * Re-render the whole Sudoku
-	 */
-	public void updateSudokuGui() {
-		for (SudokuField field : sudokuManager.getSudokuFields()) {
-			// field.getView().setText(field.getNumberAsString());
-		}
-	}
-
 	public boolean isSudokuSolved() {
 		return getSudoku().isSolved();
 	}
@@ -264,6 +255,7 @@ public class MainHelper {
 	}
 
 	// ****************************** Change table******************************
+	@Deprecated
 	private void fillSolvedCell() {
 		SudokuField nextField = sudokuManager.getNextSolveOrder();
 		SudokuField prevSf = sudokuManager.getPreviousSolveOrder();
@@ -279,6 +271,7 @@ public class MainHelper {
 
 	}
 
+	@Deprecated
 	private void fillSolvedNumber(Sudoku sudoku) {
 
 		for (int i = 0; i < 9; i++) {
@@ -305,7 +298,6 @@ public class MainHelper {
 	private void changeCell(int row, int column, int number, int color) {
 		SudokuFieldView cell = (SudokuFieldView) mainActivity
 				.findViewById(cellIds[row][column]);
-		// cell.setMinHeight(cell.getWidth());
 		cell.setBackgroundColor(color);
 	}
 
@@ -334,7 +326,6 @@ public class MainHelper {
 			}
 		}
 		sudokuManager.resetSudoku(primaryValues);
-		updateSudokuGui();
 	}
 
 	// ****************************** Edit numbers

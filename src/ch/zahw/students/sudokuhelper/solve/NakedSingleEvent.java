@@ -3,10 +3,13 @@ package ch.zahw.students.sudokuhelper.solve;
 import java.util.EventObject;
 
 public class NakedSingleEvent extends EventObject {
+    private static final long serialVersionUID = 4113639673450735930L;
     SudokuField field;
+    int candidate;
 
-    public NakedSingleEvent(Object source) {
+    public NakedSingleEvent(Object source, int candidate) {
         super(source);
+        this.candidate = candidate;
         field = (SudokuField) source;
     }
     
@@ -16,7 +19,7 @@ public class NakedSingleEvent extends EventObject {
     public int getColumn(){
         return field.getColumn();
     }
-    public int getNumber(){
-        return field.getNumber();
+    public int getCandidate(){
+        return candidate;
     }
 }

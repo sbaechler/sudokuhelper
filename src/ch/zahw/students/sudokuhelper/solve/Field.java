@@ -1,11 +1,11 @@
 package ch.zahw.students.sudokuhelper.solve;
 
 public interface Field {
-	int getNumber();
+    int getNumber();
 
-	boolean isFounded();
+    boolean isFounded();
 
-	boolean isStartGap();
+    boolean isStartGap();
 
-	boolean isValid();
+    boolean isValid();
 }

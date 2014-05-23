@@ -3,13 +3,16 @@ package ch.zahw.students.sudokuhelper.solve;
 import java.util.Observable;
 import java.util.Observer;
 
+import ch.zahw.students.sudokuhelper.R;
+
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.TextView;
 
 public class SudokuFieldView extends TextView implements Observer {
     
-    private static final String TAG = "SudokuHelper::Sudoku";
+    private static final String TAG = "SudokuHelper::SudokuFieldView";
     private int row;
     private int column;
 
@@ -17,6 +20,7 @@ public class SudokuFieldView extends TextView implements Observer {
         super(context);
         this.row = row;
         this.column = column;
+        this.setTextAppearance(context, R.style.SudokuFont);
     }
 
     public int getRow() {
@@ -58,15 +62,19 @@ public class SudokuFieldView extends TextView implements Observer {
      */
     @Override
     public void update(Observable field, Object value) {
-        setValue(((Field) value).getNumber());
-        if(((Field) value).getNumber() > 0) {
-            if(!((Field) value).isValid()){
+        Field updatedField = (Field) value;
+
+        setValue(updatedField.getNumber());
+        if(updatedField.getNumber() > 0) {
+            if(!updatedField.isValid()){
                 setBackgroundColor(Color.RED);
-            } else if (((Field) value).isFounded()){
+            } else if (updatedField.isFounded()){
                 setBackgroundColor(Color.WHITE);
             } else {
                 setBackgroundColor(Color.GREEN);
             }
+        } else {
+            setBackgroundColor(Color.WHITE);
         }
 
     }

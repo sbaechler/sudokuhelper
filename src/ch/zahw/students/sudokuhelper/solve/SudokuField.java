@@ -3,6 +3,7 @@ package ch.zahw.students.sudokuhelper.solve;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 
 /**
@@ -20,8 +21,8 @@ public class SudokuField extends Observable implements Field {
 	private boolean startGap;
 	private boolean isFounded;  // number is not editable anymore
 	private boolean isValid;
-	private int row;
-	private int column;
+	private final int row;
+	private final int column;
 	private boolean isNakedSingle = false;
 	private NakedSingleEventListener listener = null; // This is the Sudoku
 	
@@ -38,12 +39,12 @@ public class SudokuField extends Observable implements Field {
 	    this.number = 0;
 	    this.isFounded = false;
 	    this.startGap = false;
-	    this.availableNumbers = new HashSet<Integer>();
+	    this.availableNumbers = new ConcurrentSkipListSet<Integer>();
 	    initAvailableNumbers();
 	}
 	
 	private void initAvailableNumbers() {
-		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i <= 9; i++) {
 			availableNumbers.add(i);
 		}
 	}
@@ -62,10 +63,6 @@ public class SudokuField extends Observable implements Field {
 		notifyObservers(new FieldValues());
 	}
 	
-	void setListener(NakedSingleEventListener listener){
-	    this.listener = listener;  // This is the Sudoku
-	}
-
 	private boolean validate(int number){
 	    // TODO validation logic
 	    return number == 0 || availableNumbers.contains(number);
@@ -79,6 +76,7 @@ public class SudokuField extends Observable implements Field {
 	    return number;
 	}
 	
+	@Deprecated
 	public String getNumberAsString(){
 	    if (number > 0){
 	        return Integer.toString(number);
@@ -87,8 +85,8 @@ public class SudokuField extends Observable implements Field {
 	    }
 	}
 
-	public HashSet<Integer> getAvailableNumbers() {
-		return (HashSet<Integer>) availableNumbers;
+	public Set<Integer> getAvailableNumbers() {
+		return (Set<Integer>) availableNumbers;
 	}
 
 	@Deprecated
@@ -142,7 +140,7 @@ public class SudokuField extends Observable implements Field {
 	        if(availableNumbers.size() == 1){
 	            // naked single found! Notify Sudoku.
 	            if(this.listener != null){
-	                this.listener.nakedSingleFound(new NakedSingleEvent(this));
+	                this.listener.nakedSingleFound(new NakedSingleEvent(this, availableNumbers.iterator().next()));
 	            }
 	                this.isNakedSingle = true;
 	            } else if (availableNumbers.size() == 0){
@@ -163,10 +161,10 @@ public class SudokuField extends Observable implements Field {
 	}
 
 	/*
-	 * Returns the next allowed number (for the solve algorithms)
+	 * Returns the first allowed number (for the solve algorithms)
 	 * or 0 if the number cannot be changed.
 	 */
-	public int getNextAllowedNumber(){
+	public int getFirstAllowedNumber(){
 	    return isFounded ? 0 : availableNumbers.iterator().next();
 	}
 	
@@ -185,6 +183,9 @@ public class SudokuField extends Observable implements Field {
 	    return availableNumbers.contains(candidate);
 	}
 	
+	void setListener(NakedSingleEventListener listener){
+	    this.listener = listener;  // This is the Sudoku    
+	}
 	
 	/**
 	 * This class can be passed to the listener classes.

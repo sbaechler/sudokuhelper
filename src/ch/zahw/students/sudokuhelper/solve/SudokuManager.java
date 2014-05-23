@@ -18,7 +18,6 @@ public class SudokuManager {
 	// TODO solve order for step funktion
 	private Vector<SudokuField> solveOrder;
 	private int indexNextSolveOrder;
-	private boolean isSolved = false;
 
 	// TODO: use sudoku.lock() as first argument in solve()
 	public Sudoku solve() {
@@ -148,7 +147,7 @@ public class SudokuManager {
 	}
 
 	public boolean isSolved() {
-		return isSolved;
+		return sudoku.isSolved();
 	}
 	
 	public void setSudoku(Sudoku sudoku) {

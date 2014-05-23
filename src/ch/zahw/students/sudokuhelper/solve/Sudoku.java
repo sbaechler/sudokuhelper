@@ -1,11 +1,11 @@
 package ch.zahw.students.sudokuhelper.solve;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
-import ch.zahw.students.sudokuhelper.solve.algorithm.HiddenSingleAlgorithm;
 
 import android.util.Log;
 
@@ -16,24 +16,25 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	private HashSet<SudokuField> invalidFields;
 	private int emptyFields;
 	private boolean isLocked = false;
-//	private HiddenSingleAlgorithm hiddenSingle;  // Der hat hier nichts zu suchen. (Kopplung)
+	private List<NakedSingleEventListener> nakedSingleListeners;
 	
 	/**
 	 * The constructor for a new, empty Sudoku
 	 */
 	public Sudoku() {
-		fields = new SudokuField[81];
-		reset();
+	    fields = new SudokuField[81];
+            nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
+	    reset();
 	}
 
 	/**
 	 * The constructor for a new Sudoku with given numbers.
 	 * 
-	 * @param candidates
-	 *            - 2-dimensional array of numbers.
+	 * @param candidates - 2-dimensional array of numbers.
 	 */
 	public Sudoku(int[][] candidates) {
 		fields = new SudokuField[81];
+	        nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
 		setValues(candidates);
 	}
 
@@ -61,22 +62,6 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 		emptyFields = 81;
 	}
 
-	/**
-	 * Sets the values for an existing Sudoku.
-	 * 
-	 * @param candidates
-	 *            - 2-dimensional array of numbers.
-	 */
-	public void setValues(int[][] candidates) {
-		reset();
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				setValue(i, j, candidates[i][j]);
-			}
-		}
-		// TODO: validate Sudoku
-	}
-
 	// call this method on solve.
 	public void lockSudoku() {
 		for (int i = 0; i < 81; i++) {
@@ -99,6 +84,21 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	    return sudokuTable;
 	}
 
+
+	/**
+        * Sets the values for an existing Sudoku.
+        * @param candidates - 2-dimensional array of numbers.
+        */
+        public void setValues(int[][] candidates) {
+                reset();
+                for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++) {
+                                setValue(i, j, candidates[i][j]);
+                        }
+                }
+                // TODO: validate Sudoku
+        }
+	
 	/**
 	 * Sets the value of a single field.
 	 * 
@@ -130,8 +130,8 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 			}
 			
 		}		
-		Log.v(TAG, "setValue: row = " + row + ", column = "
-				+ column+ "->" +value+"-"+field.isFounded());		
+		Log.v(TAG, "setValue: " + row + ", "
+				+ column+ " -> " +value+" Valid:"+field.isValid());		
 	}
 	
 	/**
@@ -322,24 +322,26 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	}
 
 	/**
+	 * Adds a listener (a solve algorithm) to listen to the naked single found event.
+	 * @param listener - A solve algorithm
+	 */
+	public void addNakedSingleEventListener(NakedSingleEventListener listener){
+	    this.nakedSingleListeners.add(listener);
+	}
+	
+	
+	/**
 	 * Callback sent from a cell if the count of allowed numbers reaches exactly
 	 * 1. An event is sent to the Sudoku to enter this number.
 	 */
 	@Override
 	public void nakedSingleFound(NakedSingleEvent e) {
-//		Log.v(TAG, "nakedSingelFound: row = " + e.getRow() + ", column = "
-//				+ e.getColumn() + "->" + e.getNumber());
-		// setValue(e.getRow(), e.getColumn(), e.getNumber());
-		
-// Diese Methode darf nicht von hier aus aufgerufen werden. (Stackoverflow)
-		
-//		if(hiddenSingle!=null){
-//			hiddenSingle.startAgain();
+		Log.v(TAG, "nakedSingleFound: row = " + e.getRow() + ", column = "
+				+ e.getColumn() + "->" + e.getCandidate());
+		// pass it to the solve algorithm and have them deal with it.
+//		for(NakedSingleEventListener listener : nakedSingleListeners) {
+//		    listener.nakedSingleFound(e);
 //		}
 	}
 
-	
-//	public void setHiddenSingleListener(HiddenSingleAlgorithm hiddenSingle){
-//		this.hiddenSingle = hiddenSingle;
-//	}
 }
