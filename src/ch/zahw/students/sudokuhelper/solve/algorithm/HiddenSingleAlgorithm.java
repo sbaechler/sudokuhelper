@@ -38,8 +38,11 @@ public class HiddenSingleAlgorithm extends AAlgorithm  {
 					for (int number : sf.getAvailableNumbers()) {
 
 						// rowcheck
-						if (findHiddenSingle(sudoku.getRowSudokuFields(row),
-								number, sf)) {
+						if (isHiddenSingle(sudoku.getRowSudokuFields(row),
+								number, sf)||isHiddenSingle(
+		                                sudoku.getColumnSudokuFields(column), number,
+		                                sf)||isHiddenSingle(sudoku.getSudokuSquare(row),
+		                                        number, sf)) {
 
 							sudoku.setValue(row, column, number);
 							sf.setFounded(true);
@@ -48,32 +51,6 @@ public class HiddenSingleAlgorithm extends AAlgorithm  {
 							continue start;
 						}
 
-						// columncheck
-						if (findHiddenSingle(
-								sudoku.getColumnSudokuFields(column), number,
-								sf)) {
-							sudoku.setValue(row, column, number);
-							sf.setFounded(true);
-
-							// von vorne anfangen
-							continue start;
-						}
-
-						// quadratcheck
-						if (findHiddenSingle(sudoku.getSudokuSquare(row),
-								number, sf)) {
-
-							sudoku.setValue(row, column, number);
-							sf.setFounded(true);
-
-							// von vorne anfangen
-							continue start;
-						}
-
-						if (startAgain) {
-							startAgain = false;
-							continue start;
-						}
 					}
 				}
 
@@ -94,7 +71,7 @@ public class HiddenSingleAlgorithm extends AAlgorithm  {
 	 *            Das Feld welche die untersuchende Zahl besitzt
 	 * @return true -> hidden single, false -> kein hidden single
 	 */
-	private boolean findHiddenSingle(SudokuField[] nineFields, int number,
+	private Boolean isHiddenSingle(SudokuField[] nineFields, int number,
 			SudokuField field) {
 		SudokuField sField;
 
@@ -115,11 +92,6 @@ public class HiddenSingleAlgorithm extends AAlgorithm  {
 		Log.v(TAG, "HiddenSingleFound: row = " + field.getRow() + ", column = "
 				+ field.getColumn() + "->" + number);
 		return true;
-	}
-
-	public void startAgain() {
-		startAgain = true;
-		Log.v(TAG, "nakedSingelFound: startAgain");
 	}
 
 }

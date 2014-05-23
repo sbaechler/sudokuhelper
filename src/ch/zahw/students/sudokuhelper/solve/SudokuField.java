@@ -91,7 +91,7 @@ public class SudokuField extends Observable implements Field {
     }
 
     public boolean isFounded() {
-        return isFounded;
+        return  number > 0;
     }
 
     public boolean isNakedSingle() {
