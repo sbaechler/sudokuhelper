@@ -1,11 +1,6 @@
 package ch.zahw.students.sudokuhelper.solve.algorithm;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import android.util.Log;
-import ch.zahw.students.sudokuhelper.solve.NakedSingleEvent;
-import ch.zahw.students.sudokuhelper.solve.NakedSingleEventListener;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
@@ -106,7 +101,7 @@ public class HiddenSingleAlgorithm extends AAlgorithm  {
 		for (int i = 0; i < nineFields.length; i++) {
 			sField = nineFields[i];
 
-			if (sField == field) {
+			if (sField.isFounded()||sField.equals(field)) {
 				continue;
 			}
 
@@ -114,7 +109,6 @@ public class HiddenSingleAlgorithm extends AAlgorithm  {
 			// hat, wird false zurückgegeben da es kein hidden single ist
 			if (sField.getAvailableNumbers().contains(number)) {
 				return false;
-
 			}
 		}
 

@@ -23,8 +23,8 @@ public class SudokuManager {
 	// TODO: use sudoku.lock() as first argument in solve()
 	public Sudoku solve() {
 		sudoku.lockSudoku();
-		naiveAlgorithm = new NaiveAlgorithmus(sudoku);
 		hiddenSingle = new HiddenSingleAlgorithm(sudoku);
+		
 		sudoku.setHiddenSingleListener(hiddenSingle);
 		sudoku = hiddenSingle.solve();
 

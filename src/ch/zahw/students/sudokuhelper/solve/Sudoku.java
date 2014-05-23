@@ -111,7 +111,7 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 			if (field.isNumberAllowed(value)) {
 				removeAvailableNumbersOnOtherFields(row, column, value);
 			}
-			
+			// TODO evtl wieder entfernen, da ansonsten der user die zahlen nicht mehr ändern kann
 			field.setFounded(true);
 			
 		} else { // empty
@@ -198,6 +198,7 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 		int startRow = (row / 3) * 3;
 		int startColumn = (column / 3) * 3;
 		int sfIndex = 0;
+		
 		for (int sr = startRow; sr < startRow + 3; sr++) {
 			for (int sc = startColumn; sc < startColumn + 3; sc++) {
 				sf[sfIndex] = fields[(sr * 9) + sc];
@@ -296,7 +297,7 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 		Log.v(TAG, "nakedSingelFound: row = " + e.getRow() + ", column = "
 				+ e.getColumn() + "->" + e.getNumber());
 		setValue(e.getRow(), e.getColumn(), e.getNumber());
-		
+	
 		if(hiddenSingle!=null){
 			hiddenSingle.startAgain();
 		}
@@ -306,4 +307,5 @@ public class Sudoku implements Observer, NakedSingleEventListener {
 	public void setHiddenSingleListener(HiddenSingleAlgorithm hiddenSingle){
 		this.hiddenSingle = hiddenSingle;
 	}
+	
 }
