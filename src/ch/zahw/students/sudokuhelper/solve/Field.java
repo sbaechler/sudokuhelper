@@ -5,7 +5,7 @@ public interface Field {
 
     boolean isFounded();
 
-    boolean isStartGap();
+    boolean isInitialValue();
 
     boolean isValid();
 

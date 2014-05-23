@@ -276,7 +276,7 @@ public class MainHelper {
 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				if (sudoku.getField(i, j).isStartGap()) {
+				if (sudoku.getField(i, j).isInitialValue()) {
 					changeCell(i, j, sudoku.getField(i, j).getNumber(),
 							LIGHT_GREEN);
 				}

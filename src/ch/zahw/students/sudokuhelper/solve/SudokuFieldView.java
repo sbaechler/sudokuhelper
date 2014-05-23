@@ -15,7 +15,7 @@ public class SudokuFieldView extends TextView implements Observer {
     private static final String TAG = "SudokuHelper::SudokuFieldView";
     private int row;
     private int column;
-    private boolean founded;
+    private boolean locked = false;
 
     public SudokuFieldView(Context context, int row, int column) {
         super(context);
@@ -58,9 +58,9 @@ public class SudokuFieldView extends TextView implements Observer {
         this.setMinHeight(this.getWidth());
     }
     
-    private void setFounded(boolean founded){
-        this.founded = founded;
-        this.setClickable(!founded);
+    private void setLocked(boolean lock){
+        this.locked = lock;
+        this.setClickable(!lock);
     }
 
     /**
@@ -74,7 +74,7 @@ public class SudokuFieldView extends TextView implements Observer {
         if(updatedField.getNumber() > 0) {
             if(!updatedField.isValid()){
                 setBackgroundColor(Color.RED);
-            } else if (updatedField.isFounded()){
+            } else if (updatedField.isInitialValue()){
                 setBackgroundColor(Color.WHITE);
             } else {
                 setBackgroundColor(Color.GREEN);
@@ -82,7 +82,7 @@ public class SudokuFieldView extends TextView implements Observer {
         } else {
             setBackgroundColor(Color.WHITE);
         }
-        setFounded(updatedField.isFounded());
+        setLocked(updatedField.isFounded());
 
     }
    

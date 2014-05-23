@@ -9,15 +9,9 @@ import java.util.concurrent.ConcurrentSkipListSet;
  */
 public class SudokuField extends Observable implements Field {
 
-    // TODO: Ev. können Felder einander gegenseitig beobachten und bei
-    // Änderungen
-    // reagieren, z.B. mögliche Nummern selbständig löschen, oder einen Fehler
-    // werfen.
-    // http://openbook.galileocomputing.de/javainsel/javainsel_10_002.html
-
-    private Set<Integer> availableNumbers; // HashSet
+    private Set<Integer> availableNumbers; // ConcurrentSet
     private int number;
-    private boolean startGap;
+    private boolean isInitialValue;
     private boolean isFounded; // number is not editable anymore
     private boolean isValid;
     private final int row;
@@ -37,7 +31,7 @@ public class SudokuField extends Observable implements Field {
     public void reset() {
         this.number = 0;
         this.isFounded = false;
-        this.startGap = false;
+        this.isInitialValue = false;
         this.availableNumbers = new ConcurrentSkipListSet<Integer>();
         initAvailableNumbers();
     }
@@ -107,15 +101,15 @@ public class SudokuField extends Observable implements Field {
     // lock the preset field. This method is called on solve.
     void lock() {
         isFounded = number > 0;
-        startGap = number == 0;
+        isInitialValue = (number > 0);
     }
 
     public void setStartGap(boolean startGap) {
-        this.startGap = startGap;
+        this.isInitialValue = startGap;
     }
 
-    public boolean isStartGap() {
-        return startGap;
+    public boolean isInitialValue() {
+        return isInitialValue;
     }
 
     public int getRow() {
@@ -179,6 +173,11 @@ public class SudokuField extends Observable implements Field {
 
         return false;
     }
+    
+    @Override
+    public int hashCode() {
+        return (row*9+column);
+    }
 
     /**
      * Checks if the given number would be allowed in the field
@@ -220,8 +219,8 @@ public class SudokuField extends Observable implements Field {
         }
 
         @Override
-        public boolean isStartGap() {
-            return startGap;
+        public boolean isInitialValue() {
+            return isInitialValue;
         }
 
         @Override

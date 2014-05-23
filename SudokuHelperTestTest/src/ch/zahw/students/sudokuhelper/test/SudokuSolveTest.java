@@ -49,7 +49,7 @@ public class SudokuSolveTest extends ActivityTestCase {
         SudokuField firstField = sudoku.getField(0, 0);
         assertTrue(firstField.isValid());
         assertTrue(firstField.isFounded());
-        assertFalse(firstField.isStartGap());
+        assertFalse(firstField.isInitialValue());
 
         // all fields with numbers are founded
         // solve test, should be not solved
@@ -209,7 +209,7 @@ public class SudokuSolveTest extends ActivityTestCase {
         assertTrue(sudoku.isSolved());
         assertEquals(sudoku, sudokuLoesung);
 
-        // Dieses Sudoku konnte vor dem refactoring gelöst werden
+        // Dieses Sudoku konnte vor dem refactoring gelï¿½st werden
         for (int i = 0; i < 9; i++) {
             Log.v(TAG, sudokuLoesung.getRowValues(0)[i] + "-" + sudoku.getRowValues(0)[i] + "-"
                     + sudoku.getField(0, i).getAvailableNumbers());

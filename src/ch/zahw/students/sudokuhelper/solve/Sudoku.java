@@ -2,10 +2,7 @@ package ch.zahw.students.sudokuhelper.solve;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import android.util.Log;
 
@@ -119,10 +116,7 @@ public class Sudoku implements NakedSingleEventListener {
 			if (field.isValid()) {
 			    removeAvailableNumbersOnOtherFields(row, column, value, field);
 			}
-			
-			// TODO  evtl wieder entfernen, da der user die zahlen nicht mehr ändern kann
-			field.setFounded(true);
-			
+						
 		} else { // empty
 			
 			if (oldValue > 0) {
@@ -357,13 +351,11 @@ public class Sudoku implements NakedSingleEventListener {
 	public void nakedSingleFound(NakedSingleEvent e) {
 		Log.v(TAG, "nakedSingleFound: row = " + e.getRow() + ", column = "
 				+ e.getColumn() + "->" + e.getCandidate());
-	
-		setValue(e.getRow(), e.getColumn(), e.getCandidate());
-		
+			
 		// pass it to the solve algorithm and have them deal with it.
-//		for(NakedSingleEventListener listener : nakedSingleListeners) {
-//		    listener.nakedSingleFound(e);
-//		}
+		for(NakedSingleEventListener listener : nakedSingleListeners) {
+		    listener.nakedSingleFound(e);
+		}
 	}
 
 }
