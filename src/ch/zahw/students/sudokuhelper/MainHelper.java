@@ -326,6 +326,8 @@ public class MainHelper {
 			}
 		}
 		sudokuManager.resetSudoku(primaryValues);
+		// actually makes things worse.
+		// sudokuManager.trySecondaryCandidates(secondaryValues);
 	}
 
 	// ****************************** Edit numbers

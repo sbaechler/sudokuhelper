@@ -212,6 +212,15 @@ public class SudokuField extends Observable implements Field {
 	    public boolean isValid(){
 	    	return isValid;
 	    }
+
+	}
+	
+	@Override
+	public String toString(){
+	    String value = "[" + row + ", " + column + "] : " + number;
+	    if(isValid) value = value + " V";
+	    if(isFounded) value = value + " F";
+	    return value;
 	}
 	
 }
