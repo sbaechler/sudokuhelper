@@ -4,17 +4,13 @@ import android.util.Log;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 
-public class HiddenSingleAlgorithm extends AAlgorithm {
+public class HiddenSingleAlgorithm implements SudokuSolver {
     private static final String TAG = "SudokuHelper::HiddenSingleAlgorithm";
-    private boolean startAgain = false;
 
-
-    public HiddenSingleAlgorithm(Sudoku sudoku) {
-        super(sudoku);
-    }
+    private Sudoku sudoku;
 
     @Override
-    public Sudoku solve() {
+    public boolean solve() {
         SudokuField sf;
 
         start:
@@ -53,7 +49,8 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
 
         }
 
-        return sudoku;
+        // TODO
+        return true;
     }
 
     /**
@@ -86,6 +83,16 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
         Log.v(TAG, "HiddenSingleFound: row = " + field.getRow() + ", column = " + field.getColumn()
                 + "->" + number);
         return true;
+    }
+
+    @Override
+    public void setSudoku(Sudoku sudoku) {
+        this.sudoku = sudoku;
+    }
+
+    @Override
+    public boolean step() {
+        return false;
     }
 
 }

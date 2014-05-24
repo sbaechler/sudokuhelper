@@ -8,28 +8,25 @@ import ch.zahw.students.sudokuhelper.solve.Sudoku;
  * can solve every valid Sudoku. The algorithm operates on a nested Array
  * instead of the Sudoku class.
  */
-public class BacktrackingAlgorithm extends AAlgorithm {
+public class BacktrackingAlgorithm implements SudokuSolver {
     private static final String TAG = "SudokuHelper::BacktrackingAlgorithm";
-
-    public BacktrackingAlgorithm(Sudoku sudoku) {
-        super(sudoku);
-    }
+    private Sudoku sudoku;
 
     /**
      * Solves the whole sudoku. Assumes the Sudoku is valid.
      */
     @Override
-    public Sudoku solve() {
+    public boolean solve() {
         int[][] candidates = sudoku.getTable();
         long startTime = System.nanoTime();
-
-        findSolution(candidates); // updates values in-place
+        boolean solve = findSolution(candidates); // updates values in-place
 
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
         sudoku.setValues(candidates);
         Log.v(TAG, "Backtracking algorithm took " + duration / 1000000.0 + " seconds");
-        return sudoku;
+
+        return solve;
     }
 
     /**
@@ -128,6 +125,16 @@ public class BacktrackingAlgorithm extends AAlgorithm {
             }
         }
         return true;
+    }
+
+    @Override
+    public void setSudoku(Sudoku sudoku) {
+        this.sudoku = sudoku;
+    }
+
+    @Override
+    public boolean step() {
+        return false;
     }
 
 }
