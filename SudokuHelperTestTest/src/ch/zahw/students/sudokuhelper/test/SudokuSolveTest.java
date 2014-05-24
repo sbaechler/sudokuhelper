@@ -212,12 +212,6 @@ public class SudokuSolveTest extends ActivityTestCase {
          assertTrue(sudoku.isSolved());
          assertEquals(sudoku, sudokuLoesung);
 
-        // Dieses Sudoku konnte vor dem refactoring gel�st werden
-        for (int i = 0; i < 9; i++) {
-            Log.v(TAG, sudokuLoesung.getRowValues(0)[i] + "-" + sudoku.getRowValues(0)[i] + "-"
-                    + sudoku.getField(0, i).getAvailableNumbers());
-        }
-
         assertTrue("The first row is solved correctly",
                 Arrays.equals(sudokuLoesung.getRowValues(0), sudoku.getRowValues(0)));
         assertTrue("The second row is solved correctly",

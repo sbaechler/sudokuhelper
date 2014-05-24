@@ -50,7 +50,7 @@ public class SudokuManager {
     // TODO: use sudoku.lock() as first argument in solve()
     public Sudoku solve() {
         sudoku.lockSudoku();
-
+        
         if (!sudoku.isValid()) {
             return sudoku;
         }
@@ -175,6 +175,7 @@ public class SudokuManager {
 
     public void setSudoku(Sudoku sudoku) {
         this.sudoku = sudoku;
+        init();
     }
 
 }
