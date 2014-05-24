@@ -580,8 +580,7 @@ public class SudokuSolveTest extends ActivityTestCase {
         ba.setSudoku(sudoku);
         assertTrue(ba.solve());
         assertTrue(sudoku.equals(reference));
-        
-
     }
-
+    
+    
 }
