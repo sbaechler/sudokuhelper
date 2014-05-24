@@ -1,6 +1,12 @@
+/**
+ * Backtracking algorithm based on the pseudo-code from Rogerlebo
+ * http://sudokuvision.blogspot.ca/2011/01/step-9-play-and-solve-sudoku.html
+ */
+
+
 package ch.zahw.students.sudokuhelper.solve.algorithm;
 
-import java.util.Arrays;
+import java.util.LinkedList;
 
 import android.util.Log;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
@@ -14,6 +20,14 @@ public class BacktrackingAlgorithm implements SudokuSolver {
     private static final String TAG = "SudokuHelper::BacktrackingAlgorithm";
     private Sudoku sudoku;
     private int[][] candidates;
+    private boolean isSolved = false;
+    private LinkedList<Integer> foundFields;
+    
+    public BacktrackingAlgorithm(){
+        super();
+        this.foundFields = new LinkedList<Integer>();
+    }
+    
     
     
     @Override
@@ -34,9 +48,27 @@ public class BacktrackingAlgorithm implements SudokuSolver {
         long duration = endTime - startTime;
         sudoku.setValues(candidates);
         Log.v(TAG, "Backtracking algorithm took " + (double)duration / 1000000000.0 + " seconds");
-        Log.v(TAG, "The solved Sudoku: \n" + Arrays.deepToString(candidates));
+//        Log.v(TAG, "The solved Sudoku: \n" + Arrays.deepToString(candidates));
         return solve;
     }
+    
+    
+    @Override
+    public boolean step() {
+        if(!isSolved){
+            findSolution();
+        }
+        // pop the first Element from the queue.
+        Integer next = foundFields.poll();
+        if(next == null)  return false;
+        int row = next/9;
+        int column = next % 9;
+        sudoku.setValue(row, column, candidates[row][column]);
+        return true;
+    }
+    
+    
+    
 
     /**
      * The main recursive algorithm. Updates the values in-place.
@@ -57,15 +89,17 @@ public class BacktrackingAlgorithm implements SudokuSolver {
         int rowIndex = next / 9;
         int columnIndex = next % 9;
 
-        for (int i = 1; i <= 9; i++) {
-            if (isNumberAllowedInField(i, rowIndex, columnIndex)) {
-                candidates[rowIndex][columnIndex] = i;
-
-                if (findSolution())
+        for (int c = 1; c <= 9; c++) {
+            if (isNumberAllowedInField(c, rowIndex, columnIndex)) {
+                candidates[rowIndex][columnIndex] = c;
+                foundFields.add(next);
+                if (findSolution()) {
+                    isSolved = true;
                     return true;
+                }
 
                 candidates[rowIndex][columnIndex] = 0;
-
+                foundFields.removeLast();
             }
         }
         return false;
@@ -132,13 +166,6 @@ public class BacktrackingAlgorithm implements SudokuSolver {
             }
         }
         return true;
-    }
-
-
-
-    @Override
-    public boolean step() {
-        return false;
     }
 
 }
