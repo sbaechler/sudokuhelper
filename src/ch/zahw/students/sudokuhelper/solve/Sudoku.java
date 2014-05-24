@@ -175,27 +175,6 @@ public class Sudoku  {
 		return values;
 	}
 
-	/**
-	 * Returns the 3x3 square
-	 * @param index - geht von 0 bis 8
-	 * @return
-	 */
-	public SudokuField[] getSudokuSquare(int index) {
-		SudokuField[] sf = new SudokuField[9];
-		int sfIndex = 0;
-
-		int startRow = (index / 3) * 3;
-		int startColumn = (index % 3) * 3;
-
-		for (int row = startRow; row < startRow + 3; row++) {
-			for (int column = startColumn; column < startColumn + 3; column++) {
-				sf[sfIndex] = fields[(row * 9) + column];
-				sfIndex++;
-			}
-		}
-
-		return sf;
-	}
 
 	/**
 	 * Returns the 3x3 square the field is part of

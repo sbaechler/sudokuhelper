@@ -10,6 +10,11 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
     private Sudoku sudoku;
 
     @Override
+    public void setSudoku(Sudoku sudoku) {
+        this.sudoku = sudoku;
+    }
+    
+    @Override
     public boolean solve() {
         SudokuField sf;
         boolean isAnythingFound = false;
@@ -34,7 +39,7 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
                         // row-, col- and square check
                         if (isHiddenSingle(sudoku.getRowSudokuFields(row), number, sf)
                                 || isHiddenSingle(sudoku.getColumnSudokuFields(column), number, sf)
-                                || isHiddenSingle(sudoku.getSudokuSquare(row), number, sf)) {
+                                || isHiddenSingle(sudoku.getSudokuSquare(row, column), number, sf)) {
 
                             sudoku.setValue(row, column, number);
                             isAnythingFound = true;
@@ -68,7 +73,9 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
         for (int i = 0; i < nineFields.length; i++) {
             sField = nineFields[i];
 
-            if (sField.isFound() || sField.equals(field)) {
+            if (sField.isFound() && sField.getNumber() == number) {
+                return false; // should not happen
+            } else if (sField == field){
                 continue;
             }
 
@@ -82,11 +89,6 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
         Log.v(TAG, "HiddenSingleFound: row = " + field.getRow() + ", column = " + field.getColumn()
                 + "->" + number);
         return true;
-    }
-
-    @Override
-    public void setSudoku(Sudoku sudoku) {
-        this.sudoku = sudoku;
     }
 
     @Override
@@ -104,19 +106,18 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
 
                 // es werden nur sudoku Felder genommen die keine gesetzte,
                 // definitive Zahl haben
-                if (sf.isFound() == false) {
+                if (!sf.isFound()) {
 
                     // über alle mögliche Zahlen iterieren
                     for (int number : sf.getAvailableNumbers()) {
 
                         // row-, col- and square check
                         if (isHiddenSingle(sudoku.getRowSudokuFields(row), number, sf)
-                                || isHiddenSingle(sudoku.getColumnSudokuFields(column), number, sf)
-                                || isHiddenSingle(sudoku.getSudokuSquare(row), number, sf)) {
-                            sudoku.setValue(row, column, number);
-                            return true;
+                         || isHiddenSingle(sudoku.getColumnSudokuFields(column), number, sf)
+                         || isHiddenSingle(sudoku.getSudokuSquare(row, column), number, sf)) {
+                             sudoku.setValue(row, column, number);
+                             return true;
                         }
-
                     }
                 }
 

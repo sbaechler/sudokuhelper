@@ -1,5 +1,6 @@
 package ch.zahw.students.sudokuhelper.solve;
 
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -76,7 +77,14 @@ public class SudokuField extends Observable implements Field {
     }
 
     public Set<Integer> getAvailableNumbers() {
-        return (Set<Integer>) availableNumbers;
+        if(!isFound()){
+            return (Set<Integer>) availableNumbers;
+        } else {
+            Set<Integer> numbers = new HashSet<Integer>();
+            numbers.add(number);
+            return numbers;
+        }
+        
     }
 
     @Deprecated
@@ -149,7 +157,7 @@ public class SudokuField extends Observable implements Field {
      * number cannot be changed.
      */
     public int getFirstAllowedNumber() {
-        return isFound() ? 0 : availableNumbers.iterator().next();
+        return isFound() ? number : availableNumbers.iterator().next();
     }
 
     @Override
