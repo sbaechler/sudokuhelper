@@ -8,9 +8,6 @@ public class HiddenSingleAlgorithm extends AAlgorithm {
     private static final String TAG = "SudokuHelper::HiddenSingleAlgorithm";
     private boolean startAgain = false;
 
-    public HiddenSingleAlgorithm(int[][] sudoku) {
-        super(sudoku);
-    }
 
     public HiddenSingleAlgorithm(Sudoku sudoku) {
         super(sudoku);

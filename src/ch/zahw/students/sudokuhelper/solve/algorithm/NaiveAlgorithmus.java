@@ -10,11 +10,6 @@ public class NaiveAlgorithmus extends AAlgorithm {
 		super(sudoku);
 	}
 
-	
-	public NaiveAlgorithmus(int [][] sudoku) {
-		super(sudoku);
-	}
-
 	@Override
 	public Sudoku solve() {
 		// TODO sicherung einbauen, zbsp: wenn mehr als 10 Felder leer sind,

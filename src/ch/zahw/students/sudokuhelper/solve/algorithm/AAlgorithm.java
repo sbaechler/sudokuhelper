@@ -19,10 +19,6 @@ public abstract class AAlgorithm {
 		init();
 	}
 	
-	public AAlgorithm(int [][] sudoku) {
-		this.sudoku = new Sudoku(sudoku);
-		init();
-	}
 
 	public abstract Sudoku solve();
 

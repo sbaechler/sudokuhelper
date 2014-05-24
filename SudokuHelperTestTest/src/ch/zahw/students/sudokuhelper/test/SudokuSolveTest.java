@@ -1,6 +1,7 @@
 package ch.zahw.students.sudokuhelper.test;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import android.content.res.Resources;
 import android.test.ActivityTestCase;
@@ -8,6 +9,7 @@ import android.util.Log;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 import ch.zahw.students.sudokuhelper.solve.SudokuField;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
+import ch.zahw.students.sudokuhelper.solve.algorithm.BacktrackingAlgorithm;
 
 public class SudokuSolveTest extends ActivityTestCase {
     private static final String TAG = "SudokuHelperTest::SudokuSolveTest";
@@ -49,7 +51,8 @@ public class SudokuSolveTest extends ActivityTestCase {
         SudokuField firstField = sudoku.getField(0, 0);
         assertTrue(firstField.isValid());
         assertTrue(firstField.isFounded());
-        assertFalse(firstField.isInitialValue());
+        assertEquals(1, firstField.getNumber());
+        assertTrue(firstField.isInitialValue());
 
         // all fields with numbers are founded
         // solve test, should be not solved
@@ -524,4 +527,46 @@ public class SudokuSolveTest extends ActivityTestCase {
         assertTrue("The ninth row is solved correctly",
                 Arrays.equals(sudokuLoesung.getRowValues(8), sudoku.getRowValues(8)));
     }
+    
+    public void testBacktrackingAlgorithm() {
+        SudokuParser parser = new SudokuParser();
+        Random generator = new Random();
+        int[][] candidates = parser.parseString(res.getString(R.string.hardSudoku2Loesung));
+        Sudoku reference = new Sudoku(candidates);
+        // delete 3 random fields
+        for(int i=0; i<3; i++){
+            int field = generator.nextInt(81);
+            candidates[field/9][field%9] = 0;
+        }        
+        Sudoku sudoku = new Sudoku(candidates);
+        // Log.v(TAG, "testBacktrackingAlgorithm: " + candidates.toString());
+        sudoku.lockSudoku();
+        assertFalse(sudoku.isSolved());
+        assertTrue(sudoku.isValid());
+        assertTrue(reference.isSolved());
+        
+        BacktrackingAlgorithm ba = new BacktrackingAlgorithm(sudoku);
+        Sudoku solved = ba.solve();
+        assertTrue(solved.equals(reference));
+        
+        // delete 10 random fields
+        for(int i=0; i<10; i++){
+            int field = generator.nextInt(81);
+            candidates[field/9][field%9] = 0;
+        }    
+        solved = null;
+        sudoku = new Sudoku(candidates);
+        sudoku.lockSudoku();
+        assertFalse(sudoku.isSolved());
+        assertTrue(sudoku.isValid());
+        ba = new BacktrackingAlgorithm(sudoku);
+        solved = ba.solve();
+        assertTrue(solved.equals(reference));
+        
+    }
+    
+    
+    
+    
+    
 }

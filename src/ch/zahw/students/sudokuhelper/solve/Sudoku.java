@@ -19,7 +19,7 @@ public class Sudoku implements NakedSingleEventListener {
 	 */
 	public Sudoku() {
 	    fields = new SudokuField[81];
-            nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
+        nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
 	    reset();
 	}
 
@@ -30,7 +30,7 @@ public class Sudoku implements NakedSingleEventListener {
 	 */
 	public Sudoku(int[][] candidates) {
 		fields = new SudokuField[81];
-	        nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
+	    nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
 		setValues(candidates);
 	}
 
@@ -109,7 +109,7 @@ public class Sudoku implements NakedSingleEventListener {
 		field.setNumber(value);
 		if (value > 0) { // a number
 			// decrease the empty field count
-			if (oldValue > 0) {
+			if (oldValue == 0) {
 			    emptyFields -= 1;
 			}
 			
@@ -124,8 +124,8 @@ public class Sudoku implements NakedSingleEventListener {
 			}
 			
 		}		
-		Log.v(TAG, "setValue: " + row + ", "
-				+ column+ " -> " +value+" Valid:"+field.isValid());		
+//		Log.v(TAG, "setValue: " + row + ", "
+//				+ column+ " -> " +value+" Valid:"+field.isValid());		
 	}
 	
 	/**
@@ -234,6 +234,7 @@ public class Sudoku implements NakedSingleEventListener {
 	 * @return true or false.
 	 */
 	public boolean isSolved() {
+	    Log.v(TAG, "isSolved: Empty fields: " + emptyFields + "Valid: " + isValid());
 		return emptyFields == 0 && isValid();
 	}
 	
