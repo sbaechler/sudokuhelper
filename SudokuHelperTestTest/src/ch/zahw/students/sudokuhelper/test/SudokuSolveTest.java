@@ -273,6 +273,7 @@ public class SudokuSolveTest extends ActivityTestCase {
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
         sudoku = sudokuManager.solve();
+        
         assertTrue(sudoku.isSolved());
         assertEquals(sudoku, sudokuLoesung);
 

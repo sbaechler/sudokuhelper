@@ -1,6 +1,5 @@
 package ch.zahw.students.sudokuhelper.solve;
 
-import java.util.List;
 import java.util.Vector;
 
 import android.util.Log;
@@ -42,6 +41,9 @@ public class SudokuManager {
     // TODO: use sudoku.lock() as first argument in solve()
     public Sudoku solve() {
         sudoku.lockSudoku();
+        hiddenSingleAlgorithm.setSudoku(sudoku);
+        backtrackingAlgorithm.setSudoku(sudoku);
+        nakedSingleAlgorithm.setSudoku(sudoku);
 
         int failed = 0;
 
@@ -159,9 +161,6 @@ public class SudokuManager {
 
     public void setSudoku(Sudoku sudoku) {
         this.sudoku = sudoku;
-        hiddenSingleAlgorithm.setSudoku(sudoku);
-        backtrackingAlgorithm.setSudoku(sudoku);
-        nakedSingleAlgorithm.setSudoku(sudoku);
     }
 
 }
