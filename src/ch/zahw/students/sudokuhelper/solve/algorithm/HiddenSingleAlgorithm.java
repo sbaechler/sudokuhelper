@@ -26,7 +26,7 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
 
                 // es werden nur sudoku Felder genommen die keine gesetzte,
                 // definitive Zahl haben
-                if (sf.isFounded() == false) {
+                if (sf.isFound() == false) {
 
                     // über alle mögliche Zahlen iterieren
                     for (int number : sf.getAvailableNumbers()) {
@@ -68,7 +68,7 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
         for (int i = 0; i < nineFields.length; i++) {
             sField = nineFields[i];
 
-            if (sField.isFounded() || sField.equals(field)) {
+            if (sField.isFound() || sField.equals(field)) {
                 continue;
             }
 
@@ -104,7 +104,7 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
 
                 // es werden nur sudoku Felder genommen die keine gesetzte,
                 // definitive Zahl haben
-                if (sf.isFounded() == false) {
+                if (sf.isFound() == false) {
 
                     // über alle mögliche Zahlen iterieren
                     for (int number : sf.getAvailableNumbers()) {
