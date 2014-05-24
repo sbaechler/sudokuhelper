@@ -52,7 +52,10 @@ public class SudokuManager {
         nakedSingleAlgorithm.setSudoku(sudoku);
     }
 
-    // TODO: use sudoku.lock() as first argument in solve()
+    /**
+     * The main solve method. Keeps trying different algorithms until it succeeds.
+     * @return true if successfull.
+     */
     public boolean solve() {
         sudoku.lockSudoku();
         
