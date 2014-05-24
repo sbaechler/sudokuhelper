@@ -23,36 +23,41 @@ public class SudokuManager {
     // creates a new, empty Sudoku
     public SudokuManager() {
         this.sudoku = new Sudoku();
-        this.hiddenSingleAlgorithm = new HiddenSingleAlgorithm();
-        this.backtrackingAlgorithm = new BacktrackingAlgorithm();
-        this.nakedSingleAlgorithm = new NakedSingleAlgorithm();
-        init();
+        initAlgorithms();
     }
 
     // creates a Sudoku from a given list of candidates
     public SudokuManager(int[][] sudokuArray) {
         this.sudoku = new Sudoku(sudokuArray);
-        init();
+        initAlgorithms();
     }
 
     // Uses an existing Sudoku (i.e. from saved state)
     public SudokuManager(Sudoku sudoku) {
         this.sudoku = sudoku;
-        init();
+        initAlgorithms();
     }
 
-    private void init() {
+    public void setSudoku(Sudoku sudoku) {
+        this.sudoku = sudoku;
+        initAlgorithms();
+    }
+    
+    private void initAlgorithms() {
+        this.hiddenSingleAlgorithm = new HiddenSingleAlgorithm();
+        this.backtrackingAlgorithm = new BacktrackingAlgorithm();
+        this.nakedSingleAlgorithm = new NakedSingleAlgorithm();
         hiddenSingleAlgorithm.setSudoku(sudoku);
         backtrackingAlgorithm.setSudoku(sudoku);
         nakedSingleAlgorithm.setSudoku(sudoku);
     }
 
     // TODO: use sudoku.lock() as first argument in solve()
-    public Sudoku solve() {
+    public boolean solve() {
         sudoku.lockSudoku();
         
         if (!sudoku.isValid()) {
-            return sudoku;
+            return false;
         }
 
         int failed = 0;
@@ -76,24 +81,24 @@ public class SudokuManager {
             backtrackingAlgorithm.solve();
         }
 
-        return sudoku;
+        return true;
     }
 
-    public void step() {
+    public boolean step() {
         sudoku.lockSudoku();
 
         if (!sudoku.isValid()) {
-            return ;
+            return false;
         }
 
         if (nakedSingleAlgorithm.step()) {
-            return;
+            return true;
         } else if (hiddenSingleAlgorithm.step()) {
-            return;
+            return true;
         } else if (backtrackingAlgorithm.step()) {
-            return;
+            return true;
         }
-
+        return false;
     }
 
     /**
@@ -173,9 +178,5 @@ public class SudokuManager {
         return sudoku.isSolved();
     }
 
-    public void setSudoku(Sudoku sudoku) {
-        this.sudoku = sudoku;
-        init();
-    }
 
 }

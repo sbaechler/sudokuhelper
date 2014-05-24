@@ -33,7 +33,6 @@ public class BacktrackingAlgorithm implements SudokuSolver {
     @Override
     public void setSudoku(Sudoku sudoku) {
         this.sudoku = sudoku;
-        candidates = sudoku.getTable();
     }
 
     /**
@@ -41,6 +40,7 @@ public class BacktrackingAlgorithm implements SudokuSolver {
      */
     @Override
     public boolean solve() {
+        candidates = sudoku.getTable();
         long startTime = System.nanoTime();
         boolean solve = findSolution(); // updates values in-place
 
@@ -55,14 +55,19 @@ public class BacktrackingAlgorithm implements SudokuSolver {
     
     @Override
     public boolean step() {
+        candidates = sudoku.getTable();
         if(!isSolved){
             findSolution();
         }
+        int row, column;
         // pop the first Element from the queue.
-        Integer next = foundFields.poll();
-        if(next == null)  return false;
-        int row = next/9;
-        int column = next % 9;
+        do {
+            Integer next = foundFields.poll();
+            if(next == null)  return false;
+            row = next/9;
+            column = next % 9;
+        } while (sudoku.getField(row, column).isFound());
+
         sudoku.setValue(row, column, candidates[row][column]);
         return true;
     }

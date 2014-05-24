@@ -67,15 +67,6 @@ public class SudokuField extends Observable implements Field {
         return number;
     }
 
-    @Deprecated
-    public String getNumberAsString() {
-        if (number > 0) {
-            return Integer.toString(number);
-        } else {
-            return "";
-        }
-    }
-
     public Set<Integer> getAvailableNumbers() {
         if(!isFound()){
             return (Set<Integer>) availableNumbers;
@@ -85,11 +76,6 @@ public class SudokuField extends Observable implements Field {
             return numbers;
         }
         
-    }
-
-    @Deprecated
-    public int getSizeOfAvailableNumbers() {
-        return availableNumbers.size();
     }
 
     public boolean isFound() {

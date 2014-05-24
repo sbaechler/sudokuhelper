@@ -93,7 +93,7 @@ public class SudokuSolveTest extends ActivityTestCase {
 
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
-        sudoku = sudokuManager.solve();
+        assertTrue(sudokuManager.solve());
         assertTrue(sudoku.isSolved());
 
         assertTrue("The first row is solved correctly",
@@ -150,7 +150,7 @@ public class SudokuSolveTest extends ActivityTestCase {
 
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
-        sudoku = sudokuManager.solve();
+        assertTrue(sudokuManager.solve());
         assertTrue(sudoku.isSolved());
         assertEquals(sudoku, sudokuLoesung);
 
@@ -208,7 +208,7 @@ public class SudokuSolveTest extends ActivityTestCase {
 
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
-        sudoku = sudokuManager.solve();
+        assertTrue(sudokuManager.solve());
          assertTrue(sudoku.isSolved());
          assertEquals(sudoku, sudokuLoesung);
 
@@ -266,7 +266,7 @@ public class SudokuSolveTest extends ActivityTestCase {
 
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
-        sudoku = sudokuManager.solve();
+        assertTrue(sudokuManager.solve());
         
         assertTrue(sudoku.isSolved());
         assertEquals(sudoku, sudokuLoesung);
@@ -325,7 +325,7 @@ public class SudokuSolveTest extends ActivityTestCase {
 
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
-        sudoku = sudokuManager.solve();
+        assertTrue(sudokuManager.solve());
         assertTrue(sudoku.isSolved());
         assertEquals(sudoku, sudokuLoesung);
 
@@ -383,7 +383,7 @@ public class SudokuSolveTest extends ActivityTestCase {
 
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
-        sudoku = sudokuManager.solve();
+        assertTrue(sudokuManager.solve());
         assertTrue(sudoku.isSolved());
         assertEquals(sudoku, sudokuLoesung);
 
@@ -441,7 +441,7 @@ public class SudokuSolveTest extends ActivityTestCase {
 
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
-        sudoku = sudokuManager.solve();
+        assertTrue(sudokuManager.solve());
         assertTrue(sudoku.isSolved());
         assertEquals(sudoku, sudokuLoesung);
 
@@ -499,7 +499,7 @@ public class SudokuSolveTest extends ActivityTestCase {
 
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
-        sudoku = sudokuManager.solve();
+        assertTrue(sudokuManager.solve());
         assertTrue(sudoku.isSolved());
         assertEquals(sudoku, sudokuLoesung);
 
@@ -522,6 +522,17 @@ public class SudokuSolveTest extends ActivityTestCase {
         assertTrue("The ninth row is solved correctly",
                 Arrays.equals(sudokuLoesung.getRowValues(8), sudoku.getRowValues(8)));
     }
+    
+    // Just used to test timing: 3.2 s on Nexus 4.
+//    public void testKillerSudoku(){
+//        SudokuParser parser = new SudokuParser();
+//        int[][] candidates = parser.parseString(res.getString(R.string.bruteForceKiller));
+//        Sudoku sudoku = new Sudoku(candidates);
+//        sudokuManager.setSudoku(sudoku);
+//        assertTrue(sudoku.isValid());
+//        assertTrue(sudokuManager.solve());
+//    }
+    
 
     public void testBacktrackingAlgorithm() {
         SudokuParser parser = new SudokuParser();
@@ -562,7 +573,7 @@ public class SudokuSolveTest extends ActivityTestCase {
         assertTrue(ba.solve());
         assertTrue(sudoku.equals(reference));
         
-        
+        // try to solve a full sudoku
         candidates = null;
         candidates = parser.parseString(res.getString(R.string.hardSudoku2));
          
@@ -575,6 +586,18 @@ public class SudokuSolveTest extends ActivityTestCase {
         assertTrue(ba.solve());
         assertTrue(sudoku.equals(reference));
         
+        // now a Sudoku to stress-test brute force
+        candidates = null;
+        candidates = parser.parseString(res.getString(R.string.bruteForceKiller));
+         
+        // Takes 23s on Nexus 4
+//        sudoku = new Sudoku(candidates);
+//        sudoku.lockSudoku();
+//        assertFalse(sudoku.isSolved());
+//        assertTrue(sudoku.isValid());
+//        ba = new BacktrackingAlgorithm();
+//        ba.setSudoku(sudoku);
+//        assertTrue(ba.solve());
 
     }
 
