@@ -13,7 +13,6 @@ public class SudokuField extends Observable implements Field {
     private Set<Integer> availableNumbers; // ConcurrentSet
     private int number;
     private boolean isInitialValue;
-    private boolean isFounded; // number is not editable anymore
     private boolean isValid;
     private final int row;
     private final int column;
@@ -30,7 +29,6 @@ public class SudokuField extends Observable implements Field {
      */
     public void reset() {
         this.number = 0;
-        this.isFounded = false;
         this.isInitialValue = false;
         this.availableNumbers = new ConcurrentSkipListSet<Integer>();
         initAvailableNumbers();
@@ -86,22 +84,17 @@ public class SudokuField extends Observable implements Field {
         return availableNumbers.size();
     }
 
-    public boolean isFounded() {
+    public boolean isFound() {
         return  number > 0;
     }
 
     public boolean isNakedSingle() {
-        return isNakedSingle;
+        return !isFound() && !isInitialValue && isNakedSingle;
     }
 
     // lock the preset field. This method is called on solve.
     void lock() {
-        isFounded = number > 0;
         isInitialValue = (number > 0);
-    }
-
-    public void setStartGap(boolean startGap) {
-        this.isInitialValue = startGap;
     }
 
     public boolean isInitialValue() {
@@ -156,7 +149,7 @@ public class SudokuField extends Observable implements Field {
      * number cannot be changed.
      */
     public int getFirstAllowedNumber() {
-        return isFounded ? 0 : availableNumbers.iterator().next();
+        return isFound() ? 0 : availableNumbers.iterator().next();
     }
 
     @Override
@@ -205,8 +198,8 @@ public class SudokuField extends Observable implements Field {
         }
 
         @Override
-        public boolean isFounded() {
-            return isFounded;
+        public boolean isFound() {
+            return number > 0;
         }
 
         @Override
@@ -225,7 +218,7 @@ public class SudokuField extends Observable implements Field {
         String value = "[" + row + ", " + column + "] : " + number;
         if (isValid)
             value = value + " V";
-        if (isFounded)
+        if (isFound())
             value = value + " F";
         return value;
     }

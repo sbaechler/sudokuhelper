@@ -71,7 +71,7 @@ public class SudokuFieldView extends TextView implements Observer {
         Field updatedField = (Field) value;
 
         setValue(updatedField.getNumber());
-        if(updatedField.getNumber() > 0) {
+        if(updatedField.isFound()) {
             if(!updatedField.isValid()){
                 setBackgroundColor(Color.RED);
             } else if (updatedField.isInitialValue()){
@@ -82,7 +82,7 @@ public class SudokuFieldView extends TextView implements Observer {
         } else {
             setBackgroundColor(Color.WHITE);
         }
-        setLocked(updatedField.isFounded());
+        setLocked(updatedField.isInitialValue());
 
     }
    

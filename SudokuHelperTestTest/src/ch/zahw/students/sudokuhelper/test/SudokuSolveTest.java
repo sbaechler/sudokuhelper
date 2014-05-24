@@ -50,7 +50,7 @@ public class SudokuSolveTest extends ActivityTestCase {
         // test the fields
         SudokuField firstField = sudoku.getField(0, 0);
         assertTrue(firstField.isValid());
-        assertTrue(firstField.isFounded());
+        assertTrue(firstField.isFound());
         assertEquals(1, firstField.getNumber());
         assertTrue(firstField.isInitialValue());
 

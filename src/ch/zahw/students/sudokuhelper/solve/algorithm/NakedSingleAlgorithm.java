@@ -27,7 +27,6 @@ public class NakedSingleAlgorithm implements SudokuSolver {
                     isAnythingFound = true;
                     continue start;
                 }
-
             }
         }
 
