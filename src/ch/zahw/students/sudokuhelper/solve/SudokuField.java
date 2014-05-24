@@ -91,16 +91,12 @@ public class SudokuField extends Observable implements Field {
     }
 
     public boolean isNakedSingle() {
-        return isNakedSingle;
+        return !isFound() && !isInitialValue && isNakedSingle;
     }
 
     // lock the preset field. This method is called on solve.
     void lock() {
         isInitialValue = (number > 0);
-    }
-
-    public void setStartGap(boolean startGap) {
-        this.isInitialValue = startGap;
     }
 
     public boolean isInitialValue() {

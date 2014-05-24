@@ -25,7 +25,6 @@ public class NakedSingleAlgorithm implements SudokuSolver {
                     sudoku.setValue(row, column, sf.getFirstAllowedNumber());
                     isAnythingFound = true;
                 }
-
             }
         }
 

@@ -26,7 +26,7 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
 
                 // es werden nur sudoku Felder genommen die keine gesetzte,
                 // definitive Zahl haben
-                if (sf.isFound() == false) {
+                if (!sf.isFound()) {
 
                     // über alle mögliche Zahlen iterieren
                     for (int number : sf.getAvailableNumbers()) {
