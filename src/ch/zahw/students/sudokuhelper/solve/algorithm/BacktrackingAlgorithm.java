@@ -1,5 +1,7 @@
 package ch.zahw.students.sudokuhelper.solve.algorithm;
 
+import java.util.Arrays;
+
 import android.util.Log;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
 
@@ -11,21 +13,28 @@ import ch.zahw.students.sudokuhelper.solve.Sudoku;
 public class BacktrackingAlgorithm implements SudokuSolver {
     private static final String TAG = "SudokuHelper::BacktrackingAlgorithm";
     private Sudoku sudoku;
+    private int[][] candidates;
+    
+    
+    @Override
+    public void setSudoku(Sudoku sudoku) {
+        this.sudoku = sudoku;
+        candidates = sudoku.getTable();
+    }
 
     /**
      * Solves the whole sudoku. Assumes the Sudoku is valid.
      */
     @Override
     public boolean solve() {
-        int[][] candidates = sudoku.getTable();
         long startTime = System.nanoTime();
-        boolean solve = findSolution(candidates); // updates values in-place
+        boolean solve = findSolution(); // updates values in-place
 
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
         sudoku.setValues(candidates);
-        Log.v(TAG, "Backtracking algorithm took " + duration / 1000000.0 + " seconds");
-
+        Log.v(TAG, "Backtracking algorithm took " + (double)duration / 1000000000.0 + " seconds");
+        Log.v(TAG, "The solved Sudoku: \n" + Arrays.deepToString(candidates));
         return solve;
     }
 
@@ -36,9 +45,9 @@ public class BacktrackingAlgorithm implements SudokuSolver {
      *            - The unsolved Sudoku as array.
      * @return true, if the sudoku was solved.
      */
-    private boolean findSolution(int[][] candidates) {
+    private boolean findSolution() {
         // find the next empty square
-        int next = findNextEmptySquare(candidates);
+        int next = findNextEmptySquare();
         // if there is no empty square: return the solution
         if (next == -1) {
             Log.v(TAG, "Solution found for Sudoku");
@@ -49,10 +58,10 @@ public class BacktrackingAlgorithm implements SudokuSolver {
         int columnIndex = next % 9;
 
         for (int i = 1; i <= 9; i++) {
-            if (isNumberAllowedInField(i, rowIndex, columnIndex, candidates)) {
+            if (isNumberAllowedInField(i, rowIndex, columnIndex)) {
                 candidates[rowIndex][columnIndex] = i;
 
-                if (findSolution(candidates))
+                if (findSolution())
                     return true;
 
                 candidates[rowIndex][columnIndex] = 0;
@@ -63,7 +72,7 @@ public class BacktrackingAlgorithm implements SudokuSolver {
     }
 
     // returns a 0-based index between 0 and 80. -1 if nothing found.
-    private int findNextEmptySquare(int[][] candidates) {
+    private int findNextEmptySquare() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (candidates[i][j] == 0) {
@@ -88,33 +97,31 @@ public class BacktrackingAlgorithm implements SudokuSolver {
      *            - the Sudoku array.
      * @return - true or false
      */
-    private boolean isNumberAllowedInField(int number, int rowIndex, int columnIndex,
-            int[][] candidates) {
-        return (isNumberAllowedInRow(number, rowIndex, candidates)
-                && isNumberAllowedInColumn(number, columnIndex, candidates) && isNumberAllowedInSquare(
-                    number, rowIndex, columnIndex, candidates));
+    private boolean isNumberAllowedInField(int number, int rowIndex, int columnIndex) {
+        return (isNumberAllowedInRow(number, rowIndex, columnIndex)
+                && isNumberAllowedInColumn(number, rowIndex, columnIndex) && isNumberAllowedInSquare(
+                    number, rowIndex, columnIndex));
     }
 
-    private boolean isNumberAllowedInRow(int number, int rowIndex, int[][] candidates) {
+    private boolean isNumberAllowedInRow(int number, int rowIndex, int columnIndex) {
         for (int i = 0; i < 9; i++) {
-            if (i != rowIndex && candidates[rowIndex][i] == number) {
+            if (i != columnIndex && candidates[rowIndex][i] == number) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isNumberAllowedInColumn(int number, int columnIndex, int[][] candidates) {
+    private boolean isNumberAllowedInColumn(int number, int rowIndex, int columnIndex) {
         for (int i = 0; i < 9; i++) {
-            if (i != columnIndex && candidates[i][columnIndex] == number) {
+            if (i != rowIndex && candidates[i][columnIndex] == number) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isNumberAllowedInSquare(int number, int rowIndex, int columnIndex,
-            int[][] candidates) {
+    private boolean isNumberAllowedInSquare(int number, int rowIndex, int columnIndex) {
         int qx = (rowIndex / 3) * 3;
         int qy = (columnIndex / 3) * 3;
         for (int i = qx; i < qx + 3; i++) {
@@ -127,10 +134,7 @@ public class BacktrackingAlgorithm implements SudokuSolver {
         return true;
     }
 
-    @Override
-    public void setSudoku(Sudoku sudoku) {
-        this.sudoku = sudoku;
-    }
+
 
     @Override
     public boolean step() {
