@@ -3,16 +3,13 @@ package ch.zahw.students.sudokuhelper.solve;
 import java.util.Vector;
 
 import android.util.Log;
-
 import ch.zahw.students.sudokuhelper.solve.algorithm.HiddenSingleAlgorithm;
-import ch.zahw.students.sudokuhelper.solve.algorithm.NaiveAlgorithmus;
 
 public class SudokuManager {
 
     private static final String TAG = "SudokuHelper::SudokuManager";
 	private Sudoku sudoku;
 
-	private NaiveAlgorithmus naiveAlgorithm;
 	private HiddenSingleAlgorithm hiddenSingle;
 
 	// TODO solve order for step funktion
@@ -109,9 +106,6 @@ public class SudokuManager {
             sudoku.manuallyOverrideValue(row, column, value);
         }
 	
-        public Vector<SudokuField> getSolveOrder() {
-		return naiveAlgorithm.getSolveOrder();
-	}
 
 	public SudokuField getNextSolveOrder() {
 		indexNextSolveOrder++;
