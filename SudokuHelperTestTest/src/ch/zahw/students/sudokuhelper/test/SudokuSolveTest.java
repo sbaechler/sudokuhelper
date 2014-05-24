@@ -566,6 +566,20 @@ public class SudokuSolveTest extends ActivityTestCase {
 
         assertTrue(ba.solve());
         assertTrue(sudoku.equals(reference));
+        
+        
+        candidates = null;
+        candidates = parser.parseString(res.getString(R.string.hardSudoku2));
+         
+        sudoku = new Sudoku(candidates);
+        sudoku.lockSudoku();
+        assertFalse(sudoku.isSolved());
+        assertTrue(sudoku.isValid());
+        ba = new BacktrackingAlgorithm();
+        ba.setSudoku(sudoku);
+        assertTrue(ba.solve());
+        assertTrue(sudoku.equals(reference));
+        
 
     }
 

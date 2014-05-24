@@ -129,6 +129,10 @@ public class SudokuField extends Observable implements Field {
             availableNumbers.remove(number);
             if (availableNumbers.size() == 1) {
                 // naked single found! Notify Sudoku.
+//                if (this.listener != null) {
+//                    this.listener.nakedSingleFound(new NakedSingleEvent(this, availableNumbers
+//                            .iterator().next()));
+//                }
                 this.isNakedSingle = true;
             } else if (availableNumbers.size() == 0) {
                 isFounded = true;

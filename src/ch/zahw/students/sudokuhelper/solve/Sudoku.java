@@ -55,10 +55,12 @@ public class Sudoku  {
 
 	// call this method on solve.
 	public void lockSudoku() {
-		for (int i = 0; i < 81; i++) {
-			fields[i].lock();
-		}
-		isLocked = true;
+	    if(!isLocked){
+	        for (int i = 0; i < 81; i++) {
+	            fields[i].lock();
+	        }
+	        isLocked = true; 
+	    }
 	}
 
 	public int getNumber(int row, int column) {
