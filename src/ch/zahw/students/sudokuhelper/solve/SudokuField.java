@@ -17,7 +17,6 @@ public class SudokuField extends Observable implements Field {
     private final int row;
     private final int column;
     private boolean isNakedSingle = false;
-    private NakedSingleEventListener listener = null; // This is the Sudoku
 
     public SudokuField(int row, int column) {
         this.row = row;
@@ -86,10 +85,6 @@ public class SudokuField extends Observable implements Field {
         return availableNumbers.size();
     }
 
-    public void setFounded(boolean isFounded) {
-        this.isFounded = isFounded;
-    }
-
     public boolean isFounded() {
         return  number > 0;
     }
@@ -134,10 +129,6 @@ public class SudokuField extends Observable implements Field {
             availableNumbers.remove(number);
             if (availableNumbers.size() == 1) {
                 // naked single found! Notify Sudoku.
-                if (this.listener != null) {
-                    this.listener.nakedSingleFound(new NakedSingleEvent(this, availableNumbers
-                            .iterator().next()));
-                }
                 this.isNakedSingle = true;
             } else if (availableNumbers.size() == 0) {
                 isFounded = true;
@@ -196,10 +187,6 @@ public class SudokuField extends Observable implements Field {
                     + column + ")");
         }
         return availableNumbers.contains(candidate);
-    }
-
-    void setListener(NakedSingleEventListener listener) {
-        this.listener = listener; // This is the Sudoku
     }
 
     /**

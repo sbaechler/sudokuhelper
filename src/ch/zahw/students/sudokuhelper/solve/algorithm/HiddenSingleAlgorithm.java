@@ -12,6 +12,7 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
     @Override
     public boolean solve() {
         SudokuField sf;
+        boolean isAnythingFound = false;
 
         start:
 
@@ -36,8 +37,7 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
                                 || isHiddenSingle(sudoku.getSudokuSquare(row), number, sf)) {
 
                             sudoku.setValue(row, column, number);
-                            sf.setFounded(true);
-
+                            isAnythingFound = true;
                             // von vorne anfangen
                             continue start;
                         }
@@ -49,8 +49,7 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
 
         }
 
-        // TODO
-        return true;
+        return isAnythingFound;
     }
 
     /**
@@ -92,6 +91,39 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
 
     @Override
     public boolean step() {
+        
+        SudokuField sf;
+        
+        // über zeilen iterieren
+        for (int row = 0; row < 9; row++) {
+
+            // über spalten iterieren
+            for (int column = 0; column < 9; column++) {
+                // sudokuField
+                sf = sudoku.getField(row, column);
+
+                // es werden nur sudoku Felder genommen die keine gesetzte,
+                // definitive Zahl haben
+                if (sf.isFounded() == false) {
+
+                    // über alle mögliche Zahlen iterieren
+                    for (int number : sf.getAvailableNumbers()) {
+
+                        // row-, col- and square check
+                        if (isHiddenSingle(sudoku.getRowSudokuFields(row), number, sf)
+                                || isHiddenSingle(sudoku.getColumnSudokuFields(column), number, sf)
+                                || isHiddenSingle(sudoku.getSudokuSquare(row), number, sf)) {
+                            sudoku.setValue(row, column, number);
+                            return true;
+                        }
+
+                    }
+                }
+
+            }
+
+        }
+        
         return false;
     }
 

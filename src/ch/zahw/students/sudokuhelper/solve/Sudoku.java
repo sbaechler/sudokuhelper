@@ -6,20 +6,18 @@ import java.util.List;
 
 import android.util.Log;
 
-public class Sudoku implements NakedSingleEventListener {
+public class Sudoku  {
 
 	private static final String TAG = "SudokuHelper::Sudoku";
 	private SudokuField[] fields;
 	private int emptyFields;
 	private boolean isLocked = false;
-	private List<NakedSingleEventListener> nakedSingleListeners;
 	
 	/**
 	 * The constructor for a new, empty Sudoku
 	 */
 	public Sudoku() {
 	    fields = new SudokuField[81];
-        nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
 	    reset();
 	}
 
@@ -30,7 +28,6 @@ public class Sudoku implements NakedSingleEventListener {
 	 */
 	public Sudoku(int[][] candidates) {
 		fields = new SudokuField[81];
-	    nakedSingleListeners = new ArrayList<NakedSingleEventListener>();
 		setValues(candidates);
 	}
 
@@ -140,11 +137,6 @@ public class Sudoku implements NakedSingleEventListener {
 	    setValue(row, column, 0);
 	    addAvailableNumbersOnOtherFields(row, column, oldValue, field);
 	    setValue(row, column, value);
-	}
-
-	@Deprecated
-	public void setFounded(int row, int column, Boolean value) {
-		fields[(row * 9) + column].setFounded(value);
 	}
 
 	public SudokuField[] getColumnSudokuFields(int column) {
@@ -335,28 +327,5 @@ public class Sudoku implements NakedSingleEventListener {
 	}
 
 
-	/**
-	 * Adds a listener (a solve algorithm) to listen to the naked single found event.
-	 * @param listener - A solve algorithm
-	 */
-	public void addNakedSingleEventListener(NakedSingleEventListener listener){
-	    this.nakedSingleListeners.add(listener);
-	}
-	
-	
-	/**
-	 * Callback sent from a cell if the count of allowed numbers reaches exactly
-	 * 1. An event is sent to the Sudoku to enter this number.
-	 */
-	@Override
-	public void nakedSingleFound(NakedSingleEvent e) {
-		Log.v(TAG, "nakedSingleFound: row = " + e.getRow() + ", column = "
-				+ e.getColumn() + "->" + e.getCandidate());
-			
-		// pass it to the solve algorithm and have them deal with it.
-		for(NakedSingleEventListener listener : nakedSingleListeners) {
-		    listener.nakedSingleFound(e);
-		}
-	}
 
 }
