@@ -209,8 +209,8 @@ public class SudokuSolveTest extends ActivityTestCase {
         assertTrue(sudoku.isValid());
         sudokuManager.setSudoku(sudoku);
         sudoku = sudokuManager.solve();
-        // assertTrue(sudoku.isSolved());
-        // assertEquals(sudoku, sudokuLoesung);
+         assertTrue(sudoku.isSolved());
+         assertEquals(sudoku, sudokuLoesung);
 
         // Dieses Sudoku konnte vor dem refactoring gel�st werden
         for (int i = 0; i < 9; i++) {

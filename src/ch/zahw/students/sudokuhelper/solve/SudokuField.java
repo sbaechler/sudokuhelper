@@ -211,6 +211,7 @@ public class SudokuField extends Observable implements Field {
         public boolean isValid() {
             return isValid;
         }
+
     }
 
     @Override
