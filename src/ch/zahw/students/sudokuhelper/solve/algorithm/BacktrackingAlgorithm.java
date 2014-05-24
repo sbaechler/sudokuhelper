@@ -23,7 +23,7 @@ public class BacktrackingAlgorithm extends AAlgorithm {
         int[][] candidates = sudoku.getTable();
         long startTime = System.nanoTime();
         
-        findSolution(candidates);
+        findSolution(candidates);  // updates values in-place
         
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
@@ -33,9 +33,9 @@ public class BacktrackingAlgorithm extends AAlgorithm {
     }
     
     /**
-     * The main recursive algorithm
-     * @param candidates - The unsolved Sudoku as array
-     * @return A solved Sudoku as array or null if there was a problem.
+     * The main recursive algorithm. Updates the values in-place.
+     * @param candidates - The unsolved Sudoku as array.
+     * @return true, if the sudoku was solved.
      */
     private boolean findSolution(int[][] candidates){
         // find the next empty square
@@ -52,14 +52,11 @@ public class BacktrackingAlgorithm extends AAlgorithm {
         for (int i = 1; i<=9; i++){
             if(isNumberAllowedInField(i, rowIndex, columnIndex, candidates)){
                candidates[rowIndex][columnIndex] = i;
-               Log.v(TAG, "Trying to fill square at " + rowIndex + "," + columnIndex + " with number " + i);
-               if(!findSolution(candidates)){
-                   candidates[rowIndex][columnIndex] = 0;
-               }  else {
-                   return true;
-               }
-            } else {
-                Log.v(TAG, "Number " + i + " is not allowed in field " + rowIndex + ", " + columnIndex);
+
+               if(findSolution(candidates)) return true;
+
+               candidates[rowIndex][columnIndex] = 0;
+
             }
         }
         return false;
@@ -71,12 +68,11 @@ public class BacktrackingAlgorithm extends AAlgorithm {
          for (int i=0; i<9; i++){
              for (int j=0; j<9; j++){
                  if(candidates[i][j] == 0) {
-                     Log.v(TAG, "Found empty square at " + i + "," + j);
+//                     Log.v(TAG, "Found empty square at " + i + "," + j);
                      return (i*9+j);
                  }
              }
          }
-         Log.v(TAG, "Found no empty square");
          return -1;  // nothing found
     }
     
