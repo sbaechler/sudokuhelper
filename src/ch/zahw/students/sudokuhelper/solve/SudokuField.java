@@ -4,8 +4,6 @@ import java.util.Observable;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import android.util.Log;
-
 /**
  * A single sudoku field (Model layer) GUI elements can listen to updates.
  */
@@ -138,9 +136,7 @@ public class SudokuField extends Observable implements Field {
 //                }
                 this.isNakedSingle = true;
             } else if (availableNumbers.size() == 0) {
-                isFounded = true;
                 this.isNakedSingle = false;
-                Log.v(TAG, "NakedSingle gefunden, doch die liste darf nicht leer sein");
             } // TODO: if reverse is possible - set this to true on else.
         }
     }

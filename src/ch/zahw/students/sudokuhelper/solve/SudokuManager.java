@@ -26,24 +26,34 @@ public class SudokuManager {
         this.hiddenSingleAlgorithm = new HiddenSingleAlgorithm();
         this.backtrackingAlgorithm = new BacktrackingAlgorithm();
         this.nakedSingleAlgorithm = new NakedSingleAlgorithm();
+        init();
     }
 
     // creates a Sudoku from a given list of candidates
     public SudokuManager(int[][] sudokuArray) {
         this.sudoku = new Sudoku(sudokuArray);
+        init();
     }
 
     // Uses an existing Sudoku (i.e. from saved state)
     public SudokuManager(Sudoku sudoku) {
         this.sudoku = sudoku;
+        init();
+    }
+
+    private void init() {
+        hiddenSingleAlgorithm.setSudoku(sudoku);
+        backtrackingAlgorithm.setSudoku(sudoku);
+        nakedSingleAlgorithm.setSudoku(sudoku);
     }
 
     // TODO: use sudoku.lock() as first argument in solve()
     public Sudoku solve() {
         sudoku.lockSudoku();
-        hiddenSingleAlgorithm.setSudoku(sudoku);
-        backtrackingAlgorithm.setSudoku(sudoku);
-        nakedSingleAlgorithm.setSudoku(sudoku);
+
+        if (!sudoku.isValid()) {
+            return sudoku;
+        }
 
         int failed = 0;
 
@@ -61,8 +71,8 @@ public class SudokuManager {
 
             failed++;
         }
-        
-        if(!sudoku.isSolved()){
+
+        if (!sudoku.isSolved()) {
             backtrackingAlgorithm.solve();
         }
 
@@ -71,6 +81,10 @@ public class SudokuManager {
 
     public void step() {
         sudoku.lockSudoku();
+
+        if (!sudoku.isValid()) {
+            return ;
+        }
 
         if (nakedSingleAlgorithm.step()) {
             return;

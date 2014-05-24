@@ -16,6 +16,7 @@ public class NakedSingleAlgorithm implements SudokuSolver {
     public boolean solve() {
         SudokuField sf = null;
         boolean isAnythingFound = false;
+        start:
 
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
@@ -24,6 +25,7 @@ public class NakedSingleAlgorithm implements SudokuSolver {
                 if (sf.isNakedSingle()) {
                     sudoku.setValue(row, column, sf.getFirstAllowedNumber());
                     isAnythingFound = true;
+                    continue start;
                 }
 
             }
