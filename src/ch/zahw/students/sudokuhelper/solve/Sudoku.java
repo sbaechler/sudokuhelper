@@ -207,7 +207,7 @@ public class Sudoku  {
 	 * @return true or false.
 	 */
 	public boolean isSolved() {
-	    Log.v(TAG, "isSolved: Empty fields: " + emptyFields + "Valid: " + isValid());
+//	    Log.v(TAG, "isSolved: Empty fields: " + emptyFields + "Valid: " + isValid());
 		return emptyFields == 0 && isValid();
 	}
 	

@@ -95,12 +95,16 @@ public class SudokuManager {
         }
 
         if (nakedSingleAlgorithm.step()) {
+            Log.v(TAG, "Step with nakedSingle");
             return true;
         } else if (hiddenSingleAlgorithm.step()) {
+            Log.v(TAG, "Step with hiddenSingle");
             return true;
         } else if (backtrackingAlgorithm.step()) {
+            Log.v(TAG, "Step with backtracking");
             return true;
         }
+        Log.v(TAG, "Step with nothing");
         return false;
     }
 

@@ -19,7 +19,7 @@ import ch.zahw.students.sudokuhelper.solve.Sudoku;
 public class BacktrackingAlgorithm implements SudokuSolver {
     private static final String TAG = "SudokuHelper::BacktrackingAlgorithm";
     private Sudoku sudoku;
-    private int[][] candidates;
+    private int[][] candidates = null;
     private boolean isSolved = false;
     private LinkedList<Integer> foundFields;
     
@@ -55,14 +55,15 @@ public class BacktrackingAlgorithm implements SudokuSolver {
     
     @Override
     public boolean step() {
-        candidates = sudoku.getTable();
-        if(!isSolved){
-            findSolution();
-        }
+        if(candidates == null) candidates = sudoku.getTable();
+        if(!isSolved) findSolution();
         int row, column;
+        Integer next;
+        
         // pop the first Element from the queue.
+//        Log.v(TAG, "Backtracking step: " + foundFields.toString());
         do {
-            Integer next = foundFields.poll();
+            next = foundFields.poll();
             if(next == null)  return false;
             row = next/9;
             column = next % 9;

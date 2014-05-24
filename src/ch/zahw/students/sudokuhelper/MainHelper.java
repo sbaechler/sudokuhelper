@@ -237,8 +237,10 @@ public class MainHelper {
 
 	// ****************************** Functions ******************************
 	public void step(View view) {
-		Log.v(TAG, "Solve Step");
-		fillSolvedCell();
+//		Log.v(TAG, "Solve Step");
+        if (!isSudokuSolved()) {
+            sudokuManager.step();
+        }
 	}
 
 	public void solve(View view) {
@@ -249,51 +251,9 @@ public class MainHelper {
 			sudokuManager.solve();
 		}
 		
-		// Das Sudoku kann von der Step Funktion schon gelöst worden sein.
-		// Deswegen wird das Sudoku die gelösten Felder angezeigt
-		fillSolvedNumber(getSudoku());
 	}
 
-	// ****************************** Change table******************************
-	@Deprecated
-	private void fillSolvedCell() {
-		SudokuField nextField = sudokuManager.getNextSolveOrder();
-		SudokuField prevSf = sudokuManager.getPreviousSolveOrder();
 
-		if (nextField != null) {
-			changeCell(nextField.getRow(), nextField.getColumn(),
-					nextField.getNumber(), Color.GREEN);
-		}
-
-		if (prevSf != null) {
-			changeCell(prevSf.getRow(), prevSf.getColumn(), -1, LIGHT_GREEN);
-		}
-
-	}
-
-	@Deprecated
-	private void fillSolvedNumber(Sudoku sudoku) {
-
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				if (sudoku.getField(i, j).isInitialValue()) {
-					changeCell(i, j, sudoku.getField(i, j).getNumber(),
-							LIGHT_GREEN);
-				}
-			}
-		}
-	}
-
-	// private void fillSudokuTable(int[][] sudoku) {
-	// Log.v(TAG, "Filling Sudoku table");
-	//
-	// for (int i = 0; i < 9; i++) {
-	// for (int j = 0; j < 9; j++) {
-	// changeCell(i, j, sudoku[i][j], Color.WHITE);
-	// }
-	// }
-	//
-	// }
 
 	private void changeCell(int row, int column, int number, int color) {
 		SudokuFieldView cell = (SudokuFieldView) mainActivity

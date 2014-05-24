@@ -21,13 +21,13 @@ public class MainActivity extends Activity {
 
 	/** Called when the user clicks the Solve button */
 	public void doSolve(View view) {
-		Log.i(TAG, "called doSolve");
+//		Log.i(TAG, "called doSolve");
 		mainHelper.solve(view);
 	}
 
 	/** Called when the user clicks the Solve button */
 	public void doStep(View view) {
-		Log.i(TAG, "called doStep");
+//		Log.i(TAG, "called doStep");
 		mainHelper.step(view);
 	}
 
