@@ -15,14 +15,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import ch.zahw.students.sudokuhelper.solve.Sudoku;
-import ch.zahw.students.sudokuhelper.solve.SudokuField;
 import ch.zahw.students.sudokuhelper.solve.SudokuFieldView;
 import ch.zahw.students.sudokuhelper.solve.SudokuManager;
 
 public class MainHelper {
 
 	private static final String TAG = "SudokuHelper::MainHelper";
-	private static final int LIGHT_GREEN = Color.rgb(186, 243, 183);
 	private static final Pattern CANDIDATE_PATTERN = Pattern
 			.compile("^(\\d\\d?),(\\d\\d?):(\\d)-(\\d)$");
 	private final Dialog numberDialog;
