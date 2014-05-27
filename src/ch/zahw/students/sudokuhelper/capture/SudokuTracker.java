@@ -1,6 +1,5 @@
 package ch.zahw.students.sudokuhelper.capture;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -38,14 +37,12 @@ public class SudokuTracker {
     private Mat mRgba;
     private Mat mRgbaSub;
     private Mat lines;
-    private Mat transform;
     private Mat inverseTransform;
     private Mat mStraight;
     private int width;
     private int height;
     private Rect roi;
     private boolean foundCandidate = false;
-    private DigitExtractor digitExtractor;
     final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
     
 
@@ -58,8 +55,6 @@ public class SudokuTracker {
         mIntermediate2Mat = new Mat(height, height, CvType.CV_8UC1);
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mStraight = new Mat(RESULT_SIZE, RESULT_SIZE, CvType.CV_8UC1);
-//        digitExtractor = new DigitExtractor(context);
-//        digitExtractor.setSource(mStraight);
         lines = new Mat();
         this.width = width;
         this.height = height;
@@ -100,15 +95,15 @@ public class SudokuTracker {
      */
     public Mat detect(Mat imageGray) {
        
-        Log.v(TAG, "Detecting input Mat: " + imageGray.cols() + "x" + imageGray.rows());
+        // Log.v(TAG, "Detecting input Mat: " + imageGray.cols() + "x" + imageGray.rows());
+        // blur the image a bit to get rid of noise.
+        Imgproc.medianBlur(imageGray.submat(roi), imageGray.submat(roi), 3);
         // discard all the grayscale value and adaptively threshold the image into
         // a pure black & white image.
         threshold(imageGray.submat(roi), mIntermediateMat);
         // rotate the image 90° CCW
         Core.flip(mIntermediateMat.t(), mIntermediateMat, CCW);
-
-        // blur the image a bit to get rid of noise.
-        Imgproc.medianBlur(mIntermediateMat, mIntermediateMat, 3);
+        // copy the values to a color Mat for display
         Imgproc.cvtColor(mIntermediateMat, mRgbaSub, Imgproc.COLOR_GRAY2RGBA, 4 ); 
         if (!foundCandidate){
             try {

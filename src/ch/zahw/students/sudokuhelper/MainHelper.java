@@ -251,13 +251,13 @@ public class MainHelper {
 		
 	}
 
-
-
-	private void changeCell(int row, int column, int number, int color) {
-		SudokuFieldView cell = (SudokuFieldView) mainActivity
-				.findViewById(cellIds[row][column]);
-		cell.setBackgroundColor(color);
-	}
+//
+//
+//	private void changeCell(int row, int column, int number, int color) {
+//		SudokuFieldView cell = (SudokuFieldView) mainActivity
+//				.findViewById(cellIds[row][column]);
+//		cell.setBackgroundColor(color);
+//	}
 
 	/**
 	 * Extracts the candidates values from the String returned from the capture

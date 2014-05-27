@@ -54,7 +54,8 @@ public class DigitExtractor {
      * @return A list with FieldCandidates
      * @throws NoSudokuFoundException 
      */
-    public List<FieldCandidate> extractDigits(Mat displayMat, Mat transformMat) throws NoSudokuFoundException{
+    public List<FieldCandidate> extractDigits(Mat displayMat, Mat transformMat) 
+                                throws NoSudokuFoundException{
         digitCount = 0;
         Mat mTempRgba = null;
         List<FieldCandidate> candidates = new ArrayList<FieldCandidate>();
@@ -83,7 +84,8 @@ public class DigitExtractor {
             
             if(rowCount > MAX_ROW_HITS){
                 candidates = null;
-                throw new NoSudokuFoundException("Found more than " + MAX_ROW_HITS + " hits in row " + (row+1));
+                throw new NoSudokuFoundException("Found more than " + MAX_ROW_HITS + 
+                                                 " hits in row " + (row+1));
             }
         }
         if(transformMat != null){

@@ -128,7 +128,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
      * displayed to the user.
      */
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-        Log.v(TAG, "Got Camera Frame. Width: " + inputFrame.gray().cols());
+        // Log.v(TAG, "Got Camera Frame. Width: " + inputFrame.gray().cols());
         Mat mRgba = sudokuTracker.detect(inputFrame.gray());
         
         if(sudokuTracker.hasFoundCandidate()){
@@ -143,7 +143,7 @@ public class CaptureActivity extends Activity implements CvCameraViewListener2 {
                 recognizer.regognize(candidates);
                 finish(candidates);
             } catch (NoSudokuFoundException e) {
-                Log.v(TAG, e.getMessage());
+                // Log.v(TAG, e.getMessage());
                 sudokuTracker.setFoundCandidate(false);
             }
         }
