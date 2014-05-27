@@ -22,6 +22,7 @@ public class BacktrackingAlgorithm implements SudokuSolver {
     private int[][] candidates = null;
     private boolean isSolved = false;
     private LinkedList<Integer> foundFields;
+    private long steps = 0;
     
     public BacktrackingAlgorithm(){
         super();
@@ -40,14 +41,16 @@ public class BacktrackingAlgorithm implements SudokuSolver {
      */
     @Override
     public boolean solve() {
+        steps = 0;
         candidates = sudoku.getTable();
-        long startTime = System.nanoTime();
+//        long startTime = System.nanoTime();
         boolean solve = findSolution(); // updates values in-place
 
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+//        long endTime = System.nanoTime();
+//        long duration = endTime - startTime;
         sudoku.setValues(candidates);
-        Log.v(TAG, "Backtracking algorithm took " + (double)duration / 1000000000.0 + " seconds");
+//        Log.v(TAG, "Backtracking algorithm took " + (double)duration / 1000000000.0 + 
+//                   " seconds and took " + steps + " steps");
 //        Log.v(TAG, "The solved Sudoku: \n" + Arrays.deepToString(candidates));
         return solve;
     }
@@ -84,11 +87,13 @@ public class BacktrackingAlgorithm implements SudokuSolver {
      * @return true, if the sudoku was solved.
      */
     private boolean findSolution() {
+//        steps++;
         // find the next empty square
         int next = findNextEmptySquare();
         // if there is no empty square: return the solution
         if (next == -1) {
             Log.v(TAG, "Solution found for Sudoku");
+            isSolved = true;
             return true;
         }
         // else
@@ -100,7 +105,6 @@ public class BacktrackingAlgorithm implements SudokuSolver {
                 candidates[rowIndex][columnIndex] = c;
                 foundFields.add(next);
                 if (findSolution()) {
-                    isSolved = true;
                     return true;
                 }
 

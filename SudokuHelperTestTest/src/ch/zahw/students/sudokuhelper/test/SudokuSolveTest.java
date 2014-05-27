@@ -524,14 +524,14 @@ public class SudokuSolveTest extends ActivityTestCase {
     }
     
     // Just used to test timing: 3.2 s on Nexus 4.
-//    public void testKillerSudoku(){
-//        SudokuParser parser = new SudokuParser();
-//        int[][] candidates = parser.parseString(res.getString(R.string.bruteForceKiller));
-//        Sudoku sudoku = new Sudoku(candidates);
-//        sudokuManager.setSudoku(sudoku);
-//        assertTrue(sudoku.isValid());
-//        assertTrue(sudokuManager.solve());
-//    }
+    public void testKillerSudoku(){
+        SudokuParser parser = new SudokuParser();
+        int[][] candidates = parser.parseString(res.getString(R.string.bruteForceKiller));
+        Sudoku sudoku = new Sudoku(candidates);
+        sudokuManager.setSudoku(sudoku);
+        assertTrue(sudoku.isValid());
+        assertTrue(sudokuManager.solve());
+    }
     
 
     public void testBacktrackingAlgorithm() {
@@ -586,19 +586,19 @@ public class SudokuSolveTest extends ActivityTestCase {
         assertTrue(ba.solve());
         assertTrue(sudoku.equals(reference));
         
-        // now a Sudoku to stress-test brute force
-        candidates = null;
-        candidates = parser.parseString(res.getString(R.string.bruteForceKiller));
-         
-        // Takes 23s on Nexus 4
-//        sudoku = new Sudoku(candidates);
+    }
+    
+    // 228 seconds on Nexus 4
+//    public void testBacktrackingOnKillerSudoku(){
+//        SudokuParser parser = new SudokuParser();
+//        int[][] candidates = parser.parseString(res.getString(R.string.bruteForceKiller));
+//        Sudoku sudoku = new Sudoku(candidates);
 //        sudoku.lockSudoku();
 //        assertFalse(sudoku.isSolved());
 //        assertTrue(sudoku.isValid());
-//        ba = new BacktrackingAlgorithm();
+//        BacktrackingAlgorithm ba = new BacktrackingAlgorithm();
 //        ba.setSudoku(sudoku);
 //        assertTrue(ba.solve());
-
-    }
+//    }
 
 }
