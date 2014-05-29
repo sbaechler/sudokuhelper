@@ -43,10 +43,10 @@ public class BacktrackingAlgorithm implements SudokuSolver {
     public boolean solve() {
         steps = 0;
         candidates = sudoku.getTable();
-//        long startTime = System.nanoTime();
+        long startTime = System.nanoTime();
         boolean solve = findSolution(); // updates values in-place
 
-//        long endTime = System.nanoTime();
+        long endTime = System.nanoTime();
 //        long duration = endTime - startTime;
         sudoku.setValues(candidates);
 //        Log.v(TAG, "Backtracking algorithm took " + (double)duration / 1000000000.0 + 
@@ -87,7 +87,7 @@ public class BacktrackingAlgorithm implements SudokuSolver {
      * @return true, if the sudoku was solved.
      */
     private boolean findSolution() {
-//        steps++;
+        steps++;
         // find the next empty square
         int next = findNextEmptySquare();
         // if there is no empty square: return the solution
