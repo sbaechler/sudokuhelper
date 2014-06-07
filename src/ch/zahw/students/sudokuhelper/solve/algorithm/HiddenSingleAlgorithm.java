@@ -69,6 +69,7 @@ public class HiddenSingleAlgorithm implements SudokuSolver {
      */
     private Boolean isHiddenSingle(SudokuField[] nineFields, int number, SudokuField field) {
         SudokuField sField;
+        if (number == 0) return false;
 
         for (int i = 0; i < nineFields.length; i++) {
             sField = nineFields[i];

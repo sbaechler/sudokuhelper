@@ -58,8 +58,10 @@ public class BacktrackingAlgorithm implements SudokuSolver {
     
     @Override
     public boolean step() {
-        if(candidates == null) candidates = sudoku.getTable();
-        if(!isSolved) findSolution();
+        // we have to assume that other algorithms have been used in the mean
+        // time and the sudoku has multiple solutions.
+        candidates = sudoku.getTable();
+        findSolution();
         int row, column;
         Integer next;
         
