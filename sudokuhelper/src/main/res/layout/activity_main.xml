@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="@string/Sudoku_Helper"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <!-- TextView
+        android:id="@+id/status"
+        android:layout_width="302dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="@string/state"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
+        android:textSize="15sp" /-->
+
+    <TableLayout
+        android:id="@+id/sudoku_table"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#0000ff"
+        android:textColor="#000000" >
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp" >
+
+        <Button
+            android:id="@+id/buttonCapture"
+            android:layout_width="10dp"
+            android:layout_height="30sp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/simple_button"
+            android:onClick="doCapture"
+            android:text="@string/capture"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/buttonSolve"
+            android:layout_width="10dp"
+            android:layout_height="30sp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/simple_button"
+            android:onClick="doSolve"
+            android:text="@string/solve"
+            android:textColor="#ffffffff"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/buttonStep"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/simple_button"
+            android:drawablePadding="2dip"
+            android:onClick="doStep"
+            android:text="@string/step"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

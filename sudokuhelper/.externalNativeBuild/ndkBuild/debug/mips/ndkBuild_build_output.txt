@@ -1,0 +1,10 @@
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/mips/*
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/mips/gdbserver
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/mips/gdb.setup
+mkdir -p /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/mips
+echo [mips] "Gdbserver      ": "[mipsel-linux-android] /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/mips/gdbserver"
+install -p /Users/simon/Library/Android/sdk/ndk-bundle/prebuilt/android-mips/gdbserver/gdbserver /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/mips/gdbserver
+echo [mips] "Gdbsetup       ": "/Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/mips/gdb.setup"
+echo "set solib-search-path /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/obj/local/mips" > /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/mips/gdb.setup
+echo "directory /Users/simon/Library/Android/sdk/ndk-bundle/platforms/android-9/arch-mips/usr/include /Users/simon/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++" >> /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/mips/gdb.setup
+/Users/simon/Library/Android/sdk/ndk-bundle/build/core/build-all.mk:89: Android NDK: WARNING: There are no modules to build in this project!    

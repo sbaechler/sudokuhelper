@@ -1,0 +1,10 @@
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/x86/*
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/x86/gdbserver
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/x86/gdb.setup
+mkdir -p /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/x86
+echo [x86] "Gdbserver      ": "[i686-linux-android] /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/x86/gdbserver"
+install -p /Users/simon/Library/Android/sdk/ndk-bundle/prebuilt/android-x86/gdbserver/gdbserver /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/x86/gdbserver
+echo [x86] "Gdbsetup       ": "/Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/x86/gdb.setup"
+echo "set solib-search-path /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/obj/local/x86" > /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/x86/gdb.setup
+echo "directory /Users/simon/Library/Android/sdk/ndk-bundle/platforms/android-9/arch-x86/usr/include /Users/simon/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++" >> /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/x86/gdb.setup
+/Users/simon/Library/Android/sdk/ndk-bundle/build/core/build-all.mk:89: Android NDK: WARNING: There are no modules to build in this project!    

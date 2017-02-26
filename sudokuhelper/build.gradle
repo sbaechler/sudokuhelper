@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "ch.zahw.students.sudokuhelper"
+        minSdkVersion 11
+        targetSdkVersion 18
+
+        ndk {
+            moduleName "sudokuhelper"
+        }
+
+        testApplicationId "ch.zahw.students.sudokuhelper.test"
+        testInstrumentationRunner "ch.zahw.students.sudokuhelper.test.OpenCVTestRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Application.mk'
+        }
+    }
+}
+
+dependencies {
+    compile project(':openCVLibrary245')
+}

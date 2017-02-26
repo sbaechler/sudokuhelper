@@ -1,0 +1,11 @@
+{
+  "buildFiles": [
+    "/Users/simon/StudioProjects/sudokuhelper/sudokuhelper/src/main/jni/Application.mk",
+    "/Users/simon/StudioProjects/sudokuhelper/sudokuhelper/src/main/jni/Application.mk"
+  ],
+  "cleanCommands": [],
+  "libraries": {},
+  "toolchains": {},
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}

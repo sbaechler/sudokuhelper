@@ -1,0 +1,4 @@
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/release/lib/armeabi-v7a/*
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/release/lib/armeabi-v7a/gdbserver
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/release/lib/armeabi-v7a/gdb.setup
+/Users/simon/Library/Android/sdk/ndk-bundle/build/core/build-all.mk:89: Android NDK: WARNING: There are no modules to build in this project!    

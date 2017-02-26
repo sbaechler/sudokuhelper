@@ -1,0 +1,10 @@
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/armeabi/*
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/armeabi/gdbserver
+rm -f /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/armeabi/gdb.setup
+mkdir -p /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/armeabi
+echo [armeabi] "Gdbserver      ": "[arm-linux-androideabi] /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/armeabi/gdbserver"
+install -p /Users/simon/Library/Android/sdk/ndk-bundle/prebuilt/android-arm/gdbserver/gdbserver /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/armeabi/gdbserver
+echo [armeabi] "Gdbsetup       ": "/Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/armeabi/gdb.setup"
+echo "set solib-search-path /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/obj/local/armeabi" > /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/armeabi/gdb.setup
+echo "directory /Users/simon/Library/Android/sdk/ndk-bundle/platforms/android-9/arch-arm/usr/include /Users/simon/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++" >> /Users/simon/StudioProjects/sudokuhelper/sudokuhelper/build/intermediates/ndkBuild/debug/lib/armeabi/gdb.setup
+/Users/simon/Library/Android/sdk/ndk-bundle/build/core/build-all.mk:89: Android NDK: WARNING: There are no modules to build in this project!    
